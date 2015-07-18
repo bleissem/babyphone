@@ -7,22 +7,28 @@ using System.Threading.Tasks;
 
 namespace bleissem.babyphone
 {
-    public class MyTimer
+    public class MyTimer : IDisposable
     {
         #region constructor
 
         private MyTimer()
         {
-            this.AutoReset = false;            
+            this.AutoReset = false;
 
         }
 
-        public MyTimer(TimeSpan interval):this()
+        public MyTimer(TimeSpan interval)
+            : this()
         {
             this.m_Interval = interval;
         }
 
         #endregion
+
+        ~MyTimer()
+        {
+            this.Dispose(false);
+        }
 
         public delegate void ElapsedEventHandler(object sender, MyTimerElapsedEventArgs e);
 
@@ -42,53 +48,60 @@ namespace bleissem.babyphone
                 this.m_CancelToken = new CancellationTokenSource();
             }
 
-           await Task.Factory.StartNew(()=>
+            m_DoAbort = false;
+
+            do
+            {
+                lock (m_LockObj)
                 {
-                    m_DoAbort = false;
-
-                    do
+                    if (this.m_CancelToken.IsCancellationRequested)
                     {
-                        lock (m_LockObj)
-                        {
-                            if (this.m_CancelToken.IsCancellationRequested)
-                            {
-                                m_DoAbort = true;
-                                return;
-                            }
-                        }
-
-                        Task.Delay(m_Interval, m_CancelToken.Token).ContinueWith((t) =>
-                            {
-                                lock (m_LockObj)
-                                {
-                                    if (this.m_CancelToken.IsCancellationRequested)
-                                    {
-                                        m_DoAbort = true;
-                                        return;
-                                    }
-                                }
-
-                                if (null != Elapsed)
-                                {
-                                    Elapsed(this, new MyTimerElapsedEventArgs());
-                                }
-                            });
+                        m_DoAbort = true;
+                        return;
                     }
-                    while (this.AutoReset && (!m_DoAbort));
-                
+                }
+
+                await Task.Delay(m_Interval, m_CancelToken.Token).ContinueWith((t) =>
+                {
+                    lock (m_LockObj)
+                    {
+                        if (this.m_CancelToken.IsCancellationRequested)
+                        {
+                            m_DoAbort = true;
+                            return;
+                        }
+                    }
+
+                    if (null != Elapsed)
+                    {
+                        Elapsed(this, new MyTimerElapsedEventArgs());
+                    }
                 });
-            
+            }
+            while (this.AutoReset && (!m_DoAbort));
+  
+
         }
 
         public void Stop()
         {
-            lock(m_LockObj)
+            lock (m_LockObj)
             {
                 if (null != this.m_CancelToken)
                 {
                     this.m_CancelToken.Cancel();
                 }
             }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            this.Stop();
+        }
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 
