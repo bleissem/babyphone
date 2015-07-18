@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Ioc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Xamarin.Forms;
 
 namespace bleissem.babyphone
@@ -12,6 +12,8 @@ namespace bleissem.babyphone
 
         public App()
         {
+            SimpleIoc.Default.Register<BabyPhoneViewModel>(true);
+
             this.MainPage = new ContentPage()
             {
                 Content = new StackLayout()
