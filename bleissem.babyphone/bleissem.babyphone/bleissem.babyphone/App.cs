@@ -10,9 +10,16 @@ namespace bleissem.babyphone
     public class App : Application
     {
 
+        #region constructor        
+
         public App()
         {
             SimpleIoc.Default.Register<BabyPhoneViewModel>(true);
+
+            m_ChooseContactButton = new Button();
+            m_ChooseContactButton.Text = "Contact";
+            m_ChooseContactButton.Clicked += m_ChooseContactButton_Clicked;
+
 
             this.MainPage = new ContentPage()
             {
@@ -32,14 +39,28 @@ namespace bleissem.babyphone
 									       
 						        new Label()
                                 {
-                                    Text = "Hello from babyphone"
-                                }
+                                    Text = "Choose:"
+                                },
+                                m_ChooseContactButton
+
 					        }
 				        }
                     }
                 }
             };
         }
-      
+
+        void m_ChooseContactButton_Clicked(object sender, EventArgs e)
+        {
+            /*
+            Toast toast = Toast.MakeText(this, "this feature will be avaiable soon.", ToastLength.Short);
+            toast.SetGravity(GravityFlags.CenterHorizontal, 0, 0);
+            toast.Show();
+             * */
+        }
+
+
+        #endregion
+        private Button m_ChooseContactButton;
     }
 }
