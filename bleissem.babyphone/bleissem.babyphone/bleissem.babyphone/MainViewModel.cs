@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace bleissem.babyphone
 {
-    public class BabyPhoneViewModel : IDisposable
+    public class MainViewModel : IDisposable
     {
         #region constructor
 
-        public BabyPhoneViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber)
+        public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber)
         {
             m_RecorderViewModel = audioRecorder;
             m_RecorderViewModel.Start();
@@ -25,7 +25,7 @@ namespace bleissem.babyphone
 
         #endregion
 
-        ~BabyPhoneViewModel()
+        ~MainViewModel()
         {
             this.Dispose(false);
         }

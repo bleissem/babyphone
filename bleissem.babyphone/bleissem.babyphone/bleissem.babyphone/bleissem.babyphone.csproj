@@ -35,7 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="BabyPhoneViewModel.cs" />
+    <Compile Include="MainPage.cs" />
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="IAudioRecorder.cs" />
     <Compile Include="ICallNumber.cs" />
     <Compile Include="MyTimer.cs" />
