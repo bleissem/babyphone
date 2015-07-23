@@ -14,6 +14,7 @@ namespace bleissem.babyphone
 
         public App()
         {
+
             SimpleIoc.Default.Register<MainViewModel>(true);
             this.MainPage = new MainPage();
         }
