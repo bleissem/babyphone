@@ -112,6 +112,9 @@
   <ItemGroup>
     <Compile Include="AudioRecorderViewModel.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MyTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

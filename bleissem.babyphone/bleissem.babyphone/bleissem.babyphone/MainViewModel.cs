@@ -10,18 +10,18 @@ namespace bleissem.babyphone
     {
         #region constructor
 
-        public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber, ICloseApp closeApp)
+        public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber, ICloseApp closeApp, ICreateTimer createTimer)
         {
             this.CloseApp = closeApp;
             this.Settings = settings;
             this.m_RecorderViewModel = audioRecorder;
             this.m_RecorderViewModel.Start();
-            this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber);
+            this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber, createTimer);
 
 
-            this.m_InfoTimer = new MyTimer(new TimeSpan(0, 0, 0, 0, 500));
+            this.m_InfoTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 500));
             this.m_InfoTimer.AutoReset = true;
-            this.m_InfoTimer.Elapsed += m_Timer_Elapsed;
+            this.m_InfoTimer.MyElapsed += m_Timer_Elapsed;
             this.m_InfoTimer.Start();
         }
 
@@ -34,7 +34,7 @@ namespace bleissem.babyphone
 
         #region InfoTimer
 
-        private MyTimer m_InfoTimer;
+        private ITimer m_InfoTimer;
 
         void m_Timer_Elapsed(object sender, MyTimerElapsedEventArgs e)
         {
@@ -70,7 +70,7 @@ namespace bleissem.babyphone
             if (null != m_InfoTimer)
             {
                 m_InfoTimer.Stop();
-                m_InfoTimer.Elapsed -= m_Timer_Elapsed;
+                m_InfoTimer.MyElapsed -= m_Timer_Elapsed;
                 m_InfoTimer.Dispose();
                 m_InfoTimer = null;
             }
