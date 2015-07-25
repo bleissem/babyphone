@@ -40,7 +40,7 @@
     <Compile Include="MainViewModel.cs" />
     <Compile Include="IAudioRecorder.cs" />
     <Compile Include="ICallNumber.cs" />
-    <Compile Include="MyTimer.cs" />
+    <Compile Include="ITimer.cs" />
     <Compile Include="PhoneViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />

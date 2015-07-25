@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace bleissem.babyphone
 {
-    public class MainViewModel : IDisposable
+    public class MainViewModel : ViewModelBase, IDisposable
     {
         #region constructor
 
@@ -38,16 +39,36 @@ namespace bleissem.babyphone
 
         void m_Timer_Elapsed(object sender, MyTimerElapsedEventArgs e)
         {
+            this.CurrentNoise = m_RecorderViewModel.GetAmplitude();
+            base.RaisePropertyChanged(() => this.CurrentNoise);
+
             if ((null != PeriodicNotifications) && (null != m_RecorderViewModel))
             {
 
-                PeriodicNotifications(this, m_RecorderViewModel.GetAmplitude());
+                PeriodicNotifications(this, this.CurrentNoise);
             }
+
+            
         }
 
         public event EventHandler<int> PeriodicNotifications;
 
         #endregion
+
+        private int m_CurrentNoise;
+        public int CurrentNoise 
+        { 
+            get 
+            { 
+                return m_CurrentNoise; 
+            } 
+            set
+            {
+                if (m_CurrentNoise == value) { return; }
+                m_CurrentNoise = value;
+                base.RaisePropertyChanged(()=>this.CurrentNoise);
+            }
+        }
 
         private IAudioRecorder m_RecorderViewModel;
 

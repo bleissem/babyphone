@@ -10,9 +10,8 @@ namespace bleissem.babyphone.Droid
 
         #region constructor 
 
-        public MyTimer(TimeSpan timespan)
+        public MyTimer(TimeSpan timespan):base(timespan.TotalMilliseconds)
         {
-            base.Interval = timespan.TotalMilliseconds;
             base.Elapsed += MyTimer_Elapsed;
         }
 
