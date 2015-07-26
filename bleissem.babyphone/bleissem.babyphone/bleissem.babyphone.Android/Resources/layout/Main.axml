@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:text="@string/ChooseLabel"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+    <Button
+        android:text="@string/ChooseContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ChooseContactButton" />
+    <EditText
+        android:inputType="phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ContactTextView" />
+    <Button
+        android:text="@string/ChooseNoiseLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/NoiseLevelButton" />
+    <TextView
+        android:text="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AmpTextView" />
+    <EditText
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/NoiseLevelTextView" />
+    <Button
+        android:text="@string/StartService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ServiceButton" />
+    <Button
+        android:text="@string/Close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CloseButton" />
+</LinearLayout>
