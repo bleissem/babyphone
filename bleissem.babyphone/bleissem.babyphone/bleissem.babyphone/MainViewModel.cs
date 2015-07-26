@@ -13,7 +13,7 @@ namespace bleissem.babyphone
 
         public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber, ICloseApp closeApp, ICreateTimer createTimer)
         {
-            this.CloseApp = closeApp;
+            this.m_CloseApp = closeApp;
             this.Settings = settings;
             this.m_RecorderViewModel = audioRecorder;
             this.m_RecorderViewModel.Start();
@@ -84,7 +84,13 @@ namespace bleissem.babyphone
 
         public Settings Settings { get; private set; }
 
-        public ICloseApp CloseApp { get; private set; }
+        private ICloseApp m_CloseApp;
+        public void Close()
+        {
+            this.m_RecorderViewModel.Stop();
+            this.Phone.Stop();
+            this.m_CloseApp.Close();
+        }
 
         private void Dispose(bool disposing)
         {
