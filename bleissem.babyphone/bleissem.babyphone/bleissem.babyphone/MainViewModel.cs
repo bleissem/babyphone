@@ -20,7 +20,7 @@ namespace bleissem.babyphone
             this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber, createTimer);
 
 
-            this.m_InfoTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 500));
+            this.m_InfoTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 250));
             this.m_InfoTimer.AutoReset = true;
             this.m_InfoTimer.MyElapsed += m_Timer_Elapsed;
             this.m_InfoTimer.Start();

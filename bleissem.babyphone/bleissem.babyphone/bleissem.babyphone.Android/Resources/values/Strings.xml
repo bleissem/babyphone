@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ApplicationName">Babyphone.Android</string>
-    <string name="ChooseLabel">Choose:</string>
-    <string name="ChooseContact">Contact</string>
-    <string name="ChooseNoiseLevel">Noise Level</string>
+    <string name="ChooseLabel">Bitte wählen Sie:</string>
+    <string name="ChooseContact">Kontakte</string>
+    <string name="ChooseNoiseLevel">Geräuschpegel</string>
     <string name="StartService">Start</string>
     <string name="StopService">Stop</string>
-    <string name="Close">Close</string>
+    <string name="Close">Beenden</string>
+    <string name="FeatureAvaiableSoon">Diese Funktionalität wird demnächst verfügbar sein.</string>
+    <string name="Dialing">Rufe an.</string>
 </resources>
