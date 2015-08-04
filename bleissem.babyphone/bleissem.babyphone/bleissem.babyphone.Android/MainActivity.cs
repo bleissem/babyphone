@@ -38,6 +38,9 @@ namespace bleissem.babyphone.Droid
             Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
             chooseContactButton.Click += chooseContactButton_Click;
 
+            Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
+            noiseLevelButton.Click += noiseLevelButton_Click;
+
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
             startServiceButton.Text = startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
             startServiceButton.Click += startServiceButton_Click;
@@ -62,6 +65,19 @@ namespace bleissem.babyphone.Droid
 
             TelephonyManager tm = this.GetSystemService(Context.TelephonyService) as TelephonyManager;
             tm.Listen(listener, PhoneStateListenerFlags.CallState);
+        }
+
+        void noiseLevelButton_Click(object sender, EventArgs e)
+        {
+            TextView amptextView = FindViewById<TextView>(Resource.Id.AmpTextView);
+            TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
+            noiseLevel.Text = amptextView.Text;
+
+            int result = 0;
+            if (Int32.TryParse(noiseLevel.Text.ToString(), out result))
+            {
+                this.SaveNoiseLevel(result);
+            }
         }
 
        
@@ -121,12 +137,17 @@ namespace bleissem.babyphone.Droid
             toast.Show();
         }
 
+        private void SaveNoiseLevel(int noiselevel)
+        {
+            SimpleIoc.Default.GetInstance<Settings>().NoiseLevel = noiselevel;
+        }
+
         void noiseLevel_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
             int result = 0;
             if (Int32.TryParse(e.Text.ToString(), out result))
             {
-                SimpleIoc.Default.GetInstance<Settings>().NoiseLevel = result;
+                this.SaveNoiseLevel(result);
             }
         }
 
@@ -153,6 +174,9 @@ namespace bleissem.babyphone.Droid
 
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
             startServiceButton.Click -= startServiceButton_Click;
+
+            Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
+            noiseLevelButton.Click -= noiseLevelButton_Click;
 
             Button closeButton = FindViewById<Button>(Resource.Id.CloseButton);
             closeButton.Click -= closeButton_Click;
