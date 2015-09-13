@@ -10,10 +10,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
+using Android.Content.PM;
 
 namespace bleissem.babyphone.Droid
 {
-    [Activity(Label = "ContactsMasterActivitiy")]
+    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", LaunchMode = LaunchMode.SingleTask)]
     public class ContactsMasterActivitiy : Activity
     {
 

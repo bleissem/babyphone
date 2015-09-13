@@ -15,7 +15,7 @@ using Android.Telephony;
 
 namespace bleissem.babyphone.Droid
 {
-    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true)]
+    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, LaunchMode = LaunchMode.SingleTask)]
     public class MainActivity : Activity, ICallNumber, ICloseApp
     {
         protected override void OnCreate(Bundle bundle)
@@ -24,13 +24,23 @@ namespace bleissem.babyphone.Droid
 
             SetContentView(Resource.Layout.Main);
 
-            bool alreadyInitialized = false;
-            this.InitializeIoC(out alreadyInitialized);
-            if (!alreadyInitialized)
-            {
-                this.InitializeUI();
-            }
+            this.InitializeIoC();
+            this.InitializeUI();            
+        }
 
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+
+            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
+
+            string setNumber = intent.GetStringExtra(Consts.SetPhoneNumber);
+            if (!string.IsNullOrWhiteSpace(setNumber))
+            {
+                settings.NumberToDial = setNumber;
+                TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
+                numberToDial.Text = settings.NumberToDial;
+            }
         }
 
         private void InitializeUI()
@@ -94,14 +104,8 @@ namespace bleissem.babyphone.Droid
 
        
 
-        private void InitializeIoC(out bool alreadyInitialized)
+        private void InitializeIoC()
         {            
-            if (SimpleIoc.Default.IsRegistered<Settings>())
-            {
-                alreadyInitialized = true;
-                return;
-            }
-            alreadyInitialized = false;
             var platform = new SQLitePlatformAndroid();
             var dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Babyphone.Settings.db3");
             Settings settings = new Settings(dbPath, platform);

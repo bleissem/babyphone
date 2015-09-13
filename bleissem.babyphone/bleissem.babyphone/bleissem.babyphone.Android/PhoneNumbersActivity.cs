@@ -10,10 +10,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
+using Android.Content.PM;
 
 namespace bleissem.babyphone.Droid
 {
-    [Activity(Label = "ContactsPhoneNumbersActivity")]
+    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", LaunchMode=LaunchMode.SingleTask)]
     public class PhoneNumbersActivity : Activity
     {
 
@@ -23,6 +24,11 @@ namespace bleissem.babyphone.Droid
 
         private ListView m_ListView;
         private PhoneNumbersAdapter m_PhoneNumbersAdapter;
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+        }
 
         protected override void OnCreate(Bundle bundle)
         {
