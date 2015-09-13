@@ -24,18 +24,30 @@ namespace bleissem.babyphone.Droid
 
             SetContentView(Resource.Layout.Main);
 
-            this.InitializeIoC();
-            this.InitializeUI();
+            bool alreadyInitialized = false;
+            this.InitializeIoC(out alreadyInitialized);
+            if (!alreadyInitialized)
+            {
+                this.InitializeUI();
+            }
 
         }
 
         private void InitializeUI()
-        {
+        {            
             Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
+
+            string setNumber = this.Intent.GetStringExtra(Consts.SetPhoneNumber);
+            if (!string.IsNullOrWhiteSpace(setNumber))
+            {
+                settings.NumberToDial = setNumber;
+            }
+
             MainViewModel babyViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             babyViewModel.PeriodicNotifications += MainActivity_PeriodicNotifications; ;
 
             Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
+            chooseContactButton.Enabled = false | chooseContactButton.Enabled;
             chooseContactButton.Click += chooseContactButton_Click;
 
             Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
@@ -82,12 +94,27 @@ namespace bleissem.babyphone.Droid
 
        
 
-        private void InitializeIoC()
-        {
+        private void InitializeIoC(out bool alreadyInitialized)
+        {            
+            if (SimpleIoc.Default.IsRegistered<Settings>())
+            {
+                alreadyInitialized = true;
+                return;
+            }
+            alreadyInitialized = false;
             var platform = new SQLitePlatformAndroid();
             var dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Babyphone.Settings.db3");
-
             Settings settings = new Settings(dbPath, platform);
+            
+            ReadContacts rc = new ReadContacts();
+            rc.OnFinished+= delegate()
+            {
+                Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
+                chooseContactButton.Enabled = true;
+            };
+            rc.Execute(this);
+            SimpleIoc.Default.Register<ReadContacts>(() => rc, true);
+
             SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
             SimpleIoc.Default.Register<ICreateTimer>(() => new MyTimerCreator(), true);
             SimpleIoc.Default.Register<ICallNumber>(() => this, true);
@@ -112,18 +139,22 @@ namespace bleissem.babyphone.Droid
 
         void startServiceButton_Click(object sender, EventArgs e)
         {
+            Button contactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);            
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
+
             MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             if (babyPhoneViewModel.Phone.IsStarted)
             {
                 babyPhoneViewModel.Phone.Stop();
-                startServiceButton.Text = startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
+                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
+                contactButton.Enabled = true;
             }
             else if (this.CanStarted())
             {
                 if (babyPhoneViewModel.Phone.Start())
                 {
-                    startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);
+                    contactButton.Enabled = false;
+                    startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                    
                 }
             }
 
@@ -131,10 +162,8 @@ namespace bleissem.babyphone.Droid
 
         void chooseContactButton_Click(object sender, EventArgs e)
         {
-            string featureAvaiableSoon = base.GetString(Resource.String.FeatureAvaiableSoon);
-            Toast toast = Toast.MakeText(this, featureAvaiableSoon, ToastLength.Short);
-            toast.SetGravity(GravityFlags.CenterHorizontal, 0, 0);
-            toast.Show();
+            Intent i = new Intent(this, typeof(ContactsMasterActivitiy));
+            StartActivity(i);
         }
 
         private void SaveNoiseLevel(int noiselevel)
