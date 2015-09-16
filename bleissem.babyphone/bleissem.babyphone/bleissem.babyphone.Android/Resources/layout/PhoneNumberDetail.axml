@@ -5,7 +5,6 @@
     android:layout_height="fill_parent">
     <TextView
         android:text="Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/PhoneNumberDetailTextView" />
+        android:id="@+id/PhoneNumberDetailTextView"
+        style="@style/my_text_black" />
 </LinearLayout>

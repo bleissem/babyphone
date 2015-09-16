@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <TextView
-        android:text="@string/ChooseLabel"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
-    <Button
-        android:text="@string/ChooseContact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ChooseContactButton" />
-    <EditText
-        android:inputType="phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ContactTextView" />
-    <Button
-        android:text="@string/ChooseNoiseLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/NoiseLevelButton" />
-    <TextView
-        android:text="0"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/AmpTextView" />
-    <EditText
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/NoiseLevelTextView" />
-    <Button
-        android:text="@string/StartService"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ServiceButton" />
-    <Button
-        android:text="@string/Close"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/CloseButton"
-        android:layout_marginTop="30dp" />
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/my_scrollview">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TextView
+            android:text="@string/ChooseLabel"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView2"
+            style="@style/my_text_black" />
+        <Button
+            android:text="@string/ChooseContact"
+            android:id="@+id/ChooseContactButton"
+            android:background="@drawable/my_button"
+            style="@style/my_text_white" />
+        <EditText
+            android:inputType="phone"
+            android:id="@+id/ContactTextView"
+            style="@style/my_text_black" />
+        <Button
+            android:text="@string/ChooseNoiseLevel"
+            android:background="@drawable/my_button"
+            style="@style/my_text_white"
+            android:id="@+id/NoiseLevelButton" />
+        <TextView
+            android:text="0"
+            android:id="@+id/AmpTextView"
+            style="@style/my_text_black" />
+        <EditText
+            android:inputType="number"
+            android:id="@+id/NoiseLevelTextView"
+            style="@style/my_text_black" />
+        <Button
+            android:text="@string/StartService"
+            android:id="@+id/ServiceButton"
+            android:background="@drawable/my_button"
+            style="@style/my_text_white" />
+        <Button
+            android:text="@string/Close"
+            android:id="@+id/CloseButton"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/my_button"
+            style="@style/my_text_white" />
+    </LinearLayout>
+</ScrollView>
