@@ -23,8 +23,8 @@ namespace bleissem.babyphone.Droid
             
             foreach(var r in rc.List)
             {
-                Contact c = new Contact(r.Key);
-                c.Add(r.Value);
+                Contact c = new Contact(r.Value.Item1);
+                c.Add(r.Value.Item2);
                 m_List.Add(c);
             }
         }

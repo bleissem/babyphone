@@ -18,7 +18,7 @@ namespace bleissem.babyphone.Droid
 
         public ReadContacts()
         {
-            this.List = new SortedDictionary<string, List<Phone>>();
+            this.List = new SortedDictionary<string, Tuple<string, List<Phone>>>();
             this.Finished = false;
         }
 
@@ -26,35 +26,36 @@ namespace bleissem.babyphone.Droid
         {
             this.Finished = false;
             AddressBook addressBook = new AddressBook(context);
-            if (!await addressBook.RequestPermission())
-            {
-                // no permission
-                int i = 0;
-            }
-            else
-            {
-                this.List = new SortedDictionary<string, List<Phone>>();
+            if (await addressBook.RequestPermission())
+            {                
+                this.List = new SortedDictionary<string,Tuple<string, List<Phone>>>();
 
                 string key = null;
 
                 foreach (Xamarin.Contacts.Contact contact in addressBook)
                 {
-                    key = contact.DisplayName;
-                    this.List.Add(key, new List<Phone>());
+                    key = contact.Id;
+                    this.List.Add(key, new Tuple<string,List<Phone>>(contact.DisplayName, new List<Phone>()));
                     foreach (Phone phone in contact.Phones)
                     {
-                        this.List[key].Add(phone);
+                        this.List[key].Item2.Add(phone);
                     }
 
                 }
 
+                this.Finished = true;
+                if (null != OnFinished)
+                {
+                    OnFinished();
+                }
+
+
+            }
+            else
+            {
+                // TODO: no rights to read contacts
             }
 
-            this.Finished = true;
-            if (null != OnFinished)
-            {
-                OnFinished();
-            }
         }
 
         public bool Finished { get; set; }
@@ -62,6 +63,6 @@ namespace bleissem.babyphone.Droid
         public delegate void FinishedDelegate();
         public event FinishedDelegate OnFinished;
 
-        public SortedDictionary<string, List<Phone>> List { get; set; }
+        public SortedDictionary<string, Tuple<string, List<Phone>>> List { get; set; }
     }
 }

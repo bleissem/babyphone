@@ -43,7 +43,7 @@ namespace bleissem.babyphone.Droid
 
             ReadContacts rc = SimpleIoc.Default.GetInstance<ReadContacts>();
 
-            m_PhoneNumbersAdapter = new PhoneNumbersAdapter(this, rc.List[nameForPhoneNumbers]);
+            m_PhoneNumbersAdapter = new PhoneNumbersAdapter(this, rc.List[nameForPhoneNumbers].Item2);
             m_ListView.Adapter = m_PhoneNumbersAdapter;
             m_ListView.ItemClick += m_ListView_ItemClick;
         }
