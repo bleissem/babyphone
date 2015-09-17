@@ -14,7 +14,7 @@ namespace bleissem.babyphone.Droid
 {
     public class Consts
     {
-        public const string SetNameForPhoneNumbers = "SetNameForPhoneNumbers";
+        public const string SetPhoneID = "SetPhoneID";
         public const string SetPhoneNumber = "SetPhoneNumber";
 
     }

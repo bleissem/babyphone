@@ -33,17 +33,16 @@ namespace bleissem.babyphone.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
             SetContentView(Resource.Layout.ContactsMaster);
 
             m_ListView = FindViewById<ListView>(Resource.Id.ContactsList);
 
 
-            string nameForPhoneNumbers = this.Intent.GetStringExtra(Consts.SetNameForPhoneNumbers);
+            string id = this.Intent.GetStringExtra(Consts.SetPhoneID);
 
             ReadContacts rc = SimpleIoc.Default.GetInstance<ReadContacts>();
 
-            m_PhoneNumbersAdapter = new PhoneNumbersAdapter(this, rc.List[nameForPhoneNumbers].Item2);
+            m_PhoneNumbersAdapter = new PhoneNumbersAdapter(this, rc.List[id].Phones);
             m_ListView.Adapter = m_PhoneNumbersAdapter;
             m_ListView.ItemClick += m_ListView_ItemClick;
         }

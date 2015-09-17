@@ -17,18 +17,26 @@ namespace bleissem.babyphone.Droid
     {
         #region Constructor 
 
-        public Contact(string name)
+        public Contact(string id, string name)
         {
+            this.ID = id;
             this.Name = name;
             this.m_Phones = new List<Phone>();
         }
 
         #endregion
 
+        public string ID { get; set; }
+
         public string Name { get; set; }
 
         private List<Phone> m_Phones;
         public List<Phone> Phones { get { return m_Phones; } }
+
+        public void Add(Phone phone)
+        {
+            m_Phones.Add(phone);
+        }
 
         public void Add(IEnumerable<Phone> phone)
         {

@@ -41,10 +41,10 @@ namespace bleissem.babyphone.Droid
 
         void m_ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var name = m_ContactsAdapter[e.Position];
+            var contact = m_ContactsAdapter[e.Position];
 
             Intent i = new Intent(this, typeof(PhoneNumbersActivity));
-            i.PutExtra(Consts.SetNameForPhoneNumbers, name.Name);
+            i.PutExtra(Consts.SetPhoneID, contact.ID);
             StartActivity(i);           
 
 

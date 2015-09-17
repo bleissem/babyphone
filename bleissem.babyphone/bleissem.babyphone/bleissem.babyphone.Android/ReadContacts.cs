@@ -18,7 +18,7 @@ namespace bleissem.babyphone.Droid
 
         public ReadContacts()
         {
-            this.List = new SortedDictionary<string, Tuple<string, List<Phone>>>();
+            this.List = new SortedDictionary<string, Contact>();
             this.Finished = false;
         }
 
@@ -27,20 +27,17 @@ namespace bleissem.babyphone.Droid
             this.Finished = false;
             AddressBook addressBook = new AddressBook(context);
             if (await addressBook.RequestPermission())
-            {                
-                this.List = new SortedDictionary<string,Tuple<string, List<Phone>>>();
+            {
+                this.List = new SortedDictionary<string, Contact>();
 
                 string key = null;
-
+                Contact newRes;
                 foreach (Xamarin.Contacts.Contact contact in addressBook)
                 {
                     key = contact.Id;
-                    this.List.Add(key, new Tuple<string,List<Phone>>(contact.DisplayName, new List<Phone>()));
-                    foreach (Phone phone in contact.Phones)
-                    {
-                        this.List[key].Item2.Add(phone);
-                    }
-
+                    newRes = new Contact(key, contact.DisplayName);
+                    this.List.Add(key, newRes);                                       
+                    newRes.Add(contact.Phones);
                 }
 
                 this.Finished = true;
@@ -63,6 +60,6 @@ namespace bleissem.babyphone.Droid
         public delegate void FinishedDelegate();
         public event FinishedDelegate OnFinished;
 
-        public SortedDictionary<string, Tuple<string, List<Phone>>> List { get; set; }
+        public SortedDictionary<string, Contact> List { get; set; }
     }
 }

@@ -20,12 +20,10 @@ namespace bleissem.babyphone.Droid
             m_Context = context;
             ReadContacts rc = SimpleIoc.Default.GetInstance<ReadContacts>();
             m_List = new List<Contact>();
-            
-            foreach(var r in rc.List)
+                        
+            foreach(var r in rc.List.OrderByDescending(x => x.Value.Name).ToList())
             {
-                Contact c = new Contact(r.Value.Item1);
-                c.Add(r.Value.Item2);
-                m_List.Add(c);
+                m_List.Add(r.Value);
             }
         }
 
