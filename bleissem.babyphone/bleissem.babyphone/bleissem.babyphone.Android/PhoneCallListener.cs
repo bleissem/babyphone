@@ -28,19 +28,22 @@ namespace bleissem.babyphone.Droid
 
             if (CallState.Ringing == state)
             {
-                Toast.MakeText(m_Activity.ApplicationContext, "ringing", ToastLength.Long).Show();
+                string dialing = m_Activity.GetString(Resource.String.Dialing);
+                Toast.MakeText(m_Activity.ApplicationContext, dialing, ToastLength.Long).Show();
             }
             if (CallState.Offhook == state)
             {
                 this.IsPhoneCalling = true;
-                Toast.MakeText(m_Activity.ApplicationContext, "calling", ToastLength.Long).Show();
+                string activeCall = m_Activity.GetString(Resource.String.ActiveCall);
+                Toast.MakeText(m_Activity.ApplicationContext, activeCall, ToastLength.Long).Show();
             }
             if (CallState.Idle == state)
             {
                 if (this.IsPhoneCalling)
                 {
                     //go back
-                    Toast.MakeText(m_Activity.ApplicationContext, "finish", ToastLength.Long).Show();
+                    string finishCall = m_Activity.GetString(Resource.String.FinishCall);
+                    Toast.MakeText(m_Activity.ApplicationContext, finishCall, ToastLength.Long).Show();
 
                     // Intent intent = new Intent(_Activity, typeof(MainActivity));
                     // _Activ
@@ -53,6 +56,7 @@ namespace bleissem.babyphone.Droid
                     */
 
                     m_Action();
+
                 }
             }
         }

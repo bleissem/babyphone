@@ -9,4 +9,6 @@
     <string name="Close">Beenden</string>
     <string name="FeatureAvaiableSoon">Diese Funktionalität wird demnächst verfügbar sein.</string>
     <string name="Dialing">Rufe an.</string>
+    <string name="ActiveCall">Aktiver Anruf.</string>
+    <string name="FinishCall">Beende Anruf.</string>
 </resources>
