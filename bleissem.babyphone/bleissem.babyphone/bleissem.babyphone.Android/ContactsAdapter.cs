@@ -21,7 +21,7 @@ namespace bleissem.babyphone.Droid
             ReadContacts rc = SimpleIoc.Default.GetInstance<ReadContacts>();
             m_List = new List<Contact>();
                         
-            foreach(var r in rc.List.OrderByDescending(x => x.Value.Name).ToList())
+            foreach(var r in rc.List.OrderByDescending(x => x.Value.Name).Reverse().ToList())
             {
                 m_List.Add(r.Value);
             }
