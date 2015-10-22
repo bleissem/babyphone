@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ICloseApp.cs" />
+    <Compile Include="IReactOnHangUp.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="IAudioRecorder.cs" />
     <Compile Include="ICallNumber.cs" />

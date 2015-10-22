@@ -17,7 +17,8 @@ namespace bleissem.babyphone.Droid
 {
     [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, LaunchMode = LaunchMode.SingleTask)]
     public class MainActivity : Activity, ICallNumber, ICloseApp
-    {
+    {       
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -25,7 +26,21 @@ namespace bleissem.babyphone.Droid
             SetContentView(Resource.Layout.Main);
 
             this.InitializeIoC();
-            this.InitializeUI();            
+            this.InitializeUI();
+            
+            if(base.Intent.GetBooleanExtra(Consts.StartPhone, false))
+            {
+                SimpleIoc.Default.GetInstance<IReactOnHangUp>().Accept(OnPhoneHangup);
+                MainViewModel bpvm = SimpleIoc.Default.GetInstance<MainViewModel>();
+                bpvm.Phone.Start();
+            }
+
+            this.SetStartStopUI();
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -41,6 +56,8 @@ namespace bleissem.babyphone.Droid
                 TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
                 numberToDial.Text = settings.NumberToDial;
             }
+
+            SetStartStopUI();
         }
 
         private void InitializeUI()
@@ -79,14 +96,17 @@ namespace bleissem.babyphone.Droid
             noiseLevel.Text = settings.NoiseLevel.ToString();
             noiseLevel.TextChanged += noiseLevel_TextChanged;
 
-            PhoneCallListener listener = new PhoneCallListener(this, () =>
-            {
-                MainViewModel bpvm = SimpleIoc.Default.GetInstance<MainViewModel>();
-                bpvm.Phone.Start();
-            });
+        }
 
-            TelephonyManager tm = this.GetSystemService(Context.TelephonyService) as TelephonyManager;
-            tm.Listen(listener, PhoneStateListenerFlags.CallState);
+        private void OnPhoneHangup()
+        {
+            Intent intent = new Intent(this, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.SingleTop);
+            intent.AddFlags(ActivityFlags.ReorderToFront);
+            intent.AddFlags(ActivityFlags.ClearTop);
+            intent.AddFlags(ActivityFlags.NoHistory);            
+            intent.PutExtra(Consts.StartPhone, true);
+            base.StartActivity(intent);
         }
 
         void noiseLevelButton_Click(object sender, EventArgs e)
@@ -100,16 +120,23 @@ namespace bleissem.babyphone.Droid
             {
                 this.SaveNoiseLevel(result);
             }
-        }
-
-       
+        }       
 
         private void InitializeIoC()
-        {            
+        {
+            if (SimpleIoc.Default.IsRegistered<bleissem.babyphone.Settings>()) return;
+            
             var platform = new SQLitePlatformAndroid();
             var dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Babyphone.Settings.db3");
             Settings settings = new Settings(dbPath, platform);
-            
+            SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
+
+            var phoneListener = new PhoneCallListener();
+            TelephonyManager tm = this.GetSystemService(Context.TelephonyService) as TelephonyManager;
+            tm.Listen(phoneListener, PhoneStateListenerFlags.CallState);
+
+            SimpleIoc.Default.Register<IReactOnHangUp>(() => phoneListener, true);
+
             ReadContacts rc = new ReadContacts();
             rc.OnFinished+= delegate()
             {
@@ -118,8 +145,7 @@ namespace bleissem.babyphone.Droid
             };
             rc.Execute(this);
             SimpleIoc.Default.Register<ReadContacts>(() => rc, true);
-
-            SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
+            
             SimpleIoc.Default.Register<ICreateTimer>(() => new MyTimerCreator(), true);
             SimpleIoc.Default.Register<ICallNumber>(() => this, true);
             SimpleIoc.Default.Register<ICloseApp>(() => this, true);
@@ -139,35 +165,54 @@ namespace bleissem.babyphone.Droid
         {
             MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             babyPhoneViewModel.Close();
+            babyPhoneViewModel.Dispose();
+            SimpleIoc.Default.Reset();
+
         }
 
         void startServiceButton_Click(object sender, EventArgs e)
         {
-            Button contactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);            
+            MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+            if (babyPhoneViewModel.Phone.IsStarted)
+            {
+                babyPhoneViewModel.Phone.Stop();
+            }
+            else if (this.CanStarted())
+            {
+                SimpleIoc.Default.GetInstance<IReactOnHangUp>().Accept(OnPhoneHangup);
+                babyPhoneViewModel.Phone.Start();
+                
+            }
+
+            this.SetStartStopUI();
+        }
+
+        private void SetStartStopUI()
+        {
+            Button contactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
 
             MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             if (babyPhoneViewModel.Phone.IsStarted)
             {
-                babyPhoneViewModel.Phone.Stop();
-                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
+                contactButton.Enabled = false;
+                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                 
+            }
+            else
+            {             
                 contactButton.Enabled = true;
+                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);   
             }
-            else if (this.CanStarted())
-            {
-                if (babyPhoneViewModel.Phone.Start())
-                {
-                    contactButton.Enabled = false;
-                    startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                    
-                }
-            }
-
         }
 
         void chooseContactButton_Click(object sender, EventArgs e)
         {
-            Intent i = new Intent(this, typeof(ContactsMasterActivitiy));
-            StartActivity(i);
+            Intent intent = new Intent(this, typeof(ContactsMasterActivitiy));
+            intent.AddFlags(ActivityFlags.SingleTop);
+            intent.AddFlags(ActivityFlags.ReorderToFront);
+            intent.AddFlags(ActivityFlags.ClearTop);
+            intent.AddFlags(ActivityFlags.NoHistory);  
+            StartActivity(intent);
         }
 
         private void SaveNoiseLevel(int noiselevel)
@@ -220,9 +265,7 @@ namespace bleissem.babyphone.Droid
 
             TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
             noiseLevel.TextChanged -= noiseLevel_TextChanged;
-
-            babyPhoneViewModel.Dispose();
-            SimpleIoc.Default.Reset();
+          
         }
 
         private void MainActivity_PeriodicNotifications(object sender, int e)
@@ -239,26 +282,22 @@ namespace bleissem.babyphone.Droid
             });
         }
 
-
         public void Dial()
         {            
             Settings setting = SimpleIoc.Default.GetInstance<Settings>();
 
             if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
+            string numberToDial = setting.NumberToDial;
 
             Intent phoneIntent = new Intent(Intent.ActionCall);
-
-            string numberToDial = setting.NumberToDial;
             phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
             //phoneIntent.AddFlags(ActivityFlags.SingleTop);
-            //phoneIntent.AddFlags(ActivityFlags.ReorderToFront);
             phoneIntent.AddFlags(ActivityFlags.NoUserAction);
-            phoneIntent.AddFlags(ActivityFlags.PreviousIsTop);
-            //phoneIntent.AddFlags(ActivityFlags.NewTask); 
-            //phoneIntent.SetFlags(ActivityFlags.TaskOnHome);
+            phoneIntent.AddFlags(ActivityFlags.NoHistory);
+            phoneIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
             base.StartActivity(phoneIntent);
 
-            //FLAG_ACTIVITY_SINGLE_TOP
+            this.Close();
         }
 
         public void Close()
