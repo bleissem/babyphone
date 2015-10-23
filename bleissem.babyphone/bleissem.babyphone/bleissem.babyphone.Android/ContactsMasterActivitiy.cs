@@ -14,7 +14,7 @@ using Android.Content.PM;
 
 namespace bleissem.babyphone.Droid
 {
-    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", LaunchMode = LaunchMode.SingleTask)]
+    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon")]
     public class ContactsMasterActivitiy : Activity
     {
 
@@ -43,11 +43,18 @@ namespace bleissem.babyphone.Droid
         {
             var contact = m_ContactsAdapter[e.Position];
 
-            Intent i = new Intent(this, typeof(PhoneNumbersActivity));
-            i.PutExtra(Consts.SetPhoneID, contact.ID);
-            StartActivity(i);           
+            Consts.StartActivity<PhoneNumbersActivity>(this, (intent) =>
+                {
+                    intent.PutExtra(Consts.SetPhoneID, contact.ID);
+                });
 
+        }
 
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+
+            Consts.StartActivity<MainActivity>(this);
         }
 
         protected override void OnDestroy()

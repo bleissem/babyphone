@@ -15,9 +15,10 @@ using Android.Telephony;
 
 namespace bleissem.babyphone.Droid
 {
-    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, LaunchMode = LaunchMode.SingleTask)]
-    public class MainActivity : Activity, ICallNumber, ICloseApp
-    {       
+    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true)]
+    public class MainActivity : Activity, ICallNumber
+    {
+        private bool DestroyIoC = false;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -100,13 +101,12 @@ namespace bleissem.babyphone.Droid
 
         private void OnPhoneHangup()
         {
-            Intent intent = new Intent(this, typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.SingleTop);
-            intent.AddFlags(ActivityFlags.ReorderToFront);
-            intent.AddFlags(ActivityFlags.ClearTop);
-            intent.AddFlags(ActivityFlags.NoHistory);            
+            Consts.StartActivity<MainActivity>(this, OnPhoneHangupCreateNewIntent);
+        }
+
+        private void OnPhoneHangupCreateNewIntent(Intent intent)
+        {
             intent.PutExtra(Consts.StartPhone, true);
-            base.StartActivity(intent);
         }
 
         void noiseLevelButton_Click(object sender, EventArgs e)
@@ -138,22 +138,23 @@ namespace bleissem.babyphone.Droid
             SimpleIoc.Default.Register<IReactOnHangUp>(() => phoneListener, true);
 
             ReadContacts rc = new ReadContacts();
-            rc.OnFinished+= delegate()
-            {
-                Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
-                chooseContactButton.Enabled = true;
-            };
+            rc.OnFinished += ReadContactsFinished;
             rc.Execute(this);
             SimpleIoc.Default.Register<ReadContacts>(() => rc, true);
             
             SimpleIoc.Default.Register<ICreateTimer>(() => new MyTimerCreator(), true);
             SimpleIoc.Default.Register<ICallNumber>(() => this, true);
-            SimpleIoc.Default.Register<ICloseApp>(() => this, true);
             SimpleIoc.Default.Register<IAudioRecorder>(() => new AudioRecorderViewModel(), true);
 
 
             SimpleIoc.Default.Register<MainViewModel>(true);
 
+        }
+
+        private void ReadContactsFinished()
+        {
+            Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
+            chooseContactButton.Enabled = true;
         }
 
         protected override void OnRestart()
@@ -164,9 +165,9 @@ namespace bleissem.babyphone.Droid
         void closeButton_Click(object sender, EventArgs e)
         {
             MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
-            babyPhoneViewModel.Close();
             babyPhoneViewModel.Dispose();
-            SimpleIoc.Default.Reset();
+            this.DestroyIoC = true;            
+            this.Close();
 
         }
 
@@ -192,6 +193,8 @@ namespace bleissem.babyphone.Droid
             Button contactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
 
+            if (!SimpleIoc.Default.IsRegistered<MainViewModel>()) return;
+
             MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             if (babyPhoneViewModel.Phone.IsStarted)
             {
@@ -207,12 +210,7 @@ namespace bleissem.babyphone.Droid
 
         void chooseContactButton_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(ContactsMasterActivitiy));
-            intent.AddFlags(ActivityFlags.SingleTop);
-            intent.AddFlags(ActivityFlags.ReorderToFront);
-            intent.AddFlags(ActivityFlags.ClearTop);
-            intent.AddFlags(ActivityFlags.NoHistory);  
-            StartActivity(intent);
+            Consts.StartActivity<ContactsMasterActivitiy>(this);
         }
 
         private void SaveNoiseLevel(int noiselevel)
@@ -265,6 +263,13 @@ namespace bleissem.babyphone.Droid
 
             TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
             noiseLevel.TextChanged -= noiseLevel_TextChanged;
+
+
+            if (this.DestroyIoC)
+            {
+                SimpleIoc.Default.GetInstance<ReadContacts>().OnFinished -= ReadContactsFinished;
+                SimpleIoc.Default.Reset();
+            }
           
         }
 
@@ -281,6 +286,7 @@ namespace bleissem.babyphone.Droid
                 textView.Text = amp.ToString();
             });
         }
+
 
         public void Dial()
         {            
