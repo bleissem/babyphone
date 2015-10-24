@@ -61,6 +61,12 @@ namespace bleissem.babyphone.Droid
             SetStartStopUI();
         }
 
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+            this.Close();
+        }
+
         private void InitializeUI()
         {            
             Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
@@ -84,10 +90,6 @@ namespace bleissem.babyphone.Droid
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
             startServiceButton.Text = startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
             startServiceButton.Click += startServiceButton_Click;
-
-
-            Button closeButton = FindViewById<Button>(Resource.Id.CloseButton);
-            closeButton.Click += closeButton_Click;
 
             TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
             numberToDial.Text = settings.NumberToDial;
@@ -162,14 +164,6 @@ namespace bleissem.babyphone.Droid
             base.OnRestart();
         }
 
-        void closeButton_Click(object sender, EventArgs e)
-        {
-            MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
-            babyPhoneViewModel.Dispose();
-            this.DestroyIoC = true;            
-            this.Close();
-
-        }
 
         void startServiceButton_Click(object sender, EventArgs e)
         {
@@ -254,10 +248,6 @@ namespace bleissem.babyphone.Droid
             Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
             noiseLevelButton.Click -= noiseLevelButton_Click;
 
-            Button closeButton = FindViewById<Button>(Resource.Id.CloseButton);
-            closeButton.Click -= closeButton_Click;
-
-
             TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
             numberToDial.TextChanged -= numberToDial_TextChanged;
 
@@ -303,12 +293,15 @@ namespace bleissem.babyphone.Droid
             phoneIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
             base.StartActivity(phoneIntent);
 
-            this.Close();
+            base.Finish();
         }
 
         public void Close()
         {
-            this.Finish();
+            MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+            babyPhoneViewModel.Dispose();
+            this.DestroyIoC = true;
+            base.Finish();
         }
     }
 }

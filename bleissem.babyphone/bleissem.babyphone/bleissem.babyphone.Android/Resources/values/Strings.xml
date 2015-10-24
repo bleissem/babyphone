@@ -6,7 +6,6 @@
     <string name="ChooseNoiseLevel">Geräuschpegel</string>
     <string name="StartService">Start</string>
     <string name="StopService">Stop</string>
-    <string name="Close">Beenden</string>
     <string name="FeatureAvaiableSoon">Diese Funktionalität wird demnächst verfügbar sein.</string>
     <string name="Dialing">Rufe an.</string>
     <string name="ActiveCall">Aktiver Anruf.</string>

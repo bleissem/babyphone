@@ -37,11 +37,5 @@
             android:id="@+id/ServiceButton"
             android:background="@drawable/my_button"
             style="@style/my_text_white" />
-        <Button
-            android:text="@string/Close"
-            android:id="@+id/CloseButton"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/my_button"
-            style="@style/my_text_white" />
     </LinearLayout>
 </ScrollView>
