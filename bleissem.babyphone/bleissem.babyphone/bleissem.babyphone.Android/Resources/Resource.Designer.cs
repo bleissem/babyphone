@@ -141,9 +141,6 @@ namespace bleissem.babyphone.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040009
-			public const int ActiveCall = 2130968585;
-			
 			// aapt resource value: 0x7f040001
 			public const int ApplicationName = 2130968577;
 			
@@ -155,15 +152,6 @@ namespace bleissem.babyphone.Droid
 			
 			// aapt resource value: 0x7f040004
 			public const int ChooseNoiseLevel = 2130968580;
-			
-			// aapt resource value: 0x7f040008
-			public const int Dialing = 2130968584;
-			
-			// aapt resource value: 0x7f040007
-			public const int FeatureAvaiableSoon = 2130968583;
-			
-			// aapt resource value: 0x7f04000a
-			public const int FinishCall = 2130968586;
 			
 			// aapt resource value: 0x7f040000
 			public const int Hello = 2130968576;

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ApplicationName">Babyphone.Android</string>
+    <string name="ChooseLabel">Bitte wählen Sie:</string>
+    <string name="ChooseContact">Kontakte</string>
+    <string name="ChooseNoiseLevel">Geräuschpegel</string>
+    <string name="StartService">Start</string>
+    <string name="StopService">Stop</string>
+</resources>

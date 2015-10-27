@@ -151,9 +151,14 @@
     <Content Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </Content>
-    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\values\Strings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\Drawable\my_button.xml" />
     <AndroidResource Include="Resources\values\styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\values-de\Strings.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
