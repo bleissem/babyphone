@@ -133,7 +133,7 @@ namespace bleissem.babyphone.Droid
             Settings settings = new Settings(dbPath, platform);
             SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
 
-            var phoneListener = new PhoneCallListener();
+            var phoneListener = new PhoneCallListener(this.ApplicationContext);
             TelephonyManager tm = this.GetSystemService(Context.TelephonyService) as TelephonyManager;
             tm.Listen(phoneListener, PhoneStateListenerFlags.CallState);
 
