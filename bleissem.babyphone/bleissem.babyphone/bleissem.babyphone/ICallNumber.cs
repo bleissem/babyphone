@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace bleissem.babyphone
 {
-    public interface ICallNumber
+    public interface ICallNumber: IDisposable
     {
 
+        void Register(Action dialAction);
         void Dial();
 
     }

@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioRecorderViewModel.cs" />
+    <Compile Include="CallNumber.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="ContactsAdapter.cs" />

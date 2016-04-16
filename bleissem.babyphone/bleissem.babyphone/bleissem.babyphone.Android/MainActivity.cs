@@ -16,7 +16,7 @@ using Android.Telephony;
 namespace bleissem.babyphone.Droid
 {
     [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true)]
-    public class MainActivity : Activity, ICallNumber
+    public class MainActivity : Activity
     {
         private bool DestroyIoC = false;
 
@@ -28,11 +28,14 @@ namespace bleissem.babyphone.Droid
 
             this.InitializeIoC();
             this.InitializeUI();
-            
+
+            SimpleIoc.Default.GetInstance<ICallNumber>().Register(this.Dial);
+
             if(base.Intent.GetBooleanExtra(Consts.StartPhone, false))
-            {
+            {                
                 SimpleIoc.Default.GetInstance<IReactOnHangUp>().Accept(OnPhoneHangup);
                 MainViewModel bpvm = SimpleIoc.Default.GetInstance<MainViewModel>();
+                bpvm.Phone.Stop();
                 bpvm.Phone.Start();
             }
 
@@ -78,25 +81,31 @@ namespace bleissem.babyphone.Droid
             }
 
             MainViewModel babyViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
-            babyViewModel.PeriodicNotifications += MainActivity_PeriodicNotifications; ;
+            babyViewModel.PeriodicNotifications -= MainActivity_PeriodicNotifications;
+            babyViewModel.PeriodicNotifications += MainActivity_PeriodicNotifications;
 
             Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
             chooseContactButton.Enabled = false | chooseContactButton.Enabled;
+            chooseContactButton.Click -= chooseContactButton_Click;
             chooseContactButton.Click += chooseContactButton_Click;
 
             Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
+            noiseLevelButton.Click -= noiseLevelButton_Click;
             noiseLevelButton.Click += noiseLevelButton_Click;
 
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
             startServiceButton.Text = startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
+            startServiceButton.Click -= startServiceButton_Click;
             startServiceButton.Click += startServiceButton_Click;
 
             TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
             numberToDial.Text = settings.NumberToDial;
+            numberToDial.TextChanged -= numberToDial_TextChanged;
             numberToDial.TextChanged += numberToDial_TextChanged;
 
             TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
             noiseLevel.Text = settings.NoiseLevel.ToString();
+            noiseLevel.TextChanged -= noiseLevel_TextChanged;
             noiseLevel.TextChanged += noiseLevel_TextChanged;
 
         }
@@ -127,7 +136,9 @@ namespace bleissem.babyphone.Droid
         private void InitializeIoC()
         {
             if (SimpleIoc.Default.IsRegistered<bleissem.babyphone.Settings>()) return;
-            
+
+            SimpleIoc.Default.Register<ICreateTimer>(() => new MyTimerCreator(), true);
+
             var platform = new SQLitePlatformAndroid();
             var dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Babyphone.Settings.db3");
             Settings settings = new Settings(dbPath, platform);
@@ -143,9 +154,8 @@ namespace bleissem.babyphone.Droid
             rc.OnFinished += ReadContactsFinished;
             rc.Execute(this);
             SimpleIoc.Default.Register<ReadContacts>(() => rc, true);
-            
-            SimpleIoc.Default.Register<ICreateTimer>(() => new MyTimerCreator(), true);
-            SimpleIoc.Default.Register<ICallNumber>(() => this, true);
+                        
+            SimpleIoc.Default.Register<ICallNumber>(() => new CallNumber(), true);
             SimpleIoc.Default.Register<IAudioRecorder>(() => new AudioRecorderViewModel(), true);
 
 
@@ -176,7 +186,7 @@ namespace bleissem.babyphone.Droid
             {
                 SimpleIoc.Default.GetInstance<IReactOnHangUp>().Accept(OnPhoneHangup);
                 babyPhoneViewModel.Phone.Start();
-                
+
             }
 
             this.SetStartStopUI();
@@ -287,7 +297,6 @@ namespace bleissem.babyphone.Droid
 
             Intent phoneIntent = new Intent(Intent.ActionCall);
             phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
-            //phoneIntent.AddFlags(ActivityFlags.SingleTop);
             phoneIntent.AddFlags(ActivityFlags.NoUserAction);
             phoneIntent.AddFlags(ActivityFlags.NoHistory);
             phoneIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);

@@ -45,19 +45,19 @@ namespace bleissem.babyphone.Droid
             {
                 case CallState.Ringing:
                     {
-                        Toast.MakeText(m_Context, "Ringing", ToastLength.Long).Show();
+                        //Toast.MakeText(m_Context, "Ringing", ToastLength.Long).Show();
                         break;
                     }
                 case CallState.Offhook:
                     {
 
-                        Toast.MakeText(m_Context, "Offhook", ToastLength.Long).Show();
+                        //Toast.MakeText(m_Context, "Offhook", ToastLength.Long).Show();
                         this.m_StopCallTimer.Start();
                         break;
                     }
                 case CallState.Idle:
                     {
-                        Toast.MakeText(m_Context, "Idle", ToastLength.Long).Show();
+                        //Toast.MakeText(m_Context, "Idle", ToastLength.Long).Show();
                         this.DoHangUp();
                         break;
                     }
@@ -86,12 +86,17 @@ namespace bleissem.babyphone.Droid
                 m_ActionOnHangUp = null;
             }
 
-            this.m_StopCallTimer.MyElapsed -= m_Timer_MyElapsed;
+            if (null != this.m_StopCallTimer)
+            {
+                this.m_StopCallTimer.MyElapsed -= m_Timer_MyElapsed;
+                this.m_StopCallTimer = null;
+            }
         }
 
         public void Accept(Action actionOnHangUp)
         {
             m_ActionOnHangUp = actionOnHangUp;
+            this.m_DidHangUp = false;
         }
     }
 }
