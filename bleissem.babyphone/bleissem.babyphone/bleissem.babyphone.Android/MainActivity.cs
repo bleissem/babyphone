@@ -287,8 +287,6 @@ namespace bleissem.babyphone.Droid
             phoneIntent.AddFlags(ActivityFlags.NoHistory);
             phoneIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
             base.StartActivity(phoneIntent);
-
-            base.Finish();
         }
 
         public void Close()
