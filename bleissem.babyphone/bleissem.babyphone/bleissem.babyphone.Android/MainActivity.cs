@@ -29,15 +29,7 @@ namespace bleissem.babyphone.Droid
             this.InitializeIoC();
             this.InitializeUI();
 
-            SimpleIoc.Default.GetInstance<ICallNumber>().Register(this.Dial);
-
-            if(base.Intent.GetBooleanExtra(Consts.StartPhone, false))
-            {                
-                SimpleIoc.Default.GetInstance<IReactOnHangUp>().Accept(OnPhoneHangup);
-                MainViewModel bpvm = SimpleIoc.Default.GetInstance<MainViewModel>();
-                bpvm.Phone.Stop();
-                bpvm.Phone.Start();
-            }
+            SimpleIoc.Default.GetInstance<ICallNumber>().Register(this.Dial, this.CanDial);
 
             this.SetStartStopUI();
         }
@@ -110,15 +102,6 @@ namespace bleissem.babyphone.Droid
 
         }
 
-        private void OnPhoneHangup()
-        {
-            Consts.StartActivity<MainActivity>(this, OnPhoneHangupCreateNewIntent);
-        }
-
-        private void OnPhoneHangupCreateNewIntent(Intent intent)
-        {
-            intent.PutExtra(Consts.StartPhone, true);
-        }
 
         void noiseLevelButton_Click(object sender, EventArgs e)
         {
@@ -183,8 +166,7 @@ namespace bleissem.babyphone.Droid
                 babyPhoneViewModel.Phone.Stop();
             }
             else if (this.CanStarted())
-            {
-                SimpleIoc.Default.GetInstance<IReactOnHangUp>().Accept(OnPhoneHangup);
+            {                
                 babyPhoneViewModel.Phone.Start();
 
             }
@@ -287,6 +269,10 @@ namespace bleissem.babyphone.Droid
             });
         }
 
+        public bool CanDial()
+        {
+            return (SimpleIoc.Default.GetInstance<IReactOnHangUp>().State == PhoneState.HangUp);
+        }
 
         public void Dial()
         {            

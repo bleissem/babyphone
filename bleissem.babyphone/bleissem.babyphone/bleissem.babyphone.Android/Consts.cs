@@ -16,7 +16,6 @@ namespace bleissem.babyphone.Droid
     {
         public const string SetPhoneID = "SetPhoneID";
         public const string SetPhoneNumber = "SetPhoneNumber";
-        public const string StartPhone = "StartPhone";
 
         public static void StartActivity<TActivity>(Activity activity) where TActivity : Activity
         {
@@ -27,8 +26,8 @@ namespace bleissem.babyphone.Droid
             Intent intent = new Intent(activity, typeof(TActivity));
             intent.AddFlags(ActivityFlags.SingleTop);
             intent.AddFlags(ActivityFlags.ReorderToFront);
-            intent.AddFlags(ActivityFlags.ClearTop);
-            intent.AddFlags(ActivityFlags.NoHistory);
+            //intent.AddFlags(ActivityFlags.ClearTop);
+            
             if (null != newIntent)
             {
                 newIntent(intent);

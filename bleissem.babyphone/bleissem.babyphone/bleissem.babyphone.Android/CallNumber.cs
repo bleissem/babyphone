@@ -30,16 +30,26 @@ namespace bleissem.babyphone.Droid
         }
 
         private Action m_CallAction;
+        private Func<bool> m_CanDial;
+
+        public bool CanDial()
+        {
+            return false;
+        }
 
         public void Dial()
         {
-            m_CallAction();
+            if (m_CanDial())
+            {
+                m_CallAction();
+            }
         }
 
 
-        public void Register(Action dialAction)
+        public void Register(Action dialAction, Func<bool> canDial)
         {
             m_CallAction = dialAction;
+            m_CanDial = canDial;
         }
 
 
@@ -48,6 +58,11 @@ namespace bleissem.babyphone.Droid
             if (null != m_CallAction)
             {
                 m_CallAction = null;
+            }
+
+            if(null != m_CanDial)
+            {
+                m_CanDial = null;
             }
         }
 

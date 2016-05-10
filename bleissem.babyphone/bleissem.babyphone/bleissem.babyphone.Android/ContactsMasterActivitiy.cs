@@ -46,6 +46,7 @@ namespace bleissem.babyphone.Droid
             Consts.StartActivity<PhoneNumbersActivity>(this, (intent) =>
                 {
                     intent.PutExtra(Consts.SetPhoneID, contact.ID);
+                    intent.AddFlags(ActivityFlags.NoHistory);
                 });
 
         }

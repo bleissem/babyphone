@@ -17,6 +17,8 @@ namespace bleissem.babyphone.Droid
 
         #endregion
 
+
+
         private void MyTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (null != MyElapsed)

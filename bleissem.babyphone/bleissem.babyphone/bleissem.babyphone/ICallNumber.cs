@@ -9,8 +9,9 @@ namespace bleissem.babyphone
     public interface ICallNumber: IDisposable
     {
 
-        void Register(Action dialAction);
+        bool CanDial();
         void Dial();
+        void Register(Action callAction, Func<bool> canCall);
 
     }
 }

@@ -15,7 +15,7 @@ namespace bleissem.babyphone.Droid
 
         public PhoneCallListener(Context context)
         {
-            this.m_DidHangUp = false;
+            this.m_PhoneState = PhoneState.HangUp;
             this.m_Context = context;
             this.m_StopCallTimer = SimpleIoc.Default.GetInstance<ICreateTimer>().Create(new TimeSpan(0,1,0,0));
             this.m_StopCallTimer.AutoReset = false;
@@ -24,7 +24,7 @@ namespace bleissem.babyphone.Droid
 
         void m_Timer_MyElapsed(object sender, MyTimerElapsedEventArgs args)
         {
-            this.DoHangUp();
+            this.m_PhoneState = PhoneState.HangUp;
         }
 
         ~PhoneCallListener()
@@ -33,9 +33,8 @@ namespace bleissem.babyphone.Droid
         }
 
         private Context m_Context;
-        private volatile bool m_DidHangUp;
+        private volatile PhoneState m_PhoneState;
         private ITimer m_StopCallTimer;
-        private Action m_ActionOnHangUp;
 
         public override void OnCallStateChanged(CallState state, string incomingNumber)
         {
@@ -46,45 +45,34 @@ namespace bleissem.babyphone.Droid
                 case CallState.Ringing:
                     {
                         //Toast.MakeText(m_Context, "Ringing", ToastLength.Long).Show();
+                        this.m_PhoneState = PhoneState.Calling;
+                        this.m_StopCallTimer.Start();
                         break;
                     }
                 case CallState.Offhook:
                     {
 
                         //Toast.MakeText(m_Context, "Offhook", ToastLength.Long).Show();
+                        this.m_PhoneState = PhoneState.Calling;
                         this.m_StopCallTimer.Start();
                         break;
                     }
                 case CallState.Idle:
                     {
                         //Toast.MakeText(m_Context, "Idle", ToastLength.Long).Show();
-                        this.DoHangUp();
+                        this.m_PhoneState = PhoneState.HangUp;
+                        this.m_StopCallTimer.Stop();
                         break;
                     }
             }
         }
 
-        private void DoHangUp()
-        {
-            if (!this.m_DidHangUp)
-            {
-                this.m_DidHangUp = true;
-                if (null != m_ActionOnHangUp)
-                {
-                    m_ActionOnHangUp();
-                }
-            }
-
-        }
        
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-          
-            if (null != m_ActionOnHangUp)
-            {
-                m_ActionOnHangUp = null;
-            }
+
+            this.m_PhoneState = PhoneState.HangUp;
 
             if (null != this.m_StopCallTimer)
             {
@@ -93,10 +81,18 @@ namespace bleissem.babyphone.Droid
             }
         }
 
-        public void Accept(Action actionOnHangUp)
+        public void Reset()
         {
-            m_ActionOnHangUp = actionOnHangUp;
-            this.m_DidHangUp = false;
+            this.m_PhoneState = PhoneState.HangUp;
+        }
+
+
+        public PhoneState State
+        {
+            get
+            {
+                return m_PhoneState;
+            }
         }
     }
 }

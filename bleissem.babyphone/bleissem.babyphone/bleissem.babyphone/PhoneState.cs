@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace bleissem.babyphone
 {
-    public interface IReactOnHangUp: IDisposable
+    public enum PhoneState
     {
-        PhoneState State { get; }
-        void Reset();
+        Calling,
+        HangUp
     }
 }
