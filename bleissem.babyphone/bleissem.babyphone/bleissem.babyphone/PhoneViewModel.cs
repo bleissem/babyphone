@@ -19,7 +19,7 @@ namespace bleissem.babyphone
             this.m_RecorderViewModel = recorder;
 
             this.m_PhoneTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 250));
-            this.m_PhoneTimer.AutoReset = false;
+            this.m_PhoneTimer.AutoReset = true;
             this.m_PhoneTimer.MyElapsed += m_PhoneTimer_Elapsed;
         }
 
@@ -44,26 +44,21 @@ namespace bleissem.babyphone
 
         private TimeSpan TimeToWait { get; set; }
 
-        void m_WaitAfterCallTimer_Elapsed(object sender, MyTimerElapsedEventArgs e)
-        {
-            this.InitializePhoneTimer();
-        }
-
-
+    
         private void m_PhoneTimer_Elapsed(object sender, MyTimerElapsedEventArgs e)
         {
             if (!this.CanStart) { this.Stop(); return; }
 
 
-            if (m_RecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel)
+            if ( (m_RecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
             {
                 this.m_CallNumber.Dial();
             }
-            else
-            {
+            //else
+            //{
 
-                this.InitializePhoneTimer();
-            }
+            //    this.InitializePhoneTimer();
+            //}
 
         }
 
@@ -84,17 +79,8 @@ namespace bleissem.babyphone
         {
             if (!this.CanStart) return false;
             this.IsStarted = true;
-            this.InitializePhoneTimer();
+            m_PhoneTimer.Start();
             return true;
-        }
-
-        private void InitializePhoneTimer()
-        {
-            if (this.IsStarted)
-            {
-                m_PhoneTimer.Start();
-            }
-
         }
 
         public void Stop()

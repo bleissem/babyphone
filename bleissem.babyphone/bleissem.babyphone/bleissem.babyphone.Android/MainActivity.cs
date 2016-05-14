@@ -15,7 +15,7 @@ using Android.Telephony;
 
 namespace bleissem.babyphone.Droid
 {
-    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true)]
+    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState=true)]
     public class MainActivity : Activity
     {
         private bool DestroyIoC = false;
@@ -27,9 +27,7 @@ namespace bleissem.babyphone.Droid
             SetContentView(Resource.Layout.Main);
 
             this.InitializeIoC();
-            this.InitializeUI();
-
-            SimpleIoc.Default.GetInstance<ICallNumber>().Register(this.Dial, this.CanDial);
+            this.InitializeUI();            
 
             this.SetStartStopUI();
         }
@@ -138,7 +136,10 @@ namespace bleissem.babyphone.Droid
             rc.Execute(this);
             SimpleIoc.Default.Register<ReadContacts>(() => rc, true);
                         
-            SimpleIoc.Default.Register<ICallNumber>(() => new CallNumber(), true);
+            CallNumber callNumber = new CallNumber();
+            callNumber.Register(this.Dial, this.CanDial);
+            SimpleIoc.Default.Register<ICallNumber>(()=>callNumber, true);
+           
             SimpleIoc.Default.Register<IAudioRecorder>(() => new AudioRecorderViewModel(), true);
 
 
@@ -230,6 +231,7 @@ namespace bleissem.babyphone.Droid
 
             MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             babyPhoneViewModel.PeriodicNotifications -= MainActivity_PeriodicNotifications;
+            babyPhoneViewModel.Dispose();
 
             Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
             chooseContactButton.Click -= chooseContactButton_Click;
@@ -248,8 +250,9 @@ namespace bleissem.babyphone.Droid
 
 
             if (this.DestroyIoC)
-            {
+            {                
                 SimpleIoc.Default.GetInstance<ReadContacts>().OnFinished -= ReadContactsFinished;
+                SimpleIoc.Default.GetInstance<ICallNumber>().Dispose();
                 SimpleIoc.Default.Reset();
             }
           
@@ -291,8 +294,6 @@ namespace bleissem.babyphone.Droid
 
         public void Close()
         {
-            MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
-            babyPhoneViewModel.Dispose();
             this.DestroyIoC = true;
             base.Finish();
         }
