@@ -288,7 +288,8 @@ namespace bleissem.babyphone.Droid
             phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
             phoneIntent.AddFlags(ActivityFlags.NoUserAction);
             phoneIntent.AddFlags(ActivityFlags.NoHistory);
-            phoneIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
+            phoneIntent.AddFlags(ActivityFlags.FromBackground);
+            phoneIntent.AddFlags(ActivityFlags.PreviousIsTop);
             base.StartActivity(phoneIntent);
         }
 

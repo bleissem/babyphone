@@ -34,7 +34,7 @@ namespace bleissem.babyphone.Droid
 
         public bool CanDial()
         {
-            return false;
+            return m_CanDial();
         }
 
         public void Dial()
