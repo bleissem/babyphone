@@ -9,6 +9,5 @@ namespace bleissem.babyphone
     public interface IReactOnHangUp: IDisposable
     {
         PhoneState State { get; }
-        void Reset();
     }
 }

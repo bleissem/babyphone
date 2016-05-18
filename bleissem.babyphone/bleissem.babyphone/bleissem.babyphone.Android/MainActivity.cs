@@ -15,7 +15,7 @@ using Android.Telephony;
 
 namespace bleissem.babyphone.Droid
 {
-    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState=true)]
+    [Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState = true)]
     public class MainActivity : Activity
     {
         private bool DestroyIoC = false;
@@ -41,16 +41,15 @@ namespace bleissem.babyphone.Droid
         {
             base.OnNewIntent(intent);
 
-            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
-
             string setNumber = intent.GetStringExtra(Consts.SetPhoneNumber);
             if (!string.IsNullOrWhiteSpace(setNumber))
             {
+                Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
                 settings.NumberToDial = setNumber;
                 TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
                 numberToDial.Text = settings.NumberToDial;
-            }
-
+            }           
+            
             SetStartStopUI();
         }
 
@@ -125,7 +124,7 @@ namespace bleissem.babyphone.Droid
             Settings settings = new Settings(dbPath, platform);
             SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
 
-            var phoneListener = new PhoneCallListener(this.ApplicationContext);
+            var phoneListener = new PhoneCallListener(this);
             TelephonyManager tm = this.GetSystemService(Context.TelephonyService) as TelephonyManager;
             tm.Listen(phoneListener, PhoneStateListenerFlags.CallState);
 
@@ -283,14 +282,20 @@ namespace bleissem.babyphone.Droid
 
             if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
             string numberToDial = setting.NumberToDial;
+            try
+            {
+                Intent phoneIntent = new Intent(Intent.ActionCall);
+                phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
+                phoneIntent.AddFlags(ActivityFlags.NoUserAction);
+                phoneIntent.AddFlags(ActivityFlags.NoHistory);
+                phoneIntent.AddFlags(ActivityFlags.FromBackground);
+                //phoneIntent.AddFlags(ActivityFlags.PreviousIsTop);
+                base.StartActivity(phoneIntent);
+            }
+            catch// (Exception ex)
+            {
 
-            Intent phoneIntent = new Intent(Intent.ActionCall);
-            phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
-            phoneIntent.AddFlags(ActivityFlags.NoUserAction);
-            phoneIntent.AddFlags(ActivityFlags.NoHistory);
-            phoneIntent.AddFlags(ActivityFlags.FromBackground);
-            phoneIntent.AddFlags(ActivityFlags.PreviousIsTop);
-            base.StartActivity(phoneIntent);
+            }
         }
 
         public void Close()
