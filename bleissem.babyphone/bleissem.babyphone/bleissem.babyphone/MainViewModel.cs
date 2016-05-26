@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +11,18 @@ namespace bleissem.babyphone
     {
         #region constructor
 
-        public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber, ICreateTimer createTimer)
+        public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer)
         {
             this.Settings = settings;
             this.m_RecorderViewModel = audioRecorder;
-            this.m_RecorderViewModel.Start();
-            this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber, createTimer);
-
-
+            this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber, reactOnCall, createTimer);
             this.m_InfoTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 250));
             this.m_InfoTimer.AutoReset = true;
             this.m_InfoTimer.MyElapsed += m_Timer_Elapsed;
+            
             this.m_InfoTimer.Start();
+            this.m_RecorderViewModel.Start();
+
         }
 
         #endregion
@@ -36,12 +36,19 @@ namespace bleissem.babyphone
 
         private ITimer m_InfoTimer;
 
+        void OnHangUp()
+        {
+            m_RecorderViewModel.Start();
+        }
+
         void m_Timer_Elapsed(object sender, MyTimerElapsedEventArgs e)
         {
+            if (null == m_RecorderViewModel) return;
+                 
             this.CurrentNoise = m_RecorderViewModel.GetAmplitude();
             base.RaisePropertyChanged(() => this.CurrentNoise);
 
-            if ((null != PeriodicNotifications) && (null != m_RecorderViewModel))
+            if (null != PeriodicNotifications)
             {
 
                 PeriodicNotifications(this, this.CurrentNoise);

@@ -36,7 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IReactOnHangUp.cs" />
+    <Compile Include="INotifiedOnCalling.cs" />
+    <Compile Include="IReactOnCall.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="IAudioRecorder.cs" />
     <Compile Include="ICallNumber.cs" />

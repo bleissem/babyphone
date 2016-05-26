@@ -51,7 +51,7 @@ namespace bleissem.babyphone.Droid
         {
             var number = m_PhoneNumbersAdapter[e.Position];
 
-            Consts.StartActivity<MainActivity>(this, (intent) =>
+            Consts.StartActivityThatAlreadyExist<MainActivity>(this, (intent) =>
             {
                 intent.PutExtra(Consts.SetPhoneNumber, number.Number);
             });
@@ -61,7 +61,7 @@ namespace bleissem.babyphone.Droid
         {
             base.OnBackPressed();
 
-            Consts.StartActivity<ContactsMasterActivitiy>(this);
+            Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this);
         }
 
     }

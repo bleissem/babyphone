@@ -120,6 +120,7 @@
     <Compile Include="Contact.cs" />
     <Compile Include="ContactsAdapter.cs" />
     <Compile Include="ContactsMasterActivitiy.cs" />
+    <Compile Include="PhoneCallTimer.cs" />
     <Compile Include="PhoneNumbersActivity.cs" />
     <Compile Include="PhoneNumbersAdapter.cs" />
     <Compile Include="MainActivity.cs" />

@@ -43,10 +43,10 @@ namespace bleissem.babyphone.Droid
         {
             var contact = m_ContactsAdapter[e.Position];
 
-            Consts.StartActivity<PhoneNumbersActivity>(this, (intent) =>
+            Consts.StartActivityWithNoHistory<PhoneNumbersActivity>(this, (intent) =>
                 {
                     intent.PutExtra(Consts.SetPhoneID, contact.ID);
-                    intent.AddFlags(ActivityFlags.NoHistory);
+
                 });
 
         }
@@ -55,7 +55,7 @@ namespace bleissem.babyphone.Droid
         {
             base.OnBackPressed();
 
-            Consts.StartActivity<MainActivity>(this);
+            Consts.StartActivityThatAlreadyExist<MainActivity>(this);
         }
 
         protected override void OnDestroy()

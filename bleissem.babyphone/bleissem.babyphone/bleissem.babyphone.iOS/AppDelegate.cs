@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 
 
@@ -12,7 +12,7 @@ namespace bleissem.babyphone.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
-    [Register("AppDelegate")]
+    [Foundation.Register("AppDelegate")]
     public partial class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
@@ -28,7 +28,7 @@ namespace bleissem.babyphone.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             // create a new window instance based on the screen size
-            window = new UIWindow(UIScreen.MainScreen.Bounds);
+            window = new UIWindow((RectangleF)UIScreen.MainScreen.Bounds);
 
             // If you have defined a view, add it here:
             // window.RootViewController  = navigationController;

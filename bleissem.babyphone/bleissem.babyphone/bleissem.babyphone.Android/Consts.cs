@@ -17,16 +17,37 @@ namespace bleissem.babyphone.Droid
         public const string SetPhoneID = "SetPhoneID";
         public const string SetPhoneNumber = "SetPhoneNumber";
 
-        public static void StartActivity<TActivity>(Context context) where TActivity : Activity
+        public static void StartActivityThatAlreadyExist<TActivity>(Context context) where TActivity : Activity
         {
-            StartActivity<TActivity>(context, null);
+            StartActivityThatAlreadyExist<TActivity>(context, null);
         }
-        public static void StartActivity<TActivity>(Context context, Action<Intent> newIntent) where TActivity : Activity
+        public static void StartActivityThatAlreadyExist<TActivity>(Context context, Action<Intent> newIntent) where TActivity : Activity
         {
             Intent intent = new Intent(context, typeof(TActivity));
             intent.AddFlags(ActivityFlags.SingleTop);
             intent.AddFlags(ActivityFlags.ReorderToFront);
             intent.AddFlags(ActivityFlags.ClearTop);
+            intent.AddFlags(ActivityFlags.NoUserAction);
+            intent.AddFlags(ActivityFlags.FromBackground);
+            
+            if (null != newIntent)
+            {
+                newIntent(intent);
+            }
+            context.StartActivity(intent);
+        }
+
+        public static void StartActivityWithNoHistory<TActivity>(Context context) where TActivity : Activity
+        {
+            StartActivityWithNoHistory<TActivity>(context, null);
+        }
+
+        public static void StartActivityWithNoHistory<TActivity>(Context context, Action<Intent> newIntent) where TActivity : Activity
+        {
+            Intent intent = new Intent(context, typeof(TActivity));
+            intent.AddFlags(ActivityFlags.NoHistory);
+            intent.AddFlags(ActivityFlags.NoUserAction);
+            intent.AddFlags(ActivityFlags.FromBackground);
             
             if (null != newIntent)
             {

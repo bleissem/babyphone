@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +11,19 @@ namespace bleissem.babyphone
 
         #region constructors
 
-        public PhoneViewModel(IAudioRecorder recorder, Settings settings, ICallNumber callNumber, ICreateTimer createTimer)
+        public PhoneViewModel(IAudioRecorder recorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer)
         {
             this.IsStarted = false;
             this.m_Settings = settings;
             this.m_CallNumber = callNumber;
             this.m_RecorderViewModel = recorder;
 
-            this.m_PhoneTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 250));
-            this.m_PhoneTimer.AutoReset = true;
+            this.m_PhoneTimer = createTimer.Create(new TimeSpan(0, 0, 0, 1, 0));
+            this.m_PhoneTimer.AutoReset = false                ;
             this.m_PhoneTimer.MyElapsed += m_PhoneTimer_Elapsed;
+            
+            this.m_ReactOnCall = reactOnCall;
+            this.m_ReactOnCall.Register(this.OnHangUp);
         }
 
 
@@ -41,8 +44,14 @@ namespace bleissem.babyphone
 
         private IAudioRecorder m_RecorderViewModel;
 
+        private IReactOnCall m_ReactOnCall;
 
         private TimeSpan TimeToWait { get; set; }
+
+        private void OnHangUp()
+        {
+            m_PhoneTimer.Start();
+        }
 
     
         private void m_PhoneTimer_Elapsed(object sender, MyTimerElapsedEventArgs e)
@@ -54,11 +63,10 @@ namespace bleissem.babyphone
             {
                 this.m_CallNumber.Dial();
             }
-            //else
-            //{
-
-            //    this.InitializePhoneTimer();
-            //}
+            else
+            {
+                this.m_PhoneTimer.Start();
+            }            
 
         }
 
