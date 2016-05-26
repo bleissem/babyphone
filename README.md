@@ -18,7 +18,7 @@ https://play.google.com/store/apps/details?id=com.bleissem.babyphone
   <tr>
     <td><img src="https://bleissem.visualstudio.com/DefaultCollection/_apis/public/build/definitions/ae70b622-e28d-48f1-a13c-97597574c7b8/15/badge"></img>
     </td>
-    <td><img src="https://bleissem.visualstudio.com/DefaultCollection/_apis/public/build/definitions/ae70b622-e28d-48f1-a13c-97597574c7b8/16/badge"></img></td>
+    <td><img src="https://bleissem.visualstudio.com/_apis/public/build/definitions/41c665ba-b6e2-4eea-9ccb-1ea1f06d2f56/19/badge"></img></td>
   </tr>
 </tbody>
 </table>
