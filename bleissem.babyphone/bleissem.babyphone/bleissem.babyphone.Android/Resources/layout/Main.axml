@@ -16,7 +16,7 @@
             android:background="@drawable/my_button"
             style="@style/my_text_white" />
         <EditText
-            android:inputType="phone"
+            android:inputType="text"
             android:id="@+id/ContactTextView"
             style="@style/my_text_black" />
         <Button
