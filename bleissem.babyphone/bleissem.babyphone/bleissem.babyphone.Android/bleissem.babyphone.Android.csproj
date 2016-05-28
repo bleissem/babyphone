@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="AudioRecorderViewModel.cs" />
     <Compile Include="CallNumber.cs" />
+    <Compile Include="ChooseSkypeOrTelephoneActivity.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="ContactsAdapter.cs" />
@@ -133,6 +134,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\layout\ChooseSkypeOrTelephone.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

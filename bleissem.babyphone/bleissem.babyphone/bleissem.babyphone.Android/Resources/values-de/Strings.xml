@@ -2,8 +2,12 @@
 <resources>
     <string name="ApplicationName">Babyphone.Android</string>
     <string name="ChooseLabel">Bitte wählen Sie:</string>
-    <string name="ChooseContact">Kontakte</string>
+    <string name="ChooseContact">die Kommunikation</string>
     <string name="ChooseNoiseLevel">Geräuschpegel</string>
     <string name="StartService">Start</string>
     <string name="StopService">Stop</string>
+    <string name="Skype">Skype</string>
+    <string name="Phone">Telefon</string>
+    <string name="ChoosePhoneLabel">Wenn Sie eine Telefonnummer anrufen möchten, wählen Sie:</string>
+    <string name="ChooseSkypeLabel">Wenn Sie mit Skype einen Skype Benutzer kontaktieren möchten, wählen Sie:</string>
 </resources>

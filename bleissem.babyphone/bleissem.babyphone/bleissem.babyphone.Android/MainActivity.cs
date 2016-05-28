@@ -88,6 +88,7 @@ namespace bleissem.babyphone.Droid
 			startServiceButton.Click += startServiceButton_Click;
 
 			TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
+            numberToDial.Enabled = false;
 			numberToDial.Text = settings.NumberToDial;
 			numberToDial.TextChanged -= numberToDial_TextChanged;
 			numberToDial.TextChanged += numberToDial_TextChanged;
@@ -201,7 +202,7 @@ namespace bleissem.babyphone.Droid
 
 		void chooseContactButton_Click(object sender, EventArgs e)
 		{
-			Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this);
+            Consts.StartActivityWithNoHistory<ChooseSkypeOrTelephoneActivity>(this);
 		}
 
 		private void SaveNoiseLevel(int noiselevel)
