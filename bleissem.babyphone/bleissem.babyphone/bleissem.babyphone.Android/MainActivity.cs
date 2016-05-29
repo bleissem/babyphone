@@ -46,6 +46,7 @@ namespace bleissem.babyphone.Droid
 			{
 				Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
 				settings.NumberToDial = setNumber;
+                settings.CallType = SettingsTable.CallTypeEnum.Phone;
 				TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
 				numberToDial.Text = settings.NumberToDial;
 			}           

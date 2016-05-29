@@ -27,6 +27,7 @@ namespace bleissem.babyphone
                 var newSettings = new SettingsTable();
                 newSettings.NoiseLevel = 0;
                 newSettings.NumberToDial = string.Empty;
+                newSettings.CallType = SettingsTable.CallTypeEnum.Phone;
                 db.Insert(newSettings);
             }
 
@@ -51,6 +52,7 @@ namespace bleissem.babyphone
                 var table = db.Table<SettingsTable>().First();
                 table.NoiseLevel = m_NoiseLevel;
                 table.NumberToDial = m_NumberToDial;
+                table.CallType = m_CallType;
                 db.Update(table);
             }
 
@@ -60,8 +62,6 @@ namespace bleissem.babyphone
 
         private string m_DBPath;
         private ISQLitePlatform m_SQLitePlatform;
-
-
         private int m_NoiseLevel;
 
         public int NoiseLevel
@@ -100,6 +100,27 @@ namespace bleissem.babyphone
                 }
 
                 m_NumberToDial = value;
+                Save();
+            }
+        }
+
+        private SettingsTable.CallTypeEnum m_CallType;
+
+        public SettingsTable.CallTypeEnum CallType
+        {
+            get
+            {
+                Load();
+                return m_CallType;
+            }
+            set
+            {
+                if (value == m_CallType)
+                {
+                    return;
+                }
+
+                m_CallType = value;
                 Save();
             }
         }
