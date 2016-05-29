@@ -26,8 +26,6 @@ namespace bleissem.babyphone.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::GalaSoft.MvvmLight.Resource.String.ApplicationName = global::bleissem.babyphone.Droid.Resource.String.ApplicationName;
-			global::GalaSoft.MvvmLight.Resource.String.Hello = global::bleissem.babyphone.Droid.Resource.String.Hello;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::bleissem.babyphone.Droid.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::bleissem.babyphone.Droid.Resource.String.Hello;
 		}
