@@ -16,6 +16,8 @@ namespace bleissem.babyphone.Droid
     {
         public const string SetPhoneID = "SetPhoneID";
         public const string SetPhoneNumber = "SetPhoneNumber";
+        public const string SetSkypeUser = "SetSkypeUser";
+        public const string SetSkypePhoneNumber = "SetSkypePhoneNumber";
 
         public static void StartActivityThatAlreadyExist<TActivity>(Context context) where TActivity : Activity
         {

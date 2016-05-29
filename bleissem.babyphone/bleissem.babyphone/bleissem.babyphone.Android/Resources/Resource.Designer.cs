@@ -83,6 +83,21 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f060002
 			public const int ChooseSkypeLabelTextView = 2131099650;
 			
+			// aapt resource value: 0x7f060013
+			public const int ChooseSkypePhoneButton = 2131099667;
+			
+			// aapt resource value: 0x7f060011
+			public const int ChooseSkypeUserOKButton = 2131099665;
+			
+			// aapt resource value: 0x7f06000f
+			public const int ChooseSkypeUserOrPhoneLabel1 = 2131099663;
+			
+			// aapt resource value: 0x7f060012
+			public const int ChooseSkypeUserOrPhoneLabel2 = 2131099666;
+			
+			// aapt resource value: 0x7f060010
+			public const int ChooseSkypeUserText = 2131099664;
+			
 			// aapt resource value: 0x7f060008
 			public const int ContactTextView = 2131099656;
 			
@@ -141,6 +156,9 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f030005
 			public const int PhoneNumberMaster = 2130903045;
 			
+			// aapt resource value: 0x7f030006
+			public const int SkypeChooseUserOrPhone = 2130903046;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -171,6 +189,18 @@ namespace bleissem.babyphone.Droid
 			
 			// aapt resource value: 0x7f04000a
 			public const int ChooseSkypeLabel = 2130968586;
+			
+			// aapt resource value: 0x7f04000e
+			public const int ChooseSkypePhoneButton = 2130968590;
+			
+			// aapt resource value: 0x7f04000d
+			public const int ChooseSkypeUserOKButton = 2130968589;
+			
+			// aapt resource value: 0x7f04000b
+			public const int ChooseSkypeUserOrPhoneLabel1 = 2130968587;
+			
+			// aapt resource value: 0x7f04000c
+			public const int ChooseSkypeUserOrPhoneLabel2 = 2130968588;
 			
 			// aapt resource value: 0x7f040000
 			public const int Hello = 2130968576;

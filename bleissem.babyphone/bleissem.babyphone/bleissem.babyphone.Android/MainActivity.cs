@@ -37,19 +37,41 @@ namespace bleissem.babyphone.Droid
 			base.OnStart();
 		}
 
+
+        private void AssignCallSettings(string number, SettingsTable.CallTypeEnum callType)
+        {
+            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
+            settings.NumberToDial = number;
+            settings.CallType = callType;
+            TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
+            numberToDial.Text = settings.NumberToDial;
+        }
+
 		protected override void OnNewIntent(Intent intent)
 		{
 			base.OnNewIntent(intent);
 
-			string setNumber = intent.GetStringExtra(Consts.SetPhoneNumber);
-			if (!string.IsNullOrWhiteSpace(setNumber))
+			string setPhoneNumber = intent.GetStringExtra(Consts.SetPhoneNumber);
+			if (!string.IsNullOrWhiteSpace(setPhoneNumber))
 			{
-				Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
-				settings.NumberToDial = setNumber;
-                settings.CallType = SettingsTable.CallTypeEnum.Phone;
-				TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
-				numberToDial.Text = settings.NumberToDial;
-			}           
+                AssignCallSettings(setPhoneNumber, SettingsTable.CallTypeEnum.Phone);
+			}
+            else
+            {
+                string setSkypeUser = intent.GetStringExtra(Consts.SetSkypeUser);
+                if (!string.IsNullOrWhiteSpace(setSkypeUser))
+                {
+                    AssignCallSettings(setSkypeUser, SettingsTable.CallTypeEnum.SkypeUser);
+                }
+                else
+                {
+                    string setSkypePhoneNumber = intent.GetStringExtra(Consts.SetSkypePhoneNumber);
+                    if (!string.IsNullOrWhiteSpace(setSkypePhoneNumber))
+                    {
+                        AssignCallSettings(setSkypePhoneNumber, SettingsTable.CallTypeEnum.SkypePhone);
+                    }
+                }
+            }
 			
 			SetStartStopUI();
 		}
@@ -64,6 +86,7 @@ namespace bleissem.babyphone.Droid
 		{            
 			Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
 
+            //FIXME
 			string setNumber = this.Intent.GetStringExtra(Consts.SetPhoneNumber);
 			if (!string.IsNullOrWhiteSpace(setNumber))
 			{

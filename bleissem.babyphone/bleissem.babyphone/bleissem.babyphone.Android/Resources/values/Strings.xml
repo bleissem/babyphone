@@ -10,4 +10,9 @@
     <string name="Phone">Phone</string>
     <string name="ChoosePhoneLabel">if you want to dial a number with your phone choose:</string>
     <string name="ChooseSkypeLabel">if you want to skype with a skype user choose:</string>
+    <string name="ChooseSkypeUserOrPhoneLabel1">please enter the skype user you want to call to</string>
+    <string name="ChooseSkypeUserOrPhoneLabel2">Or please select the telefon number you want to call to</string>
+    <string name="ChooseSkypeUserOKButton">choose this skype user</string>
+    <string name="ChooseSkypePhoneButton">skype phone call</string>
+
 </resources>

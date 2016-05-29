@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/my_scrollview">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TextView
+            android:text="@string/ChooseSkypeUserOrPhoneLabel1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/ChooseSkypeUserOrPhoneLabel1"
+            style="@style/my_text_black" />
+        <EditText
+            android:inputType="text"
+            android:id="@+id/ChooseSkypeUserText"
+            style="@style/my_text_black" />
+        <Button
+            android:text="@string/ChooseSkypeUserOKButton"
+            android:id="@+id/ChooseSkypeUserOKButton"
+            android:background="@drawable/my_button"
+            style="@style/my_text_white" />
+        <TextView
+            android:text="@string/ChooseSkypeUserOrPhoneLabel2"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/ChooseSkypeUserOrPhoneLabel2"
+            style="@style/my_text_black" />
+        <Button
+            android:text="@string/ChooseSkypePhoneButton"
+            android:id="@+id/ChooseSkypePhoneButton"
+            android:background="@drawable/my_button"
+            style="@style/my_text_white" />
+    </LinearLayout>
+</ScrollView>

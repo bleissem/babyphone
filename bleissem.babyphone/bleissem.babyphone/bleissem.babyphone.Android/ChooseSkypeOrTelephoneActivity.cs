@@ -52,8 +52,8 @@ namespace bleissem.babyphone.Droid
 
         
         void m_ChooseSkypeButton_Click(object sender, EventArgs e)
-        {           
-            Toast.MakeText(Application.Context, "Skype is comming soon.", ToastLength.Long);           
+        {
+            Consts.StartActivityWithNoHistory<SkypeChooseUserOrPhoneActivity>(this);         
         }
 
 
@@ -81,7 +81,10 @@ namespace bleissem.babyphone.Droid
 
         void m_ChoosePhoneButton_Click(object sender, EventArgs e)
         {
-            Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this);		
+            Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
+            {
+                intent.PutExtra(Consts.SetPhoneNumber, true);
+            });
         }
 
         public override void OnBackPressed()

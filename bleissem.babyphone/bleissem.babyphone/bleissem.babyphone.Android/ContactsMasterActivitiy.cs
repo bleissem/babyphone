@@ -39,6 +39,20 @@ namespace bleissem.babyphone.Droid
             m_ListView.ItemClick += m_ListView_ItemClick;
         }
 
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+
+            if (intent.GetBooleanExtra(Consts.SetPhoneNumber, false))
+            {
+
+            }
+            else if (intent.GetBooleanExtra(Consts.SetSkypePhoneNumber, false))
+            {
+
+            }
+        }
+
         void m_ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var contact = m_ContactsAdapter[e.Position];
