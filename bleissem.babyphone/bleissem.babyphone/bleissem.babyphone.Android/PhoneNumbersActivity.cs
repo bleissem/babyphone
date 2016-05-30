@@ -61,7 +61,10 @@ namespace bleissem.babyphone.Droid
         {
             base.OnBackPressed();
 
-            Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this);
+            Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
+            {
+                intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.Phone));
+            });
         }
 
     }

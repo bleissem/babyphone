@@ -37,21 +37,11 @@ namespace bleissem.babyphone.Droid
             m_ContactsAdapter = new ContactsAdapter(this);
             m_ListView.Adapter = m_ContactsAdapter;
             m_ListView.ItemClick += m_ListView_ItemClick;
+
+            int result = this.Intent.GetIntExtra(Consts.SetCallType, -1);
+            if (0 > result) { int i = 0; }
         }
 
-        protected override void OnNewIntent(Intent intent)
-        {
-            base.OnNewIntent(intent);
-
-            if (intent.GetBooleanExtra(Consts.SetPhoneNumber, false))
-            {
-
-            }
-            else if (intent.GetBooleanExtra(Consts.SetSkypePhoneNumber, false))
-            {
-
-            }
-        }
 
         void m_ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {

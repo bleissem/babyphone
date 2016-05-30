@@ -53,7 +53,7 @@ namespace bleissem.babyphone.Droid
             // start Contact List (for Skype phone type)
             Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
                 {
-                    intent.PutExtra(Consts.SetSkypePhoneNumber, true);
+                    intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypePhone));
                 });
         }
 
