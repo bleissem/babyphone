@@ -24,6 +24,7 @@ namespace bleissem.babyphone.Droid
 
         private ListView m_ListView;
         private PhoneNumbersAdapter m_PhoneNumbersAdapter;
+        private SettingsTable.CallTypeEnum m_CallType;
 
         protected override void OnNewIntent(Intent intent)
         {
@@ -36,9 +37,9 @@ namespace bleissem.babyphone.Droid
             SetContentView(Resource.Layout.ContactsMaster);
 
             m_ListView = FindViewById<ListView>(Resource.Id.ContactsList);
-
-
-            string id = this.Intent.GetStringExtra(Consts.SetPhoneID);
+            
+            string id = this.Intent.GetStringExtra(Consts.SetIdToCall);
+            m_CallType = (SettingsTable.CallTypeEnum)this.Intent.GetIntExtra(Consts.SetCallType, -1);
 
             ReadContacts rc = SimpleIoc.Default.GetInstance<ReadContacts>();
 
@@ -53,7 +54,8 @@ namespace bleissem.babyphone.Droid
 
             Consts.StartActivityThatAlreadyExist<MainActivity>(this, (intent) =>
             {
-                intent.PutExtra(Consts.SetPhoneNumber, number.Number);
+                intent.PutExtra(Consts.SetIdToCall, number.Number);
+                intent.PutExtra(Consts.SetCallType, Convert.ToInt32(m_CallType));
             });
         }
 
@@ -63,7 +65,7 @@ namespace bleissem.babyphone.Droid
 
             Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
             {
-                intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.Phone));
+                intent.PutExtra(Consts.SetCallType, Convert.ToInt32(m_CallType));
             });
         }
 

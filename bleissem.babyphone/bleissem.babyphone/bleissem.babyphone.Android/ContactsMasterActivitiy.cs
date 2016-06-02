@@ -25,6 +25,7 @@ namespace bleissem.babyphone.Droid
 
         private ListView m_ListView;
         private ContactsAdapter m_ContactsAdapter;
+        private SettingsTable.CallTypeEnum m_CallType;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -39,7 +40,7 @@ namespace bleissem.babyphone.Droid
             m_ListView.ItemClick += m_ListView_ItemClick;
 
             int result = this.Intent.GetIntExtra(Consts.SetCallType, -1);
-            if (0 > result) { int i = 0; }
+            m_CallType = (SettingsTable.CallTypeEnum)result;
         }
 
 
@@ -49,7 +50,8 @@ namespace bleissem.babyphone.Droid
 
             Consts.StartActivityWithNoHistory<PhoneNumbersActivity>(this, (intent) =>
                 {
-                    intent.PutExtra(Consts.SetPhoneID, contact.ID);
+                    intent.PutExtra(Consts.SetCallType, Convert.ToInt32(m_CallType));
+                    intent.PutExtra(Consts.SetIdToCall, contact.ID);
 
                 });
 

@@ -65,7 +65,8 @@ namespace bleissem.babyphone.Droid
 
             Consts.StartActivityThatAlreadyExist<MainActivity>(this, (intent) =>
             {
-                intent.PutExtra(Consts.SetPhoneNumber, skypeUser);
+                intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypeUser));
+                intent.PutExtra(Consts.SetIdToCall, skypeUser);
             });
 
         }

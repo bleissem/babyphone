@@ -3,11 +3,13 @@
     <string name="ApplicationName">Babyphone.Android</string>
     <string name="ChooseLabel">please choose</string>
     <string name="ChooseContact">the communication</string>
+    <string name="YouAreUsingLabel">you are using</string>
     <string name="ChooseNoiseLevel">noise level</string>
     <string name="StartService">start</string>
     <string name="StopService">stop</string>
     <string name="Skype">Skype</string>
     <string name="Phone">Phone</string>
+    <string name="SkypePhone">Skype Phone</string>
     <string name="ChoosePhoneLabel">if you want to dial a number with your phone choose:</string>
     <string name="ChooseSkypeLabel">if you want to skype with a skype user choose:</string>
     <string name="ChooseSkypeUserOrPhoneLabel1">please enter the skype user you want to call to</string>

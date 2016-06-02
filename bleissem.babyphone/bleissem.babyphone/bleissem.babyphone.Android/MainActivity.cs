@@ -45,33 +45,23 @@ namespace bleissem.babyphone.Droid
             settings.CallType = callType;
             TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
             numberToDial.Text = settings.NumberToDial;
+
+            TextView youreUsing = FindViewById<TextView>(Resource.Id.YouAreUsingTextView);
+            youreUsing.Text = this.ConvertCallType(settings.CallType);
+
         }
 
 		protected override void OnNewIntent(Intent intent)
 		{
 			base.OnNewIntent(intent);
 
-			string setPhoneNumber = intent.GetStringExtra(Consts.SetPhoneNumber);
-			if (!string.IsNullOrWhiteSpace(setPhoneNumber))
+			string setPhoneNumber = intent.GetStringExtra(Consts.SetIdToCall);
+            int callTypeInt = intent.GetIntExtra(Consts.SetCallType, -1);
+			if ((0<callTypeInt) && (!string.IsNullOrWhiteSpace(setPhoneNumber)))
 			{
-                AssignCallSettings(setPhoneNumber, SettingsTable.CallTypeEnum.Phone);
+                AssignCallSettings(setPhoneNumber,(SettingsTable.CallTypeEnum)callTypeInt);
 			}
-            else
-            {
-                string setSkypeUser = intent.GetStringExtra(Consts.SetSkypeUser);
-                if (!string.IsNullOrWhiteSpace(setSkypeUser))
-                {
-                    AssignCallSettings(setSkypeUser, SettingsTable.CallTypeEnum.SkypeUser);
-                }
-                else
-                {
-                    string setSkypePhoneNumber = intent.GetStringExtra(Consts.SetSkypePhoneNumber);
-                    if (!string.IsNullOrWhiteSpace(setSkypePhoneNumber))
-                    {
-                        AssignCallSettings(setSkypePhoneNumber, SettingsTable.CallTypeEnum.SkypePhone);
-                    }
-                }
-            }
+            
 			
 			SetStartStopUI();
 		}
@@ -82,16 +72,45 @@ namespace bleissem.babyphone.Droid
 			this.Close();
 		}
 
+        private string ConvertCallType(SettingsTable.CallTypeEnum callType)
+        {
+            //FIXME:
+            switch(callType)
+            {
+                case SettingsTable.CallTypeEnum.Phone:
+                    {
+                        return this.ApplicationContext.Resources.GetText(Resource.String.Phone); 
+                    }
+                case SettingsTable.CallTypeEnum.SkypePhone:
+                    {
+                        return this.ApplicationContext.Resources.GetText(Resource.String.SkypePhone); 
+                    }
+                case   SettingsTable.CallTypeEnum.SkypeUser:
+                    {
+                        return this.ApplicationContext.Resources.GetText(Resource.String.Skype); 
+                    }
+                default:
+                    {
+                        throw new NotImplementedException();
+                    }
+            }
+        }
+
 		private void InitializeUI()
 		{            
 			Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
 
-            //FIXME
-			string setNumber = this.Intent.GetStringExtra(Consts.SetPhoneNumber);
+            string setNumber = this.Intent.GetStringExtra(Consts.SetIdToCall);
 			if (!string.IsNullOrWhiteSpace(setNumber))
 			{
 				settings.NumberToDial = setNumber;
 			}
+
+            int callType = this.Intent.GetIntExtra(Consts.SetCallType, -1);
+            if (0<callType)
+            {
+                settings.CallType = (SettingsTable.CallTypeEnum)callType;
+            }
 
 			MainViewModel babyViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
 			babyViewModel.PeriodicNotifications -= MainActivity_PeriodicNotifications;
@@ -112,10 +131,12 @@ namespace bleissem.babyphone.Droid
 			startServiceButton.Click += startServiceButton_Click;
 
 			TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
-            numberToDial.Enabled = false;
 			numberToDial.Text = settings.NumberToDial;
 			numberToDial.TextChanged -= numberToDial_TextChanged;
 			numberToDial.TextChanged += numberToDial_TextChanged;
+
+            TextView youreUsing = FindViewById<TextView>(Resource.Id.YouAreUsingTextView);
+            youreUsing.Text = this.ConvertCallType(settings.CallType);
 
 			TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
 			noiseLevel.Text = settings.NoiseLevel.ToString();
@@ -314,16 +335,44 @@ namespace bleissem.babyphone.Droid
 
 			if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
 			string numberToDial = setting.NumberToDial;
+
 			try
 			{
-				SimpleIoc.Default.GetInstance<INotifiedOnCalling>().CallStarts();
-				Intent phoneIntent = new Intent(Intent.ActionCall);
-				phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
-				phoneIntent.AddFlags(ActivityFlags.NoUserAction);
-				phoneIntent.AddFlags(ActivityFlags.NoHistory);
-				phoneIntent.AddFlags(ActivityFlags.FromBackground);
-                
-				base.StartActivity(phoneIntent);
+                switch (setting.CallType)
+                {
+                    case SettingsTable.CallTypeEnum.SkypeUser:
+                        {
+                            Intent skypeintent = new Intent(Intent.ActionCall);
+                            skypeintent.SetClassName("com.skype.raider", "com.skype.raider.Main");
+                            skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial + "?call"));
+                            
+                            base.StartActivity(skypeintent);
+                            break;
+                        }
+                    case SettingsTable.CallTypeEnum.SkypePhone:
+                        {
+                            Intent skypeintent = new Intent(Intent.ActionCall);
+                            skypeintent.SetClassName("com.skype.raider", "com.skype.raider.Main");
+                            skypeintent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial + "?call"));
+                            
+                            base.StartActivity(skypeintent);
+                            break;
+                        }
+                    case SettingsTable.CallTypeEnum.Phone:
+                    default:
+                        {
+
+                            SimpleIoc.Default.GetInstance<INotifiedOnCalling>().CallStarts();
+                            Intent phoneIntent = new Intent(Intent.ActionCall);
+                            phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
+                            phoneIntent.AddFlags(ActivityFlags.NoUserAction);
+                            phoneIntent.AddFlags(ActivityFlags.NoHistory);
+                            phoneIntent.AddFlags(ActivityFlags.FromBackground);
+
+                            base.StartActivity(phoneIntent);
+                            break;
+                        }
+                }
 			}
 			catch
 			{

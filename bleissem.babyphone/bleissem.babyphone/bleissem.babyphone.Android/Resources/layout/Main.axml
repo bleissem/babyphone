@@ -17,7 +17,17 @@
             style="@style/my_text_white" />
         <EditText
             android:inputType="text"
+            android:enabled="false"
             android:id="@+id/ContactTextView"
+            style="@style/my_text_black" />
+        <TextView
+            android:text="@string/YouAreUsingLabel"
+            android:id="@+id/YouAreUsingLabeltextView"
+            style="@style/my_text_black" />
+        <EditText
+            android:inputType="text"
+            android:enabled="false"
+            android:id="@+id/YouAreUsingTextView"
             style="@style/my_text_black" />
         <Button
             android:text="@string/ChooseNoiseLevel"
