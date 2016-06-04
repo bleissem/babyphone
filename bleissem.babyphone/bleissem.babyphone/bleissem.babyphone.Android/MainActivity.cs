@@ -81,9 +81,9 @@ namespace bleissem.babyphone.Droid
                     {
                         return this.ApplicationContext.Resources.GetText(Resource.String.Phone); 
                     }
-                case SettingsTable.CallTypeEnum.SkypePhone:
+                case SettingsTable.CallTypeEnum.SkypeOut:
                     {
-                        return this.ApplicationContext.Resources.GetText(Resource.String.SkypePhone); 
+                        return this.ApplicationContext.Resources.GetText(Resource.String.SkypeOut); 
                     }
                 case   SettingsTable.CallTypeEnum.SkypeUser:
                     {
@@ -342,6 +342,8 @@ namespace bleissem.babyphone.Droid
                 {
                     case SettingsTable.CallTypeEnum.SkypeUser:
                         {
+                            Intent skype = new Intent("android.intent.action.VIEW");
+
                             Intent skypeintent = new Intent(Intent.ActionCall);
                             skypeintent.SetClassName("com.skype.raider", "com.skype.raider.Main");
                             skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial + "?call"));
@@ -349,11 +351,11 @@ namespace bleissem.babyphone.Droid
                             base.StartActivity(skypeintent);
                             break;
                         }
-                    case SettingsTable.CallTypeEnum.SkypePhone:
+                    case SettingsTable.CallTypeEnum.SkypeOut:
                         {
                             Intent skypeintent = new Intent(Intent.ActionCall);
                             skypeintent.SetClassName("com.skype.raider", "com.skype.raider.Main");
-                            skypeintent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial + "?call"));
+                            skypeintent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial ));
                             
                             base.StartActivity(skypeintent);
                             break;

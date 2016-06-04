@@ -25,8 +25,8 @@
             android:id="@+id/ChooseSkypeUserOrPhoneLabel2"
             style="@style/my_text_black" />
         <Button
-            android:text="@string/ChooseSkypePhoneButton"
-            android:id="@+id/ChooseSkypePhoneButton"
+            android:text="@string/ChooseSkypeOutButton"
+            android:id="@+id/ChooseSkypeOutButton"
             android:background="@drawable/my_button"
             style="@style/my_text_white" />
     </LinearLayout>

@@ -9,11 +9,11 @@
     <string name="StopService">Stop</string>
     <string name="Skype">Skype</string>
     <string name="Phone">Telefon</string>
-    <string name="SkypePhone">Skype Telefon</string>
+    <string name="SkypeOut">SkypeOut</string>
     <string name="ChoosePhoneLabel">Wenn Sie eine Telefonnummer anrufen möchten, wählen Sie:</string>
     <string name="ChooseSkypeLabel">Wenn Sie mit Skype einen Skype Benutzer kontaktieren oder über Skype anrufen möchten, wählen Sie:</string>
     <string name="ChooseSkypeUserOrPhoneLabel1">Bitte geben Sie hier den Skype Benutzer ein, den Sie kontaktieren möchten</string>  
     <string name="ChooseSkypeUserOrPhoneLabel2">Oder wählen Sie eine Telefonnummer, die Sie über Skype anrufen möchten</string>      
     <string name="ChooseSkypeUserOKButton">diesen Benutzer wählen</string>      
-    <string name="ChooseSkypePhoneButton">Skype Telefonanruf</string>      
+    <string name="ChooseSkypeOutButton">SkypeOut Telefonanruf</string>      
 </resources>

@@ -28,7 +28,7 @@ namespace bleissem.babyphone.Droid
 
 
         private Button m_ChooseSkypeUserOKButton;
-        private Button m_ChooseSkypePhoneButton;
+        private Button m_ChooseSkypeOutButton;
 
         protected override void OnNewIntent(Intent intent)
         {
@@ -39,21 +39,21 @@ namespace bleissem.babyphone.Droid
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.SkypeChooseUserOrPhone);
-            
-            Button chooseSkypeUserOKButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeUserOKButton);
-            chooseSkypeUserOKButton.Click += chooseSkypeUserOKButton_Click;
+
+            m_ChooseSkypeUserOKButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeUserOKButton);
+            m_ChooseSkypeUserOKButton.Click += chooseSkypeUserOKButton_Click;
 
 
-            Button m_ChooseSkypePhoneButton = this.FindViewById<Button>(Resource.Id.ChooseSkypePhoneButton);
-            m_ChooseSkypePhoneButton.Click += m_ChooseSkypePhoneButton_Click;
+            m_ChooseSkypeOutButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeOutButton);
+            m_ChooseSkypeOutButton.Click += m_ChooseSkypeOutButton_Click;
         }
 
-        void m_ChooseSkypePhoneButton_Click(object sender, EventArgs e)
+        void m_ChooseSkypeOutButton_Click(object sender, EventArgs e)
         {
             // start Contact List (for Skype phone type)
             Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
                 {
-                    intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypePhone));
+                    intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypeOut));
                 });
         }
 
@@ -79,10 +79,10 @@ namespace bleissem.babyphone.Droid
                 m_ChooseSkypeUserOKButton = null;
             }
 
-            if (null != m_ChooseSkypePhoneButton)
+            if (null != m_ChooseSkypeOutButton)
             {
-                m_ChooseSkypePhoneButton.Click -= m_ChooseSkypePhoneButton_Click;
-                m_ChooseSkypePhoneButton = null;
+                m_ChooseSkypeOutButton.Click -= m_ChooseSkypeOutButton_Click;
+                m_ChooseSkypeOutButton = null;
             }
         }
 

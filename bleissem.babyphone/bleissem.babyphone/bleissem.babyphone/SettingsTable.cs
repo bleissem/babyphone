@@ -12,9 +12,9 @@ namespace bleissem.babyphone
     {
         public enum CallTypeEnum: int 
         {
-            Phone,
-            SkypeUser,
-            SkypePhone
+            Phone = 0,
+            SkypeUser = 1,
+            SkypeOut = 2
         }
 
         [PrimaryKey, AutoIncrement]
