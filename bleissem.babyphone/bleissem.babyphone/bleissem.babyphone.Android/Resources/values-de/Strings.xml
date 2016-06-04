@@ -15,5 +15,7 @@
     <string name="ChooseSkypeUserOrPhoneLabel1">Bitte geben Sie hier den Skype Benutzer ein, den Sie kontaktieren möchten</string>  
     <string name="ChooseSkypeUserOrPhoneLabel2">Oder wählen Sie eine Telefonnummer, die Sie über Skype anrufen möchten</string>      
     <string name="ChooseSkypeUserOKButton">diesen Benutzer wählen</string>      
-    <string name="ChooseSkypeOutButton">SkypeOut Telefonanruf</string>      
+    <string name="ChooseSkypeOutButton">SkypeOut Telefonanruf</string>
+    <string name="StatusTextNothing"></string>
+    <string name="StatusTextSleeping">babyphone schläft für eine Minute</string>
 </resources>

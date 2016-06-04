@@ -16,5 +16,7 @@
     <string name="ChooseSkypeUserOrPhoneLabel2">Or please select the telefon number you want to call to</string>
     <string name="ChooseSkypeUserOKButton">choose this skype user</string>
     <string name="ChooseSkypeOutButton">SkypeOut call</string>
+    <string name="StatusTextNothing"></string>
+    <string name="StatusTextSleeping">babyphone sleeps for a minute</string>
 
 </resources>

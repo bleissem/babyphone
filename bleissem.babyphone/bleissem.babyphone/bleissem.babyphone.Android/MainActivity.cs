@@ -26,6 +26,7 @@ namespace bleissem.babyphone.Droid
 
 			SetContentView(Resource.Layout.Main);
 
+            this.SetStatusUI(false);
 			this.InitializeIoC();
 			this.InitializeUI();            
 
@@ -56,10 +57,13 @@ namespace bleissem.babyphone.Droid
 			base.OnNewIntent(intent);
 
 			string setPhoneNumber = intent.GetStringExtra(Consts.SetIdToCall);
+            SettingsTable.CallTypeEnum callType;
             int callTypeInt = intent.GetIntExtra(Consts.SetCallType, -1);
-			if ((0<callTypeInt) && (!string.IsNullOrWhiteSpace(setPhoneNumber)))
-			{
-                AssignCallSettings(setPhoneNumber,(SettingsTable.CallTypeEnum)callTypeInt);
+            
+
+			if ((Enum.TryParse<SettingsTable.CallTypeEnum>(callTypeInt.ToString(), out callType)) && (!string.IsNullOrWhiteSpace(setPhoneNumber)))
+			{                
+                AssignCallSettings(setPhoneNumber,callType);
 			}
             
 			
@@ -74,7 +78,6 @@ namespace bleissem.babyphone.Droid
 
         private string ConvertCallType(SettingsTable.CallTypeEnum callType)
         {
-            //FIXME:
             switch(callType)
             {
                 case SettingsTable.CallTypeEnum.Phone:
@@ -145,6 +148,38 @@ namespace bleissem.babyphone.Droid
 
 		}
 
+        private void SetStatusUI(bool babyphoneSleeps)
+        {
+            this.RunOnUiThread(() =>
+                {
+                    Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
+                    Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
+                    TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
+                    TextView ampTextView = FindViewById<TextView>(Resource.Id.AmpTextView);
+                    Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
+
+
+                    startServiceButton.Enabled = !babyphoneSleeps;                    
+                    numberToDial.Enabled = !babyphoneSleeps;
+                    ampTextView.Enabled = !babyphoneSleeps;
+                    chooseContactButton.Enabled = !babyphoneSleeps;
+                    noiseLevelButton.Enabled = !babyphoneSleeps;
+
+                    TextView babyPhoneSleepsTextView = FindViewById<TextView>(Resource.Id.StatusTextView);
+                    string status = string.Empty;
+                    if (babyphoneSleeps)
+                    {
+                        status = this.ApplicationContext.Resources.GetText(Resource.String.StatusTextSleeping);
+                    }
+                    else
+                    {
+                        status = this.ApplicationContext.Resources.GetText(Resource.String.StatusTextNothing);
+                    }
+
+
+                    babyPhoneSleepsTextView.Text = status;
+                });
+        }
 
 		void noiseLevelButton_Click(object sender, EventArgs e)
 		{
@@ -187,8 +222,9 @@ namespace bleissem.babyphone.Droid
 
 
 			SimpleIoc.Default.Register<MainViewModel>(true);
-
+            pct.Register(() => this.SetStatusUI(false));
             pct.Register(OnHangUp);
+            
 
 		}
 
@@ -334,11 +370,14 @@ namespace bleissem.babyphone.Droid
 
 			try
 			{
+                this.SetStatusUI(true);
+
                 Settings setting = SimpleIoc.Default.GetInstance<Settings>();
 
                 if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
                 string numberToDial = setting.NumberToDial;
 
+                
                 SimpleIoc.Default.GetInstance<INotifiedOnCalling>().CallStarts();
 
                 switch (setting.CallType)
@@ -383,6 +422,7 @@ namespace bleissem.babyphone.Droid
 
 			}
 		}
+
 
 		public void Close()
 		{

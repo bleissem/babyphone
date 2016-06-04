@@ -83,20 +83,20 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f060002
 			public const int ChooseSkypeLabelTextView = 2131099650;
 			
-			// aapt resource value: 0x7f060015
-			public const int ChooseSkypeOutButton = 2131099669;
-			
-			// aapt resource value: 0x7f060013
-			public const int ChooseSkypeUserOKButton = 2131099667;
-			
-			// aapt resource value: 0x7f060011
-			public const int ChooseSkypeUserOrPhoneLabel1 = 2131099665;
+			// aapt resource value: 0x7f060016
+			public const int ChooseSkypeOutButton = 2131099670;
 			
 			// aapt resource value: 0x7f060014
-			public const int ChooseSkypeUserOrPhoneLabel2 = 2131099668;
+			public const int ChooseSkypeUserOKButton = 2131099668;
 			
 			// aapt resource value: 0x7f060012
-			public const int ChooseSkypeUserText = 2131099666;
+			public const int ChooseSkypeUserOrPhoneLabel1 = 2131099666;
+			
+			// aapt resource value: 0x7f060015
+			public const int ChooseSkypeUserOrPhoneLabel2 = 2131099669;
+			
+			// aapt resource value: 0x7f060013
+			public const int ChooseSkypeUserText = 2131099667;
 			
 			// aapt resource value: 0x7f060008
 			public const int ContactTextView = 2131099656;
@@ -113,14 +113,17 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f06000d
 			public const int NoiseLevelTextView = 2131099661;
 			
-			// aapt resource value: 0x7f06000f
-			public const int PhoneNumberDetailTextView = 2131099663;
-			
 			// aapt resource value: 0x7f060010
-			public const int PhoneNumberList = 2131099664;
+			public const int PhoneNumberDetailTextView = 2131099664;
+			
+			// aapt resource value: 0x7f060011
+			public const int PhoneNumberList = 2131099665;
 			
 			// aapt resource value: 0x7f06000e
 			public const int ServiceButton = 2131099662;
+			
+			// aapt resource value: 0x7f06000f
+			public const int StatusTextView = 2131099663;
 			
 			// aapt resource value: 0x7f060009
 			public const int YouAreUsingLabeltextView = 2131099657;
@@ -222,6 +225,12 @@ namespace bleissem.babyphone.Droid
 			
 			// aapt resource value: 0x7f040006
 			public const int StartService = 2130968582;
+			
+			// aapt resource value: 0x7f040011
+			public const int StatusTextNothing = 2130968593;
+			
+			// aapt resource value: 0x7f040012
+			public const int StatusTextSleeping = 2130968594;
 			
 			// aapt resource value: 0x7f040007
 			public const int StopService = 2130968583;

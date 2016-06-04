@@ -47,5 +47,9 @@
             android:id="@+id/ServiceButton"
             android:background="@drawable/my_button"
             style="@style/my_text_white" />
+        <TextView
+            android:text=""
+            android:id="@+id/StatusTextView"
+            style="@style/my_text_black" />
     </LinearLayout>
 </ScrollView>
