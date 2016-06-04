@@ -330,14 +330,17 @@ namespace bleissem.babyphone.Droid
 		}
 
 		public void Dial()
-		{            
-			Settings setting = SimpleIoc.Default.GetInstance<Settings>();
-
-			if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
-			string numberToDial = setting.NumberToDial;
+		{            		
 
 			try
 			{
+                Settings setting = SimpleIoc.Default.GetInstance<Settings>();
+
+                if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
+                string numberToDial = setting.NumberToDial;
+
+                SimpleIoc.Default.GetInstance<INotifiedOnCalling>().CallStarts();
+
                 switch (setting.CallType)
                 {
                     case SettingsTable.CallTypeEnum.SkypeUser:
@@ -364,7 +367,6 @@ namespace bleissem.babyphone.Droid
                     default:
                         {
 
-                            SimpleIoc.Default.GetInstance<INotifiedOnCalling>().CallStarts();
                             Intent phoneIntent = new Intent(Intent.ActionCall);
                             phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
                             phoneIntent.AddFlags(ActivityFlags.NoUserAction);
