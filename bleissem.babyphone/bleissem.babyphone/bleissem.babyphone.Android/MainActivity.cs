@@ -19,6 +19,8 @@ namespace bleissem.babyphone.Droid
 	public class MainActivity : Activity
 	{
 		private bool DoFinish = false;
+        private ExecuteGenericAction<bool> m_SetStatusUI;
+        private ExecuteGenericAction<double> m_UpdateAmplitude;
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -100,57 +102,32 @@ namespace bleissem.babyphone.Droid
         }
 
 		private void InitializeUI()
-		{            
-			Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
+        {
+            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
 
             string setNumber = this.Intent.GetStringExtra(Consts.SetIdToCall);
-			if (!string.IsNullOrWhiteSpace(setNumber))
-			{
-				settings.NumberToDial = setNumber;
-			}
+            if (!string.IsNullOrWhiteSpace(setNumber))
+            {
+                settings.NumberToDial = setNumber;
+            }
 
             int callType = this.Intent.GetIntExtra(Consts.SetCallType, -1);
-            if (0<callType)
+            if (0 < callType)
             {
                 settings.CallType = (SettingsTable.CallTypeEnum)callType;
             }
 
-			MainViewModel babyViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
-			babyViewModel.PeriodicNotifications -= MainActivity_PeriodicNotifications;
-			babyViewModel.PeriodicNotifications += MainActivity_PeriodicNotifications;
+            {
+                m_UpdateAmplitude = new ExecuteGenericAction<double>((amp) =>
+                {
+                    TextView textView = FindViewById<TextView>(Resource.Id.AmpTextView);
+                    textView.Text = amp.ToString();
+                });
+            }
 
-			Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
-			chooseContactButton.Enabled = false | chooseContactButton.Enabled;
-			chooseContactButton.Click -= chooseContactButton_Click;
-			chooseContactButton.Click += chooseContactButton_Click;
-
-			Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
-			noiseLevelButton.Click -= noiseLevelButton_Click;
-			noiseLevelButton.Click += noiseLevelButton_Click;
-
-			Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
-			startServiceButton.Text = startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
-			startServiceButton.Click -= startServiceButton_Click;
-			startServiceButton.Click += startServiceButton_Click;
-
-			TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
-			numberToDial.Text = settings.NumberToDial;
-			numberToDial.TextChanged -= numberToDial_TextChanged;
-			numberToDial.TextChanged += numberToDial_TextChanged;
-
-            TextView youreUsing = FindViewById<TextView>(Resource.Id.YouAreUsingTextView);
-            youreUsing.Text = this.ConvertCallType(settings.CallType);
-
-			TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
-			noiseLevel.Text = settings.NoiseLevel.ToString();
-			noiseLevel.TextChanged -= noiseLevel_TextChanged;
-			noiseLevel.TextChanged += noiseLevel_TextChanged;
-
-		}
-
-        private void SetStatusUI(bool babyphoneSleeps)
-        {
-            this.RunOnUiThread(() =>
+            {
+                m_SetStatusUI = new ExecuteGenericAction<bool>(
+                (babyphoneSleeps) =>
                 {
                     Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
                     Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
@@ -159,7 +136,7 @@ namespace bleissem.babyphone.Droid
                     Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
 
 
-                    startServiceButton.Enabled = !babyphoneSleeps;                    
+                    startServiceButton.Enabled = !babyphoneSleeps;
                     numberToDial.Enabled = !babyphoneSleeps;
                     ampTextView.Enabled = !babyphoneSleeps;
                     chooseContactButton.Enabled = !babyphoneSleeps;
@@ -179,6 +156,49 @@ namespace bleissem.babyphone.Droid
 
                     babyPhoneSleepsTextView.Text = status;
                 });
+            }
+
+            {
+                MainViewModel babyViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+                babyViewModel.PeriodicNotifications -= MainActivity_PeriodicNotifications;
+                babyViewModel.PeriodicNotifications += MainActivity_PeriodicNotifications;
+
+                Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
+                chooseContactButton.Enabled = false | chooseContactButton.Enabled;
+                chooseContactButton.Click -= chooseContactButton_Click;
+                chooseContactButton.Click += chooseContactButton_Click;
+
+                Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
+                noiseLevelButton.Click -= noiseLevelButton_Click;
+                noiseLevelButton.Click += noiseLevelButton_Click;
+
+                Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
+                startServiceButton.Text = startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);
+                startServiceButton.Click -= startServiceButton_Click;
+                startServiceButton.Click += startServiceButton_Click;
+
+                TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
+                numberToDial.Text = settings.NumberToDial;
+                numberToDial.TextChanged -= numberToDial_TextChanged;
+                numberToDial.TextChanged += numberToDial_TextChanged;
+
+                TextView youreUsing = FindViewById<TextView>(Resource.Id.YouAreUsingTextView);
+                youreUsing.Text = this.ConvertCallType(settings.CallType);
+
+                TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
+                noiseLevel.Text = settings.NoiseLevel.ToString();
+                noiseLevel.TextChanged -= noiseLevel_TextChanged;
+                noiseLevel.TextChanged += noiseLevel_TextChanged;
+            }
+
+        }
+
+        private void SetStatusUI(bool babyphoneSleeps)
+        {
+            if (null == m_SetStatusUI) return;
+            m_SetStatusUI.SetValue(babyphoneSleeps);
+            this.RunOnUiThread(m_SetStatusUI.Execute);
+               
         }
 
 		void noiseLevelButton_Click(object sender, EventArgs e)
@@ -317,7 +337,13 @@ namespace bleissem.babyphone.Droid
 
 
             if (this.DoFinish)
-            { 
+            {
+                m_SetStatusUI.Dispose();
+                m_SetStatusUI = null;
+
+                m_UpdateAmplitude.Dispose();
+                m_UpdateAmplitude = null;
+
 			    MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
 			    babyPhoneViewModel.PeriodicNotifications -= MainActivity_PeriodicNotifications;
 			    babyPhoneViewModel.Dispose();
@@ -353,11 +379,10 @@ namespace bleissem.babyphone.Droid
 
 		private void UpdateAmplitude(double amp)
 		{
-			this.RunOnUiThread(() =>
-			{
-				TextView textView = FindViewById<TextView>(Resource.Id.AmpTextView);
-				textView.Text = amp.ToString();
-			});
+            if (null == m_UpdateAmplitude) return;
+
+            m_UpdateAmplitude.SetValue(amp);
+            this.RunOnUiThread(m_UpdateAmplitude.Execute);
 		}
 
 		public bool CanDial()
@@ -384,12 +409,17 @@ namespace bleissem.babyphone.Droid
                 {
                     case SettingsTable.CallTypeEnum.SkypeUser:
                         {
+                            /*
                             Intent skype = new Intent("android.intent.action.VIEW");
 
                             Intent skypeintent = new Intent(Intent.ActionCall);
                             skypeintent.SetClassName("com.skype.raider", "com.skype.raider.Main");
                             skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial + "?call"));
                             
+                            base.StartActivity(skypeintent);
+                             */
+                            Intent skypeintent = new Intent("android.intent.action.VIEW");
+                            skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial));
                             base.StartActivity(skypeintent);
                             break;
                         }

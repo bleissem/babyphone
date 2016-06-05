@@ -36,6 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ExecuteAction.cs" />
+    <Compile Include="IExecuteAction.cs" />
     <Compile Include="INotifiedOnCalling.cs" />
     <Compile Include="IReactOnCall.cs" />
     <Compile Include="MainViewModel.cs" />
