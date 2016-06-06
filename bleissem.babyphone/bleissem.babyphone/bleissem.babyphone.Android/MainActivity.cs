@@ -409,17 +409,8 @@ namespace bleissem.babyphone.Droid
                 {
                     case SettingsTable.CallTypeEnum.SkypeUser:
                         {
-                            /*
-                            Intent skype = new Intent("android.intent.action.VIEW");
-
-                            Intent skypeintent = new Intent(Intent.ActionCall);
-                            skypeintent.SetClassName("com.skype.raider", "com.skype.raider.Main");
-                            skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial + "?call"));
-                            
-                            base.StartActivity(skypeintent);
-                             */
                             Intent skypeintent = new Intent("android.intent.action.VIEW");
-                            skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial));
+                            skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial+"?call"));
                             base.StartActivity(skypeintent);
                             break;
                         }
