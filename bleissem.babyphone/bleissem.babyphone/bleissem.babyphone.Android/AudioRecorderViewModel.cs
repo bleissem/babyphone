@@ -12,7 +12,7 @@ namespace bleissem.babyphone.Droid
 
         public AudioRecorderViewModel()
         {
-
+            m_MinSize = Android.Media.AudioRecord.GetMinBufferSize(SampleRate, Android.Media.ChannelIn.Mono, Android.Media.Encoding.Pcm16bit);
         }
 
         #endregion
@@ -23,14 +23,15 @@ namespace bleissem.babyphone.Droid
         }
 
 
-        private Android.Media.AudioRecord m_AudioRecord;
+        private volatile Android.Media.AudioRecord m_AudioRecord;
         private int m_MinSize;
         private const int SampleRate = 8000;
+        private object m_LockObj = new Object();
 
 
         public void Start()
         {
-            if (!IsStarted)
+            lock (m_LockObj)
             {
                 this.Initialize();
             }
@@ -38,16 +39,26 @@ namespace bleissem.babyphone.Droid
 
         private void Initialize()
         {
-            m_MinSize = Android.Media.AudioRecord.GetMinBufferSize(SampleRate, Android.Media.ChannelIn.Mono, Android.Media.Encoding.Pcm16bit);
-            m_AudioRecord = new Android.Media.AudioRecord(Android.Media.AudioSource.Mic, SampleRate, Android.Media.ChannelIn.Mono, Android.Media.Encoding.Pcm16bit, m_MinSize);
-            m_AudioRecord.StartRecording();
+            if (IsStarted) return;
+            
+            try
+            {                
+                m_AudioRecord = new Android.Media.AudioRecord(Android.Media.AudioSource.Mic, SampleRate, Android.Media.ChannelIn.Mono, Android.Media.Encoding.Pcm16bit, m_MinSize);
+                m_AudioRecord.StartRecording();
+            }
+            catch
+            {
 
+            }
         }
       
 
         public void Stop()
         {
-            CleanUp();
+            lock (m_LockObj)
+            {
+                CleanUp();
+            }
         }
 
         public bool IsStarted
@@ -60,30 +71,33 @@ namespace bleissem.babyphone.Droid
 
         public int GetAmplitude()
         {
-            if (!IsStarted)
+            lock (m_LockObj)
             {
-                return 0;
-            }
-
-            short[] buffer = new short[m_MinSize];
-            m_AudioRecord.Read(buffer, 0, m_MinSize);
-            int max = 0;
-            foreach (short s in buffer)
-            {
-                if (Math.Abs(s) > max)
+                if (!IsStarted)
                 {
-                    max = Math.Abs(s);
+                    return 0;
                 }
-            }
 
-            if(0 == max)
-            {
-                // this might happen
-                this.Stop();
-                this.Start();
-            }
+                short[] buffer = new short[m_MinSize];
+                m_AudioRecord.Read(buffer, 0, m_MinSize);
+                int max = 0;
+                foreach (short s in buffer)
+                {
+                    if (Math.Abs(s) > max)
+                    {
+                        max = Math.Abs(s);
+                    }
+                }
 
-            return max;
+                if (0 == max)
+                {
+                    // this might happen
+                    this.CleanUp();
+                    this.Initialize();
+                }
+
+                return max;
+            }
         }
 
 
@@ -91,9 +105,16 @@ namespace bleissem.babyphone.Droid
         {
             if (null != m_AudioRecord)
             {
-                m_AudioRecord.Stop();
-                m_AudioRecord.Release();
-                m_AudioRecord.Dispose();
+                try
+                {
+                    m_AudioRecord.Stop();
+                    m_AudioRecord.Release();
+                    m_AudioRecord.Dispose();
+                }
+                catch
+                {
+
+                }
                 m_AudioRecord = null;
             }
         }
