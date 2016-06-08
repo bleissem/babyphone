@@ -11,8 +11,6 @@ namespace bleissem.babyphone
 
         void Start();
         void Stop();
-        void Pause();
-        void Resume();
 
         bool IsStarted
         {

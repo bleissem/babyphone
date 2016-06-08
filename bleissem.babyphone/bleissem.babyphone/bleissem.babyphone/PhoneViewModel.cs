@@ -16,7 +16,7 @@ namespace bleissem.babyphone
             this.IsStarted = false;
             this.m_Settings = settings;
             this.m_CallNumber = callNumber;
-            this.m_RecorderViewModel = recorder;
+            this.m_AudioRecorderViewModel = recorder;
 
             this.m_PhoneTimer = createTimer.Create(new TimeSpan(0, 0, 0, 1, 0));
             this.m_PhoneTimer.AutoReset = false                ;
@@ -42,7 +42,7 @@ namespace bleissem.babyphone
 
         private ICallNumber m_CallNumber;
 
-        private IAudioRecorder m_RecorderViewModel;
+        private IAudioRecorder m_AudioRecorderViewModel;
 
         private IReactOnCall m_ReactOnCall;
 
@@ -50,7 +50,6 @@ namespace bleissem.babyphone
 
         private void OnHangUp()
         {
-            m_RecorderViewModel.Resume();
             m_PhoneTimer.Start();
         }
 
@@ -60,13 +59,14 @@ namespace bleissem.babyphone
             if (!this.CanStart) { this.Stop(); return; }
 
 
-            if ( (m_RecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
+            if ( (m_AudioRecorderViewModel.IsStarted) && (m_AudioRecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
             {
-                m_RecorderViewModel.Pause();
+                m_AudioRecorderViewModel.Stop();
                 this.m_CallNumber.Dial();
             }
             else
             {
+                m_AudioRecorderViewModel.Start();
                 this.m_PhoneTimer.Start();
             }            
 

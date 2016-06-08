@@ -43,35 +43,7 @@ namespace bleissem.babyphone.Droid
             m_AudioRecord.StartRecording();
 
         }
-
-
-        public void Pause()
-        {
-            if (!this.IsStarted) return;
-
-            try
-            {
-                m_AudioRecord.Stop();
-            }
-            catch
-            {
-
-            }
-        }
-
-        public void Resume()
-        {
-            if (!this.IsStarted) return;
-            try
-            {
-                m_AudioRecord.StartRecording();
-            }
-            catch
-            {
-
-            }
-        }
-
+      
 
         public void Stop()
         {
@@ -103,6 +75,14 @@ namespace bleissem.babyphone.Droid
                     max = Math.Abs(s);
                 }
             }
+
+            if(0 == max)
+            {
+                // this might happen
+                this.Stop();
+                this.Start();
+            }
+
             return max;
         }
 
