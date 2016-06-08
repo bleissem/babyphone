@@ -45,6 +45,32 @@ namespace bleissem.babyphone.Droid
         }
 
 
+        public void Pause()
+        {
+            if (!this.IsStarted) return;
+
+            try
+            {
+                m_AudioRecord.Stop();
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void Resume()
+        {
+            if (!this.IsStarted) return;
+            try
+            {
+                m_AudioRecord.StartRecording();
+            }
+            catch
+            {
+
+            }
+        }
 
 
         public void Stop()

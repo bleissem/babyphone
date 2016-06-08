@@ -50,6 +50,7 @@ namespace bleissem.babyphone
 
         private void OnHangUp()
         {
+            m_RecorderViewModel.Resume();
             m_PhoneTimer.Start();
         }
 
@@ -61,6 +62,7 @@ namespace bleissem.babyphone
 
             if ( (m_RecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
             {
+                m_RecorderViewModel.Pause();
                 this.m_CallNumber.Dial();
             }
             else
