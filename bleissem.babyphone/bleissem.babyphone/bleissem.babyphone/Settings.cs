@@ -35,7 +35,7 @@ namespace bleissem.babyphone
 
             m_NoiseLevel = table.NoiseLevel;
             m_NumberToDial = table.NumberToDial;
-
+            m_CallType = table.CallType;
         }
 
         private void Save()
