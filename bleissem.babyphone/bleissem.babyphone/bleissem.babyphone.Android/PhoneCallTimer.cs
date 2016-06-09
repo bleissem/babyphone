@@ -75,7 +75,7 @@ namespace bleissem.babyphone.Droid
                 this.m_WasRinging = false; //prevents hanging up again
                 m_PhoneCallListener.ForceHangUp();
             }
-
+           
             if (null != m_OnHangUp)
             {
                 foreach(Action onHangup in m_OnHangUp)
@@ -131,7 +131,8 @@ namespace bleissem.babyphone.Droid
         }      
 
         private void Dispose(bool disposing)
-        {
+        {            
+
             if (null != m_OnPhoneStateChange)
             {
                 m_OnPhoneStateChange = null;
@@ -164,13 +165,12 @@ namespace bleissem.babyphone.Droid
         }
 
         public void CallStarts()
-        {
+        {           
             m_PhoneCallListener.State = PhoneState.Calling;
             if (null != m_StopCallTimer)
             {
                 m_StopCallTimer.Start();
             }
-        }
-
+        }       
     }
 }

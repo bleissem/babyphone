@@ -69,6 +69,7 @@ namespace bleissem.babyphone.Droid
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

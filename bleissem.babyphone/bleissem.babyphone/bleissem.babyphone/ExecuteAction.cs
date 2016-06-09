@@ -33,6 +33,7 @@ namespace bleissem.babyphone
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public void Execute()
@@ -69,6 +70,7 @@ namespace bleissem.babyphone
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         private T m_Value;

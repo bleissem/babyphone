@@ -126,11 +126,10 @@ namespace bleissem.babyphone.Droid
             }
         }
 
-
-
         public void CallStarts()
         {
             this.m_PhoneState = PhoneState.Calling;
-        }   
+        }
+       
     }
 }

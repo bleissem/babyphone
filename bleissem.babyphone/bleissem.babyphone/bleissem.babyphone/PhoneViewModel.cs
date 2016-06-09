@@ -50,6 +50,7 @@ namespace bleissem.babyphone
 
         private void OnHangUp()
         {
+            if (null == m_PhoneTimer) return;
             m_PhoneTimer.Start();
         }
 
@@ -59,7 +60,7 @@ namespace bleissem.babyphone
             if (!this.CanStart) { this.Stop(); return; }
 
 
-            if ( (m_AudioRecorderViewModel.IsStarted) && (m_AudioRecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
+            if ( (null != m_AudioRecorderViewModel) && (m_AudioRecorderViewModel.IsStarted) && (m_AudioRecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
             {
                 m_AudioRecorderViewModel.Stop();
                 this.m_CallNumber.Dial();
@@ -95,6 +96,7 @@ namespace bleissem.babyphone
 
         public void Stop()
         {
+            if (null == m_PhoneTimer) return;
             this.m_PhoneTimer.Stop();
             this.IsStarted = false;
         }
@@ -108,6 +110,24 @@ namespace bleissem.babyphone
                 this.m_PhoneTimer.Dispose();
                 this.m_PhoneTimer = null;
             }
+
+            if (null != m_ReactOnCall)
+            {
+                m_ReactOnCall.Dispose();
+                m_ReactOnCall = null;
+            }
+
+            if (null != m_CallNumber)
+            {
+                m_CallNumber.Dispose();
+                m_CallNumber = null;
+            }
+
+            if (null != m_AudioRecorderViewModel)
+            {
+                m_AudioRecorderViewModel.Dispose();
+                m_AudioRecorderViewModel = null;
+            }
         }
 
 
@@ -119,6 +139,7 @@ namespace bleissem.babyphone
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

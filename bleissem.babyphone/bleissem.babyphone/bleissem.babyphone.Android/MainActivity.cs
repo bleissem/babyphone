@@ -124,6 +124,7 @@ namespace bleissem.babyphone.Droid
                     textView.Text = amp.ToString();
                 });
             }
+         
 
             {
                 m_SetStatusUI = new ExecuteGenericAction<bool>(
@@ -133,8 +134,7 @@ namespace bleissem.babyphone.Droid
                     Button chooseContactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
                     TextView numberToDial = FindViewById<TextView>(Resource.Id.ContactTextView);
                     TextView ampTextView = FindViewById<TextView>(Resource.Id.AmpTextView);
-                    Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
-
+                    Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);                  
 
                     startServiceButton.Enabled = !babyphoneSleeps;
                     numberToDial.Enabled = !babyphoneSleeps;
@@ -225,7 +225,45 @@ namespace bleissem.babyphone.Droid
 			Settings settings = new Settings(dbPath, platform);
 			SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
 
-			PhoneCallTimer pct = new PhoneCallTimer(this.ApplicationContext);            
+            WindowManagerFlags screenFlags = WindowManagerFlags.ShowWhenLocked | WindowManagerFlags.TurnScreenOn | WindowManagerFlags.KeepScreenOn | WindowManagerFlags.DismissKeyguard;
+
+            TurnOnOffScreenViewModel turnOnOffScreen = new TurnOnOffScreenViewModel(
+                new ExecuteAction(() =>
+                {
+                    try
+                    {
+                        this.Window.AddFlags(screenFlags);
+                        var attributes = new WindowManagerLayoutParams();
+                        attributes.CopyFrom (this.Window.Attributes);
+                        attributes.ScreenBrightness = 0f;
+                        this.Window.Attributes = attributes;
+                    }
+                    catch
+                    {
+
+                    }
+                }),
+                new ExecuteAction(() =>
+                {
+
+                    try
+                    {
+                        this.Window.ClearFlags(screenFlags);
+                        var attributes = new WindowManagerLayoutParams();
+                        attributes.CopyFrom(this.Window.Attributes);
+                        attributes.ScreenBrightness = -1f;
+                        this.Window.Attributes = attributes;                        
+                    }
+                    catch
+                    {
+
+                    }
+                }));
+
+
+            SimpleIoc.Default.Register<ITurnOnOffScreen>(() => turnOnOffScreen, true);
+
+			PhoneCallTimer pct = new PhoneCallTimer(this.ApplicationContext);
 			SimpleIoc.Default.Register<IReactOnCall>(() => pct, true);
 			SimpleIoc.Default.Register<INotifiedOnCalling>(() => pct, true);
 
@@ -270,10 +308,12 @@ namespace bleissem.babyphone.Droid
 			MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
 			if (babyPhoneViewModel.Phone.IsStarted)
 			{
+                SimpleIoc.Default.GetInstance<ITurnOnOffScreen>().TurnOn();
 				babyPhoneViewModel.Phone.Stop();
 			}
 			else if (this.CanStarted())
-			{                
+			{
+                SimpleIoc.Default.GetInstance<ITurnOnOffScreen>().TurnOff();
 				babyPhoneViewModel.Phone.Start();
 
 			}
@@ -290,12 +330,12 @@ namespace bleissem.babyphone.Droid
 
 			MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
 			if (babyPhoneViewModel.Phone.IsStarted)
-			{
+			{                
 				contactButton.Enabled = false;
 				startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                 
 			}
 			else
-			{             
+			{
 				contactButton.Enabled = true;
 				startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);   
 			}
@@ -344,6 +384,11 @@ namespace bleissem.babyphone.Droid
                 m_UpdateAmplitude.Dispose();
                 m_UpdateAmplitude = null;
 
+                SimpleIoc.Default.GetInstance<ITurnOnOffScreen>().TurnOn();
+                SimpleIoc.Default.GetInstance<ITurnOnOffScreen>().Dispose();
+
+                SimpleIoc.Default.GetInstance<ReadContacts>().OnFinished -= ReadContactsFinished;
+
 			    MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
 			    babyPhoneViewModel.PeriodicNotifications -= MainActivity_PeriodicNotifications;
 			    babyPhoneViewModel.Dispose();
@@ -362,11 +407,7 @@ namespace bleissem.babyphone.Droid
 
 			    TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
 			    noiseLevel.TextChanged -= noiseLevel_TextChanged;
-
-               
-				SimpleIoc.Default.GetInstance<ReadContacts>().OnFinished -= ReadContactsFinished;
-				SimpleIoc.Default.GetInstance<ICallNumber>().Dispose();
-                SimpleIoc.Default.GetInstance<IReactOnCall>().Dispose();
+                              			
 				SimpleIoc.Default.Reset();
 			}
 		  
@@ -401,7 +442,6 @@ namespace bleissem.babyphone.Droid
 
                 if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
                 string numberToDial = setting.NumberToDial;
-
                 
                 SimpleIoc.Default.GetInstance<INotifiedOnCalling>().CallStarts();
 

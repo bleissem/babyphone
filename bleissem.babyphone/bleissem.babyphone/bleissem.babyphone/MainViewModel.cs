@@ -50,7 +50,6 @@ namespace bleissem.babyphone
 
             if (null != PeriodicNotifications)
             {
-
                 PeriodicNotifications(this, this.CurrentNoise);
             }
 
@@ -91,14 +90,7 @@ namespace bleissem.babyphone
         public Settings Settings { get; private set; }
 
         private void Dispose(bool disposing)
-        {
-            if (null != m_RecorderViewModel)
-            {
-                this.m_RecorderViewModel.Stop();
-                m_RecorderViewModel.Dispose();
-                m_RecorderViewModel = null;
-
-            }
+        {           
 
             if (null != m_InfoTimer)
             {
@@ -110,17 +102,18 @@ namespace bleissem.babyphone
 
             if (null != m_PhoneViewModel)
             {
+                m_PhoneViewModel.Stop();
                 m_PhoneViewModel.Dispose();
                 m_PhoneViewModel = null;
             }
 
-            if (null != this.m_PhoneViewModel)
+            if (null != m_RecorderViewModel)
             {
-                this.Phone.Stop();
-                this.m_PhoneViewModel.Dispose();
-                this.m_PhoneViewModel = null;
-            }
+                this.m_RecorderViewModel.Stop();
+                m_RecorderViewModel.Dispose();
+                m_RecorderViewModel = null;
 
+            }  
         }
 
         public void Dispose()
