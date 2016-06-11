@@ -19,6 +19,7 @@ namespace bleissem.babyphone.Droid
             this.m_PhoneState = PhoneState.HangUp;
             this.m_TM = context.GetSystemService(Context.TelephonyService) as TelephonyManager;
             this.m_TM.Listen(this, PhoneStateListenerFlags.CallState);
+            this.m_Context = context;
         }
 
        
@@ -31,28 +32,14 @@ namespace bleissem.babyphone.Droid
         TelephonyManager m_TM;
         private Action<CallStateEnum> m_OnPhoneStateChanged;
         private volatile PhoneState m_PhoneState;
+        private Context m_Context;
         
 
         public void ForceHangUp()
         {
-            try
+            using(PhoneManager phoneManager = new PhoneManager(m_Context))
             {
-               
-                IntPtr TelephonyManager_getITelephony = JNIEnv.GetMethodID(this.m_TM.Class.Handle, "getITelephony", "()Lcom/android/internal/telephony/ITelephony;");
-                IntPtr telephony = JNIEnv.CallObjectMethod(this.m_TM.Handle, TelephonyManager_getITelephony);
-                IntPtr ITelephony_class = JNIEnv.GetObjectClass(telephony);
-                IntPtr ITelephony_endCall = JNIEnv.GetMethodID(
-                        ITelephony_class,
-                        "endCall",
-                        "()Z");
-                JNIEnv.CallBooleanMethod(telephony, ITelephony_endCall);
-                JNIEnv.DeleteLocalRef(telephony);
-                JNIEnv.DeleteLocalRef(ITelephony_class);
-               
-            }
-            catch
-            {
-
+                phoneManager.EndCall();
             }
         }
 
@@ -90,6 +77,8 @@ namespace bleissem.babyphone.Droid
         {
             base.Dispose(disposing);
             this.m_PhoneState = PhoneState.HangUp;
+
+            this.m_Context = null;
 
             if (null != m_TM)
             {

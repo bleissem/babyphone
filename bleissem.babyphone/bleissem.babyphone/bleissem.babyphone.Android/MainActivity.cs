@@ -466,6 +466,13 @@ namespace bleissem.babyphone.Droid
                     case SettingsTable.CallTypeEnum.Phone:
                     default:
                         {
+                            bool callResult = false;
+                            using(PhoneManager phoneManager = new PhoneManager(this))
+                            {
+                                callResult = phoneManager.Call(numberToDial);
+                            }
+
+                            if (callResult) break;
 
                             Intent phoneIntent = new Intent(Intent.ActionCall);
                             phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
@@ -478,9 +485,9 @@ namespace bleissem.babyphone.Droid
                         }
                 }
 			}
-			catch
+			catch(Exception ex)
 			{
-
+                Toast.MakeText(this, ex.Message, ToastLength.Long);
 			}
 		}
 
