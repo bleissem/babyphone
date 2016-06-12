@@ -471,15 +471,18 @@ namespace bleissem.babyphone.Droid
                                 int androidSDKVersion = 0;
 
                                 Intent phoneIntent = new Intent(Intent.ActionCall);
-                                if ((Int32.TryParse(Build.VERSION.Sdk, out androidSDKVersion)) && (androidSDKVersion < 21))
+                                if (Int32.TryParse(Build.VERSION.Sdk, out androidSDKVersion))
                                 {
-                                    phoneIntent.SetPackage("com.android.phone");
-                                    
+                                    if (androidSDKVersion < 21)
+                                    {
+                                        phoneIntent.SetPackage("com.android.phone");
+                                    }
+                                    else
+                                    {
+                                        phoneIntent.SetPackage("com.android.server.telecom");
+                                    }                                    
                                 }
-                                else
-                                {
-                                    phoneIntent.SetPackage("com.android.server.telecom");
-                                }
+                               
                                 phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
                                 phoneIntent.AddFlags(ActivityFlags.NoUserAction);
                                 phoneIntent.AddFlags(ActivityFlags.NoHistory);
