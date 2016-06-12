@@ -82,7 +82,6 @@ namespace bleissem.babyphone.Droid
 
             if (null != m_TM)
             {
-                m_TM.Dispose();
                 m_TM = null;
             }
 

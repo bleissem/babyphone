@@ -54,46 +54,12 @@ namespace bleissem.babyphone.Droid
                 return false;
             }
         }
-
-
-        public bool Call(string number)
-        {
-            try
-            {
-                IntPtr param1 = JNIEnv.NewString("com.bleissem.babyphone");
-                IntPtr param2 = JNIEnv.NewString(number);
-                JValue[] myparams = new JValue[] {
-                        new JValue(param1), 
-                        new JValue(param2)};
-
-                IntPtr getITelephony = JNIEnv.GetMethodID(this.m_TelephonyManager.Class.Handle, "getITelephony", "()Lcom/android/internal/telephony/ITelephony;");
-                IntPtr telephony = JNIEnv.CallObjectMethod(this.m_TelephonyManager.Handle, getITelephony);
-                IntPtr ITelephony_class = JNIEnv.GetObjectClass(telephony);
-                IntPtr ITelephony_Call = JNIEnv.GetMethodID(
-                        ITelephony_class,
-                        "call",
-                        "(LJAVA/LANG/STRING;LJAVA/LANG/STRING;)V");
-                JNIEnv.CallVoidMethod(telephony, ITelephony_Call, myparams);                    
-                JNIEnv.DeleteLocalRef(telephony);
-                JNIEnv.DeleteLocalRef(ITelephony_class);
-                JNIEnv.DeleteLocalRef(getITelephony);
-                JNIEnv.DeleteLocalRef(param1);
-                JNIEnv.DeleteLocalRef(param2);
-
-                return true;
-
-            }
-            catch
-            {
-                return false;
-            }
-        }
+      
 
         private void Dispose(bool disposing)
         {
             if (null != m_TelephonyManager)
             {
-                m_TelephonyManager.Dispose();
                 m_TelephonyManager = null;
             }
         }

@@ -466,21 +466,39 @@ namespace bleissem.babyphone.Droid
                     case SettingsTable.CallTypeEnum.Phone:
                     default:
                         {
-                            bool callResult = false;
-                            using(PhoneManager phoneManager = new PhoneManager(this))
+                            try
                             {
-                                callResult = phoneManager.Call(numberToDial);
+                                int androidSDKVersion = 0;
+
+                                Intent phoneIntent = new Intent(Intent.ActionCall);
+                                if ((Int32.TryParse(Build.VERSION.Sdk, out androidSDKVersion)) && (androidSDKVersion < 21))
+                                {
+                                    phoneIntent.SetPackage("com.android.phone");
+                                    
+                                }
+                                else
+                                {
+                                    phoneIntent.SetPackage("com.android.server.telecom");
+                                }
+                                phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
+                                phoneIntent.AddFlags(ActivityFlags.NoUserAction);
+                                phoneIntent.AddFlags(ActivityFlags.NoHistory);
+                                phoneIntent.AddFlags(ActivityFlags.FromBackground);
+
+                                base.StartActivity(phoneIntent);
+                            }
+                            catch (ActivityNotFoundException)
+                            {
+                                // if setting the package doesn't work, call without it
+                                Intent phoneIntent = new Intent(Intent.ActionCall);
+                                phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
+                                phoneIntent.AddFlags(ActivityFlags.NoUserAction);
+                                phoneIntent.AddFlags(ActivityFlags.NoHistory);
+                                phoneIntent.AddFlags(ActivityFlags.FromBackground);
+
+                                base.StartActivity(phoneIntent);
                             }
 
-                            if (callResult) break;
-
-                            Intent phoneIntent = new Intent(Intent.ActionCall);
-                            phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
-                            phoneIntent.AddFlags(ActivityFlags.NoUserAction);
-                            phoneIntent.AddFlags(ActivityFlags.NoHistory);
-                            phoneIntent.AddFlags(ActivityFlags.FromBackground);
-
-                            base.StartActivity(phoneIntent);
                             break;
                         }
                 }
