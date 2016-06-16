@@ -82,6 +82,7 @@ namespace bleissem.babyphone
 
         public void Execute()
         {
+            if (null == m_Action) return;
             m_Action(m_Value);
         }
     }
