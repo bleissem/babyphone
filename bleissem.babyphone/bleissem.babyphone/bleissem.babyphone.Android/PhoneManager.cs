@@ -44,7 +44,6 @@ namespace bleissem.babyphone.Droid
                 JNIEnv.CallBooleanMethod(telephony, ITelephony_endCall);
                 JNIEnv.DeleteLocalRef(telephony);
                 JNIEnv.DeleteLocalRef(ITelephony_class);
-                JNIEnv.DeleteLocalRef(getITelephony);
 
                 return true;
 
