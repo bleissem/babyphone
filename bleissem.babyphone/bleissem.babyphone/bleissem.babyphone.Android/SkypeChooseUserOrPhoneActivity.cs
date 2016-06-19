@@ -51,9 +51,9 @@ namespace bleissem.babyphone.Droid
         void m_ChooseSkypeOutButton_Click(object sender, EventArgs e)
         {
             // start Contact List (for Skype phone type)
-            Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
+            IntentFactory.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
                 {
-                    intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypeOut));
+                    intent.PutExtra(IntentFactory.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypeOut));
                 });
         }
 
@@ -63,10 +63,10 @@ namespace bleissem.babyphone.Droid
             string skypeUser = skypeUserTextView.Text;
             if (string.IsNullOrWhiteSpace(skypeUser)) return;
 
-            Consts.StartActivityThatAlreadyExist<MainActivity>(this, (intent) =>
+            IntentFactory.StartActivityThatAlreadyExist<MainActivity>(this, (intent) =>
             {
-                intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypeUser));
-                intent.PutExtra(Consts.SetIdToCall, skypeUser);
+                intent.PutExtra(IntentFactory.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypeUser));
+                intent.PutExtra(IntentFactory.SetIdToCall, skypeUser);
             });
 
         }

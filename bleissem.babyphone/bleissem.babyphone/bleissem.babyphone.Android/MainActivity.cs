@@ -15,7 +15,7 @@ using Android.Telephony;
 
 namespace bleissem.babyphone.Droid
 {
-	[Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState = true)]
+	[Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState = true, LaunchMode=LaunchMode.SingleInstance)]
 	public class MainActivity : Activity
 	{
 		private bool DoFinish = false;
@@ -58,9 +58,9 @@ namespace bleissem.babyphone.Droid
 		{
 			base.OnNewIntent(intent);
 
-			string setPhoneNumber = intent.GetStringExtra(Consts.SetIdToCall);
+			string setPhoneNumber = intent.GetStringExtra(IntentFactory.SetIdToCall);
             SettingsTable.CallTypeEnum callType;
-            int callTypeInt = intent.GetIntExtra(Consts.SetCallType, -1);
+            int callTypeInt = intent.GetIntExtra(IntentFactory.SetCallType, -1);
             
 
 			if ((Enum.TryParse<SettingsTable.CallTypeEnum>(callTypeInt.ToString(), out callType)) && (!string.IsNullOrWhiteSpace(setPhoneNumber)))
@@ -105,13 +105,13 @@ namespace bleissem.babyphone.Droid
         {
             Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
 
-            string setNumber = this.Intent.GetStringExtra(Consts.SetIdToCall);
+            string setNumber = this.Intent.GetStringExtra(IntentFactory.SetIdToCall);
             if (!string.IsNullOrWhiteSpace(setNumber))
             {
                 settings.NumberToDial = setNumber;
             }
 
-            int callType = this.Intent.GetIntExtra(Consts.SetCallType, -1);
+            int callType = this.Intent.GetIntExtra(IntentFactory.SetCallType, -1);
             if (0 < callType)
             {
                 settings.CallType = (SettingsTable.CallTypeEnum)callType;
@@ -269,7 +269,7 @@ namespace bleissem.babyphone.Droid
 
 			ReadContacts rc = new ReadContacts();
 			rc.OnFinished += ReadContactsFinished;
-			rc.Execute(this);
+            rc.Execute(this);
 			SimpleIoc.Default.Register<ReadContacts>(() => rc, true);
 						
 			CallNumber callNumber = new CallNumber();
@@ -280,7 +280,6 @@ namespace bleissem.babyphone.Droid
 
 
 			SimpleIoc.Default.Register<MainViewModel>(true);
-            pct.Register(() => this.SetStatusUI(false));
             pct.Register(OnHangUp);
             
 
@@ -288,7 +287,7 @@ namespace bleissem.babyphone.Droid
 
         private void OnHangUp()
         {
-            Consts.StartActivityThatAlreadyExist<MainActivity>(this);
+            this.SetStatusUI(false);
         }
 
 		private void ReadContactsFinished()
@@ -343,7 +342,7 @@ namespace bleissem.babyphone.Droid
 
 		void chooseContactButton_Click(object sender, EventArgs e)
 		{
-            Consts.StartActivityWithNoHistory<ChooseSkypeOrTelephoneActivity>(this);
+            IntentFactory.StartActivityWithNoHistory<ChooseSkypeOrTelephoneActivity>(this);
 		}
 
 		private void SaveNoiseLevel(int noiselevel)
@@ -449,17 +448,14 @@ namespace bleissem.babyphone.Droid
                 {
                     case SettingsTable.CallTypeEnum.SkypeUser:
                         {
-                            Intent skypeintent = new Intent("android.intent.action.VIEW");
-                            skypeintent.SetData(Android.Net.Uri.Parse("skype:" + numberToDial+"?call"));
+                            Intent skypeintent = IntentFactory.GetSkypeUserIntent(numberToDial);
                             base.StartActivity(skypeintent);
                             break;
                         }
                     case SettingsTable.CallTypeEnum.SkypeOut:
                         {
-                            Intent skypeintent = new Intent(Intent.ActionCall);
-                            skypeintent.SetClassName("com.skype.raider", "com.skype.raider.Main");
-                            skypeintent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial ));
-                            
+
+                            Intent skypeintent = IntentFactory.GetSkypeOutIntent(numberToDial);                            
                             base.StartActivity(skypeintent);
                             break;
                         }
@@ -468,37 +464,13 @@ namespace bleissem.babyphone.Droid
                         {
                             try
                             {
-                                int androidSDKVersion = 0;
-
-                                Intent phoneIntent = new Intent(Intent.ActionCall);
-                                if (Int32.TryParse(Build.VERSION.Sdk, out androidSDKVersion))
-                                {
-                                    if (androidSDKVersion < 21)
-                                    {
-                                        phoneIntent.SetPackage("com.android.phone");
-                                    }
-                                    else
-                                    {
-                                        phoneIntent.SetPackage("com.android.server.telecom");
-                                    }                                    
-                                }
-                               
-                                phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
-                                phoneIntent.AddFlags(ActivityFlags.NoUserAction);
-                                phoneIntent.AddFlags(ActivityFlags.NoHistory);
-                                phoneIntent.AddFlags(ActivityFlags.FromBackground);
-
+                                Intent phoneIntent = IntentFactory.GetCallPhoneIntent(numberToDial, true);
                                 base.StartActivity(phoneIntent);
                             }
                             catch (ActivityNotFoundException)
                             {
                                 // if setting the package doesn't work, call without it
-                                Intent phoneIntent = new Intent(Intent.ActionCall);
-                                phoneIntent.SetData(Android.Net.Uri.Parse("tel:" + numberToDial));
-                                phoneIntent.AddFlags(ActivityFlags.NoUserAction);
-                                phoneIntent.AddFlags(ActivityFlags.NoHistory);
-                                phoneIntent.AddFlags(ActivityFlags.FromBackground);
-
+                                Intent phoneIntent = IntentFactory.GetCallPhoneIntent(numberToDial, false);
                                 base.StartActivity(phoneIntent);
                             }
 

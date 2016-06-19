@@ -53,7 +53,7 @@ namespace bleissem.babyphone.Droid
         
         void m_ChooseSkypeButton_Click(object sender, EventArgs e)
         {
-            Consts.StartActivityWithNoHistory<SkypeChooseUserOrPhoneActivity>(this);         
+            IntentFactory.StartActivityWithNoHistory<SkypeChooseUserOrPhoneActivity>(this);         
         }
 
 
@@ -81,9 +81,9 @@ namespace bleissem.babyphone.Droid
 
         void m_ChoosePhoneButton_Click(object sender, EventArgs e)
         {
-            Consts.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
+            IntentFactory.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
             {
-                intent.PutExtra(Consts.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.Phone));
+                intent.PutExtra(IntentFactory.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.Phone));
             });
         }
 
@@ -91,7 +91,7 @@ namespace bleissem.babyphone.Droid
         {
             base.OnBackPressed();
 
-            Consts.StartActivityThatAlreadyExist<MainActivity>(this);
+            IntentFactory.StartActivityThatAlreadyExist<MainActivity>(this);
         }
 
     }

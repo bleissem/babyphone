@@ -39,7 +39,7 @@ namespace bleissem.babyphone.Droid
             m_ListView.Adapter = m_ContactsAdapter;
             m_ListView.ItemClick += m_ListView_ItemClick;
 
-            int result = this.Intent.GetIntExtra(Consts.SetCallType, -1);
+            int result = this.Intent.GetIntExtra(IntentFactory.SetCallType, -1);
             m_CallType = (SettingsTable.CallTypeEnum)result;
         }
 
@@ -48,10 +48,10 @@ namespace bleissem.babyphone.Droid
         {
             var contact = m_ContactsAdapter[e.Position];
 
-            Consts.StartActivityWithNoHistory<PhoneNumbersActivity>(this, (intent) =>
+            IntentFactory.StartActivityWithNoHistory<PhoneNumbersActivity>(this, (intent) =>
                 {
-                    intent.PutExtra(Consts.SetCallType, Convert.ToInt32(m_CallType));
-                    intent.PutExtra(Consts.SetIdToCall, contact.ID);
+                    intent.PutExtra(IntentFactory.SetCallType, Convert.ToInt32(m_CallType));
+                    intent.PutExtra(IntentFactory.SetIdToCall, contact.ID);
 
                 });
 
@@ -61,7 +61,7 @@ namespace bleissem.babyphone.Droid
         {
             base.OnBackPressed();
 
-            Consts.StartActivityThatAlreadyExist<MainActivity>(this);
+            IntentFactory.StartActivityThatAlreadyExist<MainActivity>(this);
         }
 
         protected override void OnDestroy()
