@@ -47,7 +47,6 @@ namespace bleissem.babyphone.Droid
         private PhoneCallListener m_PhoneCallListener;
         private ITimer m_StopCallTimer;
         private volatile bool m_WasRinging;
-
         
         void m_Timer_MyElapsed(object sender, MyTimerElapsedEventArgs args)
         {           
@@ -73,7 +72,7 @@ namespace bleissem.babyphone.Droid
             if (byTimer)
             {
                 this.m_WasRinging = false; //prevents hanging up again
-                m_PhoneCallListener.ForceHangUp();
+                SimpleIoc.Default.GetInstance<IForceHangup>().Hangup();
             }
            
             if (null != m_OnHangUp)
@@ -165,7 +164,7 @@ namespace bleissem.babyphone.Droid
         }
 
         public void CallStarts()
-        {           
+        {
             m_PhoneCallListener.State = PhoneState.Calling;
             if (null != m_StopCallTimer)
             {

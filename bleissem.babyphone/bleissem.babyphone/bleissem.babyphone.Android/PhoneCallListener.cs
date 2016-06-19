@@ -34,17 +34,7 @@ namespace bleissem.babyphone.Droid
         private volatile PhoneState m_PhoneState;
         private Context m_Context;
         
-
-        public void ForceHangUp()
-        {
-            using(PhoneManager phoneManager = new PhoneManager(m_Context))
-            {
-                phoneManager.EndCall();
-            }
-        }
-
       
-
         public override void OnCallStateChanged(CallState state, string incomingNumber)
         {
             base.OnCallStateChanged(state, incomingNumber);

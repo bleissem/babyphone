@@ -117,6 +117,7 @@
     <Compile Include="AudioRecorderViewModel.cs" />
     <Compile Include="CallNumber.cs" />
     <Compile Include="ChooseSkypeOrTelephoneActivity.cs" />
+    <Compile Include="ForceHangup.cs" />
     <Compile Include="IntentFactory.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="ContactsAdapter.cs" />

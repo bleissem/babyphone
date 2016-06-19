@@ -267,6 +267,10 @@ namespace bleissem.babyphone.Droid
 			SimpleIoc.Default.Register<IReactOnCall>(() => pct, true);
 			SimpleIoc.Default.Register<INotifiedOnCalling>(() => pct, true);
 
+            ForceHangup fh = new ForceHangup();
+            fh.Register(this.ForceHangup);
+            SimpleIoc.Default.Register<IForceHangup>(()=>fh, true);
+
 			ReadContacts rc = new ReadContacts();
 			rc.OnFinished += ReadContactsFinished;
             rc.Execute(this);
@@ -386,6 +390,9 @@ namespace bleissem.babyphone.Droid
                 SimpleIoc.Default.GetInstance<ITurnOnOffScreen>().TurnOn();
                 SimpleIoc.Default.GetInstance<ITurnOnOffScreen>().Dispose();
 
+                SimpleIoc.Default.GetInstance<ICallNumber>().Dispose();
+                SimpleIoc.Default.GetInstance<IForceHangup>().Dispose();
+
                 SimpleIoc.Default.GetInstance<ReadContacts>().OnFinished -= ReadContactsFinished;
 
 			    MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
@@ -484,6 +491,34 @@ namespace bleissem.babyphone.Droid
 			}
 		}
 
+        public void ForceHangup()
+        {
+            Settings setting = SimpleIoc.Default.GetInstance<Settings>();
+            var callType = setting.CallType;
+            switch(callType)
+            {
+                case SettingsTable.CallTypeEnum.SkypeUser:
+                    {
+                        //TODO:
+                        break;
+                    }
+                case SettingsTable.CallTypeEnum.SkypeOut:
+                    {
+                        //TODO:
+                        break;
+                    }
+                case SettingsTable.CallTypeEnum.Phone:
+                default:
+                    {
+                        using (PhoneManager phoneManager = new PhoneManager(this))
+                        {
+                            phoneManager.EndCall();
+                        }
+                        break;
+                    }
+
+            }
+        }
 
 		public void Close()
 		{
