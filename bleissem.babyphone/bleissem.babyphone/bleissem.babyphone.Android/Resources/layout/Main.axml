@@ -24,8 +24,9 @@
         <TextView
             android:text="@string/YouAreUsingLabel"
             android:id="@+id/YouAreUsingLabeltextView"
+            android:enabled="false"
             style="@style/my_text_black" />
-        <EditText
+        <TextView
             android:inputType="text"
             android:enabled="false"
             android:id="@+id/YouAreUsingTextView"
