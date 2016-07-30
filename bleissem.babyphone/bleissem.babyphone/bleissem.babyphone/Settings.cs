@@ -28,6 +28,7 @@ namespace bleissem.babyphone
                 newSettings.NoiseLevel = 0;
                 newSettings.NumberToDial = string.Empty;
                 newSettings.CallType = SettingsTable.CallTypeEnum.Phone;
+                newSettings.IsSkypeVideoEnabled = false;
                 db.Insert(newSettings);
             }
 
@@ -36,6 +37,7 @@ namespace bleissem.babyphone
             m_NoiseLevel = table.NoiseLevel;
             m_NumberToDial = table.NumberToDial;
             m_CallType = table.CallType;
+            m_IsSkypeVideoEnabled = table.IsSkypeVideoEnabled;
         }
 
         private void Save()
@@ -53,6 +55,7 @@ namespace bleissem.babyphone
                 table.NoiseLevel = m_NoiseLevel;
                 table.NumberToDial = m_NumberToDial;
                 table.CallType = m_CallType;
+                table.IsSkypeVideoEnabled = m_IsSkypeVideoEnabled;
                 db.Update(table);
             }
 
@@ -121,6 +124,27 @@ namespace bleissem.babyphone
                 }
 
                 m_CallType = value;
+                Save();
+            }
+        }
+
+        private bool m_IsSkypeVideoEnabled;
+
+        public bool IsSkypeVideoEnabled
+        {
+            get
+            {
+                Load();
+                return m_IsSkypeVideoEnabled;
+            }
+            set
+            {
+                if (value == m_IsSkypeVideoEnabled)
+                {
+                    return;
+                }
+
+                m_IsSkypeVideoEnabled = value;
                 Save();
             }
         }

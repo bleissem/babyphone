@@ -86,10 +86,15 @@ namespace bleissem.babyphone.Droid
 
         }
 
-        public  static Intent GetSkypeUserIntent(string user)
+        public  static Intent GetSkypeUserIntent(string user, bool enableVideo)
         {
+            StringBuilder sbUri = new StringBuilder("skype:" + user + "?call");
+            if (enableVideo)
+            {
+                sbUri.Append("&video=true");
+            }
             Intent skypeintent = new Intent("android.intent.action.VIEW");
-            skypeintent.SetData(Android.Net.Uri.Parse("skype:" + user + "?call"));
+            skypeintent.SetData(Android.Net.Uri.Parse(sbUri.ToString()));
             return skypeintent;
         }
 

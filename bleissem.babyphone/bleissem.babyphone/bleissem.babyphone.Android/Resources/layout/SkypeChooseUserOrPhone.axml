@@ -5,6 +5,14 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+        <CheckBox
+            android:text="@string/ChooseSkypeVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/CheckBoxEnableSkypeVideo"
+            style="@style/my_text_white"
+            android:background="@drawable/my_button"
+            android:onClick="onVideoEnabledCheckboxClicked" />
         <TextView
             android:text="@string/ChooseSkypeUserOrPhoneLabel1"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -19,6 +27,11 @@
             android:id="@+id/ChooseSkypeUserOKButton"
             android:background="@drawable/my_button"
             style="@style/my_text_white" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:layout_marginBottom="20.0dp" />
         <TextView
             android:text="@string/ChooseSkypeUserOrPhoneLabel2"
             android:textAppearance="?android:attr/textAppearanceLarge"

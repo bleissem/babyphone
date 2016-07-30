@@ -448,6 +448,7 @@ namespace bleissem.babyphone.Droid
 
                 if (string.IsNullOrWhiteSpace(setting.NumberToDial)) return;
                 string numberToDial = setting.NumberToDial;
+                bool enableSkypeVideo = setting.IsSkypeVideoEnabled;
                 
                 SimpleIoc.Default.GetInstance<INotifiedOnCalling>().CallStarts();
 
@@ -455,7 +456,7 @@ namespace bleissem.babyphone.Droid
                 {
                     case SettingsTable.CallTypeEnum.SkypeUser:
                         {
-                            Intent skypeintent = IntentFactory.GetSkypeUserIntent(numberToDial);
+                            Intent skypeintent = IntentFactory.GetSkypeUserIntent(numberToDial, enableSkypeVideo);
                             base.StartActivity(skypeintent);
                             break;
                         }

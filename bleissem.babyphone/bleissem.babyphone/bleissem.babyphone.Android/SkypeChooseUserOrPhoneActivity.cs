@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace bleissem.babyphone.Droid
 {
@@ -29,6 +30,7 @@ namespace bleissem.babyphone.Droid
 
         private Button m_ChooseSkypeUserOKButton;
         private Button m_ChooseSkypeOutButton;
+        private CheckBox m_IsSkypeEnabledCheckBox;
 
         protected override void OnNewIntent(Intent intent)
         {
@@ -46,7 +48,19 @@ namespace bleissem.babyphone.Droid
 
             m_ChooseSkypeOutButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeOutButton);
             m_ChooseSkypeOutButton.Click += m_ChooseSkypeOutButton_Click;
+
+            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
+
+            m_IsSkypeEnabledCheckBox = this.FindViewById<CheckBox>(Resource.Id.CheckBoxEnableSkypeVideo);
+            m_IsSkypeEnabledCheckBox.Click += m_IsSkypeEnabledCheckBox_Click;
+            m_IsSkypeEnabledCheckBox.Checked = settings.IsSkypeVideoEnabled;
         }
+
+        private void m_IsSkypeEnabledCheckBox_Click(object sender, EventArgs e)
+        {
+            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
+            settings.IsSkypeVideoEnabled = m_IsSkypeEnabledCheckBox.Checked;
+        }            
 
         void m_ChooseSkypeOutButton_Click(object sender, EventArgs e)
         {
@@ -83,6 +97,12 @@ namespace bleissem.babyphone.Droid
             {
                 m_ChooseSkypeOutButton.Click -= m_ChooseSkypeOutButton_Click;
                 m_ChooseSkypeOutButton = null;
+            }
+
+            if (null != m_IsSkypeEnabledCheckBox)
+            {
+                m_IsSkypeEnabledCheckBox.Click -= m_IsSkypeEnabledCheckBox_Click;
+                m_IsSkypeEnabledCheckBox = null;
             }
         }
 

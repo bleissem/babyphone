@@ -22,5 +22,6 @@ namespace bleissem.babyphone
         public int NoiseLevel { get; set; }
         public string NumberToDial { get; set; }
         public CallTypeEnum CallType { get; set; }
+        public bool IsSkypeVideoEnabled { get; set; }
     }
 }
