@@ -14,7 +14,8 @@
     <string name="ChooseSkypeLabel">if you want to skype with a skype user choose:</string>
     <string name="ChooseSkypeUserOrPhoneLabel1">please enter the skype user you want to call to</string>
     <string name="ChooseSkypeUserOrPhoneLabel2">Or please select the telefon number you want to call to</string>
-    <string name="ChooseSkypeUserOKButton">choose this skype user</string>
+    <string name="ChooseSkypeUserOKButton">OK</string>
+    <string name="ChooseSkypeUserButton">Skype user audio/video chat</string>
     <string name="ChooseSkypeOutButton">SkypeOut call</string>
     <string name="ChooseSkypeVideo">enable video</string>
     <string name="StatusTextNothing"></string>

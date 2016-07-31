@@ -28,9 +28,8 @@ namespace bleissem.babyphone.Droid
         }
 
 
-        private Button m_ChooseSkypeUserOKButton;
+        private Button m_ChooseSkypeUserButton;
         private Button m_ChooseSkypeOutButton;
-        private CheckBox m_IsSkypeEnabledCheckBox;
 
         protected override void OnNewIntent(Intent intent)
         {
@@ -40,29 +39,23 @@ namespace bleissem.babyphone.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.SkypeChooseUserOrPhone);
+            SetContentView(Resource.Layout.SkypeChooseUserOrSkypePhone);
 
-            m_ChooseSkypeUserOKButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeUserOKButton);
-            m_ChooseSkypeUserOKButton.Click += chooseSkypeUserOKButton_Click;
-
+            m_ChooseSkypeUserButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeUserButton);
+            m_ChooseSkypeUserButton.Click += ChooseSkypeUserButton_Click;
 
             m_ChooseSkypeOutButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeOutButton);
-            m_ChooseSkypeOutButton.Click += m_ChooseSkypeOutButton_Click;
+            m_ChooseSkypeOutButton.Click += ChooseSkypeOutButton_Click;
 
-            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
 
-            m_IsSkypeEnabledCheckBox = this.FindViewById<CheckBox>(Resource.Id.CheckBoxEnableSkypeVideo);
-            m_IsSkypeEnabledCheckBox.Click += m_IsSkypeEnabledCheckBox_Click;
-            m_IsSkypeEnabledCheckBox.Checked = settings.IsSkypeVideoEnabled;
         }
 
-        private void m_IsSkypeEnabledCheckBox_Click(object sender, EventArgs e)
+        private void ChooseSkypeUserButton_Click(object sender, EventArgs e)
         {
-            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
-            settings.IsSkypeVideoEnabled = m_IsSkypeEnabledCheckBox.Checked;
-        }            
+            IntentFactory.StartActivityWithNoHistory<SkypeUserActivity>(this);
+        }
 
-        void m_ChooseSkypeOutButton_Click(object sender, EventArgs e)
+        void ChooseSkypeOutButton_Click(object sender, EventArgs e)
         {
             // start Contact List (for Skype phone type)
             IntentFactory.StartActivityWithNoHistory<ContactsMasterActivitiy>(this, (intent) =>
@@ -71,38 +64,20 @@ namespace bleissem.babyphone.Droid
                 });
         }
 
-        void chooseSkypeUserOKButton_Click(object sender, EventArgs e)
-        {
-            TextView skypeUserTextView = this.FindViewById<TextView>(Resource.Id.ChooseSkypeUserText);
-            string skypeUser = skypeUserTextView.Text;
-            if (string.IsNullOrWhiteSpace(skypeUser)) return;
 
-            IntentFactory.StartActivityThatAlreadyExist<MainActivity>(this, (intent) =>
-            {
-                intent.PutExtra(IntentFactory.SetCallType, Convert.ToInt32(SettingsTable.CallTypeEnum.SkypeUser));
-                intent.PutExtra(IntentFactory.SetIdToCall, skypeUser);
-            });
-
-        }
 
         private void CleanUp()
         {
-            if (null != m_ChooseSkypeUserOKButton)
+            if (null != m_ChooseSkypeUserButton)
             {
-                m_ChooseSkypeUserOKButton.Click -= chooseSkypeUserOKButton_Click;
-                m_ChooseSkypeUserOKButton = null;
+                m_ChooseSkypeUserButton.Click -= ChooseSkypeUserButton_Click;
+                m_ChooseSkypeUserButton = null;
             }
 
             if (null != m_ChooseSkypeOutButton)
             {
-                m_ChooseSkypeOutButton.Click -= m_ChooseSkypeOutButton_Click;
+                m_ChooseSkypeOutButton.Click -= ChooseSkypeOutButton_Click;
                 m_ChooseSkypeOutButton = null;
-            }
-
-            if (null != m_IsSkypeEnabledCheckBox)
-            {
-                m_IsSkypeEnabledCheckBox.Click -= m_IsSkypeEnabledCheckBox_Click;
-                m_IsSkypeEnabledCheckBox = null;
             }
         }
 
