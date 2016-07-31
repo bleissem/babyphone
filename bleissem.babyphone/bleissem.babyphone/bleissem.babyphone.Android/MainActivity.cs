@@ -12,6 +12,7 @@ using SQLite.Net.Platform.XamarinAndroid;
 using Android.Util;
 using Android.Content;
 using Android.Telephony;
+using Android.Graphics;
 
 namespace bleissem.babyphone.Droid
 {
@@ -332,7 +333,9 @@ namespace bleissem.babyphone.Droid
 			if (!SimpleIoc.Default.IsRegistered<MainViewModel>()) return;
 
 			MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
-			if (babyPhoneViewModel.Phone.IsStarted)
+            bool isStarted = babyPhoneViewModel.Phone.IsStarted;
+
+            if (isStarted)
 			{                
 				contactButton.Enabled = false;
 				startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                 
@@ -342,7 +345,11 @@ namespace bleissem.babyphone.Droid
 				contactButton.Enabled = true;
 				startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);   
 			}
-		}
+
+            Color color = isStarted ? Color.Argb(255, 0, 0, 0) : Color.Argb(255, 255, 255, 255);
+            LinearLayout linearLayout = FindViewById<LinearLayout>(Resource.Id.MainView);
+            linearLayout.SetBackgroundColor(color);
+        }
 
 		void chooseContactButton_Click(object sender, EventArgs e)
 		{

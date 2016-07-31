@@ -5,7 +5,9 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:keepScreenOn="true">
+        android:keepScreenOn="true"
+        android:id="@+id/MainView"
+        android:background="@android:color/background_light">
         <TextView
             android:text="@string/ChooseLabel"
             android:textAppearance="?android:attr/textAppearanceLarge"
