@@ -238,17 +238,26 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f040008
 			public const int Skype = 2130968584;
 			
+			// aapt resource value: 0x7f040015
+			public const int SkypeIsNotInstalledOK = 2130968597;
+			
+			// aapt resource value: 0x7f040014
+			public const int SkypeIsNotInstalledText = 2130968596;
+			
+			// aapt resource value: 0x7f040013
+			public const int SkypeIsNotInstalledTitle = 2130968595;
+			
 			// aapt resource value: 0x7f04000a
 			public const int SkypeOut = 2130968586;
 			
 			// aapt resource value: 0x7f040006
 			public const int StartService = 2130968582;
 			
-			// aapt resource value: 0x7f040013
-			public const int StatusTextNothing = 2130968595;
+			// aapt resource value: 0x7f040016
+			public const int StatusTextNothing = 2130968598;
 			
-			// aapt resource value: 0x7f040014
-			public const int StatusTextSleeping = 2130968596;
+			// aapt resource value: 0x7f040017
+			public const int StatusTextSleeping = 2130968599;
 			
 			// aapt resource value: 0x7f040007
 			public const int StopService = 2130968583;

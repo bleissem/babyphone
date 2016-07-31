@@ -283,11 +283,8 @@ namespace bleissem.babyphone.Droid
 		   
 			SimpleIoc.Default.Register<IAudioRecorder>(() => new AudioRecorderViewModel(), true);
 
-
 			SimpleIoc.Default.Register<MainViewModel>(true);
-            pct.Register(OnHangUp);
-            
-
+            pct.Register(OnHangUp);           
 		}
 
         private void OnHangUp()
@@ -309,7 +306,20 @@ namespace bleissem.babyphone.Droid
 
 		void startServiceButton_Click(object sender, EventArgs e)
 		{
-			MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+            Settings settings = SimpleIoc.Default.GetInstance<Settings>();
+
+            if ( ((settings.CallType == SettingsTable.CallTypeEnum.SkypeUser) || (settings.CallType == SettingsTable.CallTypeEnum.SkypeOut)) && (!IsSkypeInstalled()))
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetTitle(GetText(Resource.String.SkypeIsNotInstalledTitle));
+                alert.SetMessage(GetText(Resource.String.SkypeIsNotInstalledText));
+                alert.SetPositiveButton(GetText(Resource.String.SkypeIsNotInstalledOK), (senderAlert, args) => {});
+                Dialog dialog = alert.Create();
+                dialog.Show();
+                return;
+            }
+
+            MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
 			if (babyPhoneViewModel.Phone.IsStarted)
 			{
                 SimpleIoc.Default.GetInstance<ITurnOnOffScreen>().TurnOn();
@@ -394,7 +404,6 @@ namespace bleissem.babyphone.Droid
 		{
 			base.OnDestroy();
 
-
             if (this.DoFinish)
             {
                 m_SetStatusUI.Dispose();
@@ -448,6 +457,20 @@ namespace bleissem.babyphone.Droid
             this.RunOnUiThread(m_UpdateAmplitude.Execute);
 		}
 
+        private bool IsSkypeInstalled()
+        {
+            PackageManager pm = this.PackageManager;
+            try
+            {
+                pm.GetPackageInfo("com.skype.raider", PackageInfoFlags.Activities);
+            }
+            catch (PackageManager.NameNotFoundException ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
 		public bool CanDial()
 		{
 			return (SimpleIoc.Default.GetInstance<IReactOnCall>().State == PhoneState.HangUp);
@@ -478,7 +501,6 @@ namespace bleissem.babyphone.Droid
                         }
                     case SettingsTable.CallTypeEnum.SkypeOut:
                         {
-
                             Intent skypeintent = IntentFactory.GetSkypeOutIntent(numberToDial);                            
                             base.StartActivity(skypeintent);
                             break;

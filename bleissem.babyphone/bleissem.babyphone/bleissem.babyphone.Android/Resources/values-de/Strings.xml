@@ -18,6 +18,9 @@
     <string name="ChooseSkypeUserButton">Skype Benutzer Audio/Video Chat</string>
     <string name="ChooseSkypeOutButton">SkypeOut Telefonanruf</string>
     <string name="ChooseSkypeVideo">Video aktivieren</string>
+    <string name="SkypeIsNotInstalledTitle">Skype ist nicht installiert</string>
+    <string name="SkypeIsNotInstalledText">Bitte installieren Sie Skype.</string>
+    <string name="SkypeIsNotInstalledOK">OK</string>  
     <string name="StatusTextNothing"></string>
     <string name="StatusTextSleeping">babyphone schläft für eine Minute</string>
 </resources>
