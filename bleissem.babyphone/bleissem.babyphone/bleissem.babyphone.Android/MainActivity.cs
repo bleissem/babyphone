@@ -328,7 +328,8 @@ namespace bleissem.babyphone.Droid
 		private void SetStartStopUI()
 		{
 			Button contactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
-			Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
+            Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
+            Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
 
 			if (!SimpleIoc.Default.IsRegistered<MainViewModel>()) return;
 
@@ -338,17 +339,25 @@ namespace bleissem.babyphone.Droid
             if (isStarted)
 			{                
 				contactButton.Enabled = false;
-				startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                 
+                noiseLevelButton.Enabled = false;
+                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                 
 			}
 			else
 			{
 				contactButton.Enabled = true;
-				startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);   
+                noiseLevelButton.Enabled = true;
+                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);   
 			}
 
             Color color = isStarted ? Color.Argb(255, 0, 0, 0) : Color.Argb(255, 255, 255, 255);
             LinearLayout linearLayout = FindViewById<LinearLayout>(Resource.Id.MainView);
             linearLayout.SetBackgroundColor(color);
+
+            TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
+            noiseLevel.SetBackgroundColor(color);
+
+            TextView contactTextView = FindViewById<TextView>(Resource.Id.ContactTextView);
+            contactTextView.SetBackgroundColor(color);
         }
 
 		void chooseContactButton_Click(object sender, EventArgs e)

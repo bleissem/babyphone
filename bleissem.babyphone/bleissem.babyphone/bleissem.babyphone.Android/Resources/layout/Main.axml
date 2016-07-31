@@ -6,8 +6,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:keepScreenOn="true"
-        android:id="@+id/MainView"
-        android:background="@android:color/background_light">
+        android:id="@+id/MainView">
         <TextView
             android:text="@string/ChooseLabel"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -19,10 +18,11 @@
             android:background="@drawable/my_button"
             style="@style/my_text_white" />
         <EditText
-            android:inputType="text"
+            android:inputType="none"
             android:enabled="false"
             android:id="@+id/ContactTextView"
-            style="@style/my_text_black" />
+            style="@style/my_text_black"
+            android:focusable="false" />
         <TextView
             android:text="@string/YouAreUsingLabel"
             android:id="@+id/YouAreUsingLabeltextView"
