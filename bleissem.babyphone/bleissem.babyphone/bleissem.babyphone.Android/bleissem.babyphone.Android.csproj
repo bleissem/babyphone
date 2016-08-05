@@ -182,6 +182,9 @@
     <AndroidResource Include="Resources\values-de\Strings.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\values-hu\Strings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bleissem.babyphone\bleissem.babyphone.csproj">
