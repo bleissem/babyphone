@@ -1,6 +1,9 @@
 # babyphone
 <br>
+Ein freies und quelloffenes Babyphone App von bleissem.com
+<br>
 a free and open source babyphone app brought to you by bleissem.com
+<br>
 <br>
 https://play.google.com/store/apps/details?id=com.bleissem.babyphone
 <br><br>
