@@ -337,24 +337,29 @@ namespace bleissem.babyphone.Droid
 
 		private void SetStartStopUI()
 		{
-			Button contactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
+            if (!SimpleIoc.Default.IsRegistered<MainViewModel>()) return;
+
+            Button contactButton = FindViewById<Button>(Resource.Id.ChooseContactButton);
             Button noiseLevelButton = FindViewById<Button>(Resource.Id.NoiseLevelButton);
             Button startServiceButton = FindViewById<Button>(Resource.Id.ServiceButton);
+            TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
 
-			if (!SimpleIoc.Default.IsRegistered<MainViewModel>()) return;
-
-			MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+            MainViewModel babyPhoneViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             bool isStarted = babyPhoneViewModel.Phone.IsStarted;
 
             if (isStarted)
-			{                
-				contactButton.Enabled = false;
+			{
+                noiseLevel.Focusable = false;
+                noiseLevel.Enabled = false;
+                contactButton.Enabled = false;
                 noiseLevelButton.Enabled = false;
-                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);                 
-			}
+                startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StopService);
+            }
 			else
 			{
-				contactButton.Enabled = true;
+                noiseLevel.Focusable = true;
+                noiseLevel.Enabled = true;
+                contactButton.Enabled = true;
                 noiseLevelButton.Enabled = true;
                 startServiceButton.Text = this.ApplicationContext.Resources.GetText(Resource.String.StartService);   
 			}
@@ -363,7 +368,7 @@ namespace bleissem.babyphone.Droid
             LinearLayout linearLayout = FindViewById<LinearLayout>(Resource.Id.MainView);
             linearLayout.SetBackgroundColor(color);
 
-            TextView noiseLevel = FindViewById<TextView>(Resource.Id.NoiseLevelTextView);
+            
             noiseLevel.SetBackgroundColor(color);
 
             TextView contactTextView = FindViewById<TextView>(Resource.Id.ContactTextView);

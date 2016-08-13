@@ -39,8 +39,8 @@ namespace bleissem.babyphone.Droid
                 if (Int32.TryParse(Android.OS.Build.VERSION.Sdk, out androidSDKVersion) && (androidSDKVersion < 11))
                 {
                     return Android.Media.AudioSource.Mic;                    
-                }
-                return Android.Media.AudioSource.VoiceCommunication;
+                }                
+                return Android.Media.AudioSource.VoiceRecognition;
             }
         }
 
@@ -69,7 +69,6 @@ namespace bleissem.babyphone.Droid
 
             }
         }
-      
 
         public void Stop()
         {

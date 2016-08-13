@@ -22,7 +22,6 @@ namespace bleissem.babyphone
             this.m_InfoTimer.MyElapsed += m_Timer_Elapsed;
             
             this.m_InfoTimer.Start();
-            this.m_RecorderViewModel.Start();
 
         }
 
