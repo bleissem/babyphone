@@ -15,6 +15,7 @@ namespace bleissem.babyphone
         {
             this.Settings = settings;
             this.m_RecorderViewModel = audioRecorder;
+            this.m_RecorderViewModel.Start();
             this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber, reactOnCall, createTimer);
             this.m_InfoTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 250));
             this.m_InfoTimer.AutoReset = true;
@@ -43,7 +44,7 @@ namespace bleissem.babyphone
 
         void m_Timer_Elapsed(object sender, MyTimerElapsedEventArgs e)
         {
-            if (null == m_RecorderViewModel) return;
+            if ( (null == m_RecorderViewModel) || (!m_RecorderViewModel.IsStarted)) return;
                  
             this.CurrentNoise = m_RecorderViewModel.GetAmplitude();
             base.RaisePropertyChanged(() => this.CurrentNoise);

@@ -12,7 +12,7 @@ namespace bleissem.babyphone.Droid
 
         public AudioRecorderViewModel()
         {
-            m_MinSize = Android.Media.AudioRecord.GetMinBufferSize(SampleRate, Android.Media.ChannelIn.Mono, Android.Media.Encoding.Pcm16bit);
+            m_MinSize = Android.Media.AudioRecord.GetMinBufferSize(SampleRate, Channelin, MediaEncoding);
         }
 
         #endregion
@@ -26,6 +26,24 @@ namespace bleissem.babyphone.Droid
         private volatile Android.Media.AudioRecord m_AudioRecord;
         private int m_MinSize;
         private const int SampleRate = 8000;
+        private const Android.Media.ChannelIn Channelin = Android.Media.ChannelIn.Mono;
+        private const Android.Media.Encoding MediaEncoding = Android.Media.Encoding.Pcm16bit;
+
+        private Android.Media.AudioSource MediaAudioSource
+        {
+            get
+            {
+                int androidSDKVersion = 0;
+
+
+                if (Int32.TryParse(Android.OS.Build.VERSION.Sdk, out androidSDKVersion) && (androidSDKVersion < 11))
+                {
+                    return Android.Media.AudioSource.Mic;                    
+                }
+                return Android.Media.AudioSource.VoiceCommunication;
+            }
+        }
+
         private object m_LockObj = new Object();
 
 
@@ -42,8 +60,8 @@ namespace bleissem.babyphone.Droid
             if (IsStarted) return;
             
             try
-            {                
-                m_AudioRecord = new Android.Media.AudioRecord(Android.Media.AudioSource.Mic, SampleRate, Android.Media.ChannelIn.Mono, Android.Media.Encoding.Pcm16bit, m_MinSize);
+            {
+                m_AudioRecord = new Android.Media.AudioRecord(this.MediaAudioSource, SampleRate, Channelin, MediaEncoding, m_MinSize);
                 m_AudioRecord.StartRecording();
             }
             catch
