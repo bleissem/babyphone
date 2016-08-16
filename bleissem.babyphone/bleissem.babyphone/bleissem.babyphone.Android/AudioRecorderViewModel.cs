@@ -141,10 +141,17 @@ namespace bleissem.babyphone.Droid
             CleanUp();
         }
 
+        private bool m_SuppressFinalizeThis = true;
+
         public void Dispose()
         {
+            bool alreadyDisposed = null == m_AudioRecord;
             this.Dispose(true);
-            GC.SuppressFinalize(this);
+            if (m_SuppressFinalizeThis)
+            {
+                m_SuppressFinalizeThis = false;
+                GC.SuppressFinalize(this);
+            }
         }
     }
 }
