@@ -25,5 +25,4 @@ https://play.google.com/store/apps/details?id=com.bleissem.babyphone
   </tr>
 </tbody>
 </table>
-<br>
-[![Build status](https://ci.appveyor.com/api/projects/status/qm1hcgdw1c0yemn0?svg=true)](https://ci.appveyor.com/project/bleissem/babyphone-53phf)
+
