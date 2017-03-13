@@ -19,47 +19,49 @@ namespace bleissem.babyphone
         private void Load()
         {
 
-            var db = new SQLite.Net.SQLiteConnection(m_SQLitePlatform, m_DBPath);
-
-            db.CreateTable<SettingsTable>();
-            if (0 == db.Table<SettingsTable>().Count())
+            using (SQLite.Net.SQLiteConnection db = new SQLite.Net.SQLiteConnection(m_SQLitePlatform, m_DBPath))
             {
-                var newSettings = new SettingsTable();
-                newSettings.NoiseLevel = 0;
-                newSettings.NumberToDial = string.Empty;
-                newSettings.CallType = SettingsTable.CallTypeEnum.Phone;
-                newSettings.IsSkypeVideoEnabled = false;
-                db.Insert(newSettings);
+
+                db.CreateTable<SettingsTable>();
+                if (0 == db.Table<SettingsTable>().Count())
+                {
+                    var newSettings = new SettingsTable();
+                    newSettings.NoiseLevel = 0;
+                    newSettings.NumberToDial = string.Empty;
+                    newSettings.CallType = SettingsTable.CallTypeEnum.Phone;
+                    newSettings.IsSkypeVideoEnabled = false;
+                    db.Insert(newSettings);
+                }
+
+                SettingsTable table = db.Table<SettingsTable>().First();
+
+                m_NoiseLevel = table.NoiseLevel;
+                m_NumberToDial = table.NumberToDial;
+                m_CallType = table.CallType;
+                m_IsSkypeVideoEnabled = table.IsSkypeVideoEnabled;
             }
-
-            SettingsTable table = db.Table<SettingsTable>().First();
-
-            m_NoiseLevel = table.NoiseLevel;
-            m_NumberToDial = table.NumberToDial;
-            m_CallType = table.CallType;
-            m_IsSkypeVideoEnabled = table.IsSkypeVideoEnabled;
         }
 
         private void Save()
         {
-            var db = new SQLite.Net.SQLiteConnection(m_SQLitePlatform, m_DBPath);
-
-            db.CreateTable<SettingsTable>();
-            if (0 == db.Table<SettingsTable>().Count())
+            using (SQLite.Net.SQLiteConnection db = new SQLite.Net.SQLiteConnection(m_SQLitePlatform, m_DBPath))
             {
-                Load();
-            }
-            else
-            {
-                var table = db.Table<SettingsTable>().First();
-                table.NoiseLevel = m_NoiseLevel;
-                table.NumberToDial = m_NumberToDial;
-                table.CallType = m_CallType;
-                table.IsSkypeVideoEnabled = m_IsSkypeVideoEnabled;
-                db.Update(table);
-            }
+                db.CreateTable<SettingsTable>();
+                if (0 == db.Table<SettingsTable>().Count())
+                {
+                    Load();
+                }
+                else
+                {
+                    var table = db.Table<SettingsTable>().First();
+                    table.NoiseLevel = m_NoiseLevel;
+                    table.NumberToDial = m_NumberToDial;
+                    table.CallType = m_CallType;
+                    table.IsSkypeVideoEnabled = m_IsSkypeVideoEnabled;
+                    db.Update(table);
+                }
 
-
+            }
         }
 
 
