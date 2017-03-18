@@ -469,7 +469,7 @@ namespace bleissem.babyphone.Droid
             {
                 pm.GetPackageInfo("com.skype.raider", PackageInfoFlags.Activities);
             }
-            catch (PackageManager.NameNotFoundException ex)
+            catch
             {
                 return false;
             }
