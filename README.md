@@ -7,7 +7,7 @@ a free and open source babyphone app brought to you by bleissem.com
 <br>
 https://play.google.com/store/apps/details?id=com.bleissem.babyphone
 <br><br>
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
+<img src="https://img.shields.io/badge/License-GPL%20v2-blue.svg"></img>
 <br><br>
 <table>
 <thead>
