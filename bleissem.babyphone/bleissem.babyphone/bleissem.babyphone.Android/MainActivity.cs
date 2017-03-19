@@ -13,10 +13,11 @@ using Android.Util;
 using Android.Content;
 using Android.Telephony;
 using Android.Graphics;
+using System.Reflection;
 
 namespace bleissem.babyphone.Droid
 {
-	[Activity(Label = "bleissem.babyphone", Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState = true, LaunchMode=LaunchMode.SingleInstance)]
+	[Activity(Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState = true, LaunchMode=LaunchMode.SingleInstance)]
 	public class MainActivity : Activity
 	{
 		private bool DoFinish = false;
@@ -28,6 +29,7 @@ namespace bleissem.babyphone.Droid
 			base.OnCreate(bundle);
 
 			SetContentView(Resource.Layout.Main);
+            this.Title = "babyphone - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             this.SetStatusUI(false);
 			this.InitializeIoC();
