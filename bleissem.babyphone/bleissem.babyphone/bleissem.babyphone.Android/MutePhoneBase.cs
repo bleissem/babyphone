@@ -15,9 +15,20 @@ namespace bleissem.babyphone.Droid
 {
     public class MutePhoneBase : IDisposable
     {
-        public MutePhoneBase()
+        public MutePhoneBase(AudioManager audioManager)
         {
+            m_AudioManager = audioManager;
+            this.m_Streams = new List<Stream>()
+            {
+                Stream.Ring,
+                Stream.Alarm,
+                Stream.System,
+                Stream.Music,
+                Stream.Notification
+            };
 
+            m_BackupStreams = new SortedDictionary<Stream, int>();
+            this.BackUp();           
         }
 
         ~MutePhoneBase()
@@ -25,9 +36,13 @@ namespace bleissem.babyphone.Droid
             this.Dispose(false);
         }
 
+        private AudioManager m_AudioManager { get; set; }
+        private IEnumerable<Stream> m_Streams;
+        SortedDictionary<Stream, int> m_BackupStreams;
+
         private void Dispose(bool disposing)
         {
-
+            m_AudioManager = null;
         }
 
         public void Dispose()
@@ -35,9 +50,29 @@ namespace bleissem.babyphone.Droid
             this.Dispose(true);
         }
 
-        protected void SetMute(bool enable)
+        private void BackUp()
         {
+            foreach(Stream stream in this.m_Streams)
+            {
+                m_BackupStreams.Add(stream, m_AudioManager.GetStreamVolume(stream));
+            }
+        }
 
+        protected void Mute()
+        {
+            foreach (Stream stream in this.m_Streams)
+            {
+                this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Mute, VolumeNotificationFlags.RemoveSoundAndVibrate);
+            }
+        }
+       
+        protected void UnMute()
+        {
+            foreach (Stream stream in this.m_Streams)
+            {
+                this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Unmute, VolumeNotificationFlags.AllowRingerModes);
+                this.m_AudioManager.SetStreamVolume(stream, m_BackupStreams[stream], VolumeNotificationFlags.AllowRingerModes);
+            }
         }
     }
 }

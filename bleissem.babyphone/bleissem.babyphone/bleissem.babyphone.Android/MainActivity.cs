@@ -14,6 +14,7 @@ using Android.Content;
 using Android.Telephony;
 using Android.Graphics;
 using System.Reflection;
+using Android.Media;
 
 namespace bleissem.babyphone.Droid
 {
@@ -227,9 +228,11 @@ namespace bleissem.babyphone.Droid
 			var dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Babyphone.Settings.db3");
 			Settings settings = new Settings(dbPath, platform);
 			SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
-            
-            SimpleIoc.Default.Register<IUnMutePhone>(()=>new UnMutePhone(), true);
-            SimpleIoc.Default.Register<IMutePhone>(()=>new MutePhone(), true);
+
+            AudioManager audioManager = (AudioManager)this.GetSystemService(Context.AudioService);
+
+            SimpleIoc.Default.Register<IUnMutePhone>(()=>new UnMutePhone(audioManager), true);
+            SimpleIoc.Default.Register<IMutePhone>(()=>new MutePhone(audioManager), true);
 
             WindowManagerFlags screenFlags = WindowManagerFlags.ShowWhenLocked | WindowManagerFlags.TurnScreenOn | WindowManagerFlags.KeepScreenOn | WindowManagerFlags.DismissKeyguard;
 

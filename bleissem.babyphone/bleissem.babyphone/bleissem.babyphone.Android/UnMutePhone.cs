@@ -15,14 +15,14 @@ namespace bleissem.babyphone.Droid
 {
     public class UnMutePhone : MutePhoneBase, IUnMutePhone
     {
-        public UnMutePhone():base()
+        public UnMutePhone(AudioManager audioManager):base(audioManager)
         {
             
         }
 
         public void Execute()
         {
-            base.SetMute(false);
+            base.UnMute();   
         }
     }
 }

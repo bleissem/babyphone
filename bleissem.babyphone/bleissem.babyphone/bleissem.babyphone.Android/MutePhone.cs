@@ -9,20 +9,20 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Media;
 
 namespace bleissem.babyphone.Droid
 {
     public class MutePhone : MutePhoneBase, IMutePhone
     {
-        public MutePhone():base()
+        public MutePhone(AudioManager audioManager):base(audioManager)
         {
-
+            
         }
 
         public void Execute()
         {
-
-            base.SetMute(true);
+            base.Mute();
         }
     }
 }
