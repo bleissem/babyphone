@@ -227,6 +227,9 @@ namespace bleissem.babyphone.Droid
 			var dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Babyphone.Settings.db3");
 			Settings settings = new Settings(dbPath, platform);
 			SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
+            
+            SimpleIoc.Default.Register<IUnMutePhone>(()=>new UnMutePhone(), true);
+            SimpleIoc.Default.Register<IMutePhone>(()=>new MutePhone(), true);
 
             WindowManagerFlags screenFlags = WindowManagerFlags.ShowWhenLocked | WindowManagerFlags.TurnScreenOn | WindowManagerFlags.KeepScreenOn | WindowManagerFlags.DismissKeyguard;
 

@@ -112,6 +112,8 @@
     <Compile Include="Contact.cs" />
     <Compile Include="ContactsAdapter.cs" />
     <Compile Include="ContactsMasterActivitiy.cs" />
+    <Compile Include="MutePhone.cs" />
+    <Compile Include="MutePhoneBase.cs" />
     <Compile Include="PhoneCallTimer.cs" />
     <Compile Include="PhoneManager.cs" />
     <Compile Include="PhoneNumbersActivity.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="SkypeChooseUserOrPhoneActivity.cs" />
     <Compile Include="SkypeUserActivity.cs" />
     <Compile Include="TurnOnOffScreenViewModel.cs" />
+    <Compile Include="UnMutePhone.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ChooseSkypeOrTelephone.axml">

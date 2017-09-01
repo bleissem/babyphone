@@ -39,9 +39,11 @@
     <Compile Include="ExecuteAction.cs" />
     <Compile Include="IExecuteAction.cs" />
     <Compile Include="IForceHangup.cs" />
+    <Compile Include="IMutePhone.cs" />
     <Compile Include="INotifiedOnCalling.cs" />
     <Compile Include="IReactOnCall.cs" />
     <Compile Include="ITurnOnOffScreen.cs" />
+    <Compile Include="IUnMutePhone.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="IAudioRecorder.cs" />
     <Compile Include="ICallNumber.cs" />

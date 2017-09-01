@@ -11,9 +11,11 @@ namespace bleissem.babyphone
 
         #region constructors
 
-        public PhoneViewModel(IAudioRecorder recorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer)
+        public PhoneViewModel(IAudioRecorder recorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer, IMutePhone mutePhone, IUnMutePhone unmutePhone)
         {
             this.IsStarted = false;
+            this.m_UnmutePhone = unmutePhone;
+            this.m_MutePhone = mutePhone;
             this.m_Settings = settings;
             this.m_CallNumber = callNumber;
             this.m_AudioRecorderViewModel = recorder;
@@ -47,6 +49,9 @@ namespace bleissem.babyphone
         private IReactOnCall m_ReactOnCall;
 
         private TimeSpan TimeToWait { get; set; }
+
+        private IMutePhone m_MutePhone;
+        private IUnMutePhone m_UnmutePhone;
 
         private void OnHangUp()
         {
@@ -90,6 +95,7 @@ namespace bleissem.babyphone
         {
             if (!this.CanStart) return false;
             this.IsStarted = true;
+            m_MutePhone.Execute();
             m_PhoneTimer.Start();
             return true;
         }
@@ -97,6 +103,7 @@ namespace bleissem.babyphone
         public void Stop()
         {
             if (null == m_PhoneTimer) return;
+            this.m_UnmutePhone.Execute();
             this.m_PhoneTimer.Stop();
             this.IsStarted = false;
         }
@@ -109,6 +116,18 @@ namespace bleissem.babyphone
                 this.m_PhoneTimer.MyElapsed -= m_PhoneTimer_Elapsed;
                 this.m_PhoneTimer.Dispose();
                 this.m_PhoneTimer = null;
+            }
+
+            if(null != m_MutePhone)
+            {
+                this.m_MutePhone.Dispose();
+                this.m_MutePhone = null;
+            }
+
+            if (null != m_UnmutePhone)
+            {
+                this.m_UnmutePhone.Dispose();
+                this.m_UnmutePhone = null;
             }
 
             if (null != m_ReactOnCall)

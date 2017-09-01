@@ -11,12 +11,12 @@ namespace bleissem.babyphone
     {
         #region constructor
 
-        public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer)
+        public MainViewModel(IAudioRecorder audioRecorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer, IUnMutePhone unmutePhone, IMutePhone mutePhone)
         {
             this.Settings = settings;
             this.m_RecorderViewModel = audioRecorder;
             this.m_RecorderViewModel.Start();
-            this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber, reactOnCall, createTimer);
+            this.m_PhoneViewModel = new PhoneViewModel(m_RecorderViewModel, settings, callNumber, reactOnCall, createTimer, mutePhone, unmutePhone);
             this.m_InfoTimer = createTimer.Create(new TimeSpan(0, 0, 0, 0, 250));
             this.m_InfoTimer.AutoReset = true;
             this.m_InfoTimer.MyElapsed += m_Timer_Elapsed;
