@@ -8,6 +8,6 @@ namespace bleissem.babyphone
 {
     public interface IMutePhone: IDisposable
     {
-        void Execute();
+        void Mute();
     }
 }

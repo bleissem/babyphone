@@ -13,9 +13,9 @@ using Android.Media;
 
 namespace bleissem.babyphone.Droid
 {
-    public class MutePhoneBase : IDisposable
+    public class MuteUnmutePhoneBase : IDisposable, IUnMutePhone, IMutePhone
     {
-        public MutePhoneBase(AudioManager audioManager)
+        public MuteUnmutePhoneBase(AudioManager audioManager)
         {
             m_AudioManager = audioManager;
             this.m_Streams = new List<Stream>()
@@ -26,19 +26,15 @@ namespace bleissem.babyphone.Droid
                 Stream.Music,
                 Stream.Notification
             };
-
-            m_BackupStreams = new SortedDictionary<Stream, int>();
-            this.BackUp();           
         }
 
-        ~MutePhoneBase()
+        ~MuteUnmutePhoneBase()
         {
             this.Dispose(false);
         }
 
         private AudioManager m_AudioManager { get; set; }
         private IEnumerable<Stream> m_Streams;
-        SortedDictionary<Stream, int> m_BackupStreams;
 
         private void Dispose(bool disposing)
         {
@@ -49,29 +45,24 @@ namespace bleissem.babyphone.Droid
         {
             this.Dispose(true);
         }
-
-        private void BackUp()
+        
+        public void Mute()
         {
-            foreach(Stream stream in this.m_Streams)
-            {
-                m_BackupStreams.Add(stream, m_AudioManager.GetStreamVolume(stream));
-            }
-        }
+            if (null == m_AudioManager) return;
 
-        protected void Mute()
-        {
             foreach (Stream stream in this.m_Streams)
             {
                 this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Mute, VolumeNotificationFlags.RemoveSoundAndVibrate);
             }
         }
        
-        protected void UnMute()
+        public void UnMute()
         {
+            if (null == m_AudioManager) return;
+
             foreach (Stream stream in this.m_Streams)
             {
                 this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Unmute, VolumeNotificationFlags.AllowRingerModes);
-                this.m_AudioManager.SetStreamVolume(stream, m_BackupStreams[stream], VolumeNotificationFlags.AllowRingerModes);
             }
         }
     }

@@ -231,8 +231,10 @@ namespace bleissem.babyphone.Droid
 
             AudioManager audioManager = (AudioManager)this.GetSystemService(Context.AudioService);
 
-            SimpleIoc.Default.Register<IUnMutePhone>(()=>new UnMutePhone(audioManager), true);
-            SimpleIoc.Default.Register<IMutePhone>(()=>new MutePhone(audioManager), true);
+            MuteUnmutePhoneBase mum = new MuteUnmutePhoneBase(audioManager);
+
+            SimpleIoc.Default.Register<IUnMutePhone>(()=>mum, true);
+            SimpleIoc.Default.Register<IMutePhone>(()=>mum, true);
 
             WindowManagerFlags screenFlags = WindowManagerFlags.ShowWhenLocked | WindowManagerFlags.TurnScreenOn | WindowManagerFlags.KeepScreenOn | WindowManagerFlags.DismissKeyguard;
 

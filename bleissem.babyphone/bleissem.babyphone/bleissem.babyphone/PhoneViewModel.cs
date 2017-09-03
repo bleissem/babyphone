@@ -95,7 +95,7 @@ namespace bleissem.babyphone
         {
             if (!this.CanStart) return false;
             this.IsStarted = true;
-            m_MutePhone.Execute();
+            m_MutePhone.Mute();
             m_PhoneTimer.Start();
             return true;
         }
@@ -103,7 +103,7 @@ namespace bleissem.babyphone
         public void Stop()
         {
             if (null == m_PhoneTimer) return;
-            this.m_UnmutePhone.Execute();
+            this.m_UnmutePhone.UnMute();
             this.m_PhoneTimer.Stop();
             this.IsStarted = false;
         }
