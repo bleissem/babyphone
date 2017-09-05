@@ -54,6 +54,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsBase.cs" />
     <Compile Include="SettingsTable.cs" />
+    <Compile Include="ISpeaker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">

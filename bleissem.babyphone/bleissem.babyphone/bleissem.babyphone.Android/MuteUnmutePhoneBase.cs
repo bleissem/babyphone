@@ -52,7 +52,14 @@ namespace bleissem.babyphone.Droid
 
             foreach (Stream stream in this.m_Streams)
             {
-                this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Mute, VolumeNotificationFlags.RemoveSoundAndVibrate);
+                try
+                {
+                    this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Mute, VolumeNotificationFlags.RemoveSoundAndVibrate);
+                }
+                catch
+                {
+
+                }
             }
         }
        
@@ -62,7 +69,14 @@ namespace bleissem.babyphone.Droid
 
             foreach (Stream stream in this.m_Streams)
             {
-                this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Unmute, VolumeNotificationFlags.AllowRingerModes);
+                try
+                {
+                    this.m_AudioManager.AdjustStreamVolume(stream, Adjust.Unmute, VolumeNotificationFlags.AllowRingerModes);
+                }
+                catch
+                {
+
+                }
             }
         }
     }

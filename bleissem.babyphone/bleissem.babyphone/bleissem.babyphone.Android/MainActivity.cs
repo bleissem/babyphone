@@ -231,6 +231,9 @@ namespace bleissem.babyphone.Droid
 
             AudioManager audioManager = (AudioManager)this.GetSystemService(Context.AudioService);
 
+            Speaker speaker = new Speaker(audioManager);
+            SimpleIoc.Default.Register<ISpeaker>(() => speaker, true);
+
             MuteUnmutePhoneBase mum = new MuteUnmutePhoneBase(audioManager);
 
             SimpleIoc.Default.Register<IUnMutePhone>(()=>mum, true);

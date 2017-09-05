@@ -127,6 +127,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkypeChooseUserOrPhoneActivity.cs" />
     <Compile Include="SkypeUserActivity.cs" />
+    <Compile Include="Speaker.cs" />
     <Compile Include="TurnOnOffScreenViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

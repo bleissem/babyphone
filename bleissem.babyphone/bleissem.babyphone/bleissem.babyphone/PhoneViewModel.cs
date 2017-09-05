@@ -11,9 +11,10 @@ namespace bleissem.babyphone
 
         #region constructors
 
-        public PhoneViewModel(IAudioRecorder recorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer, IMutePhone mutePhone, IUnMutePhone unmutePhone)
+        public PhoneViewModel(IAudioRecorder recorder, Settings settings, ICallNumber callNumber, IReactOnCall reactOnCall, ICreateTimer createTimer, IMutePhone mutePhone, IUnMutePhone unmutePhone, ISpeaker speaker)
         {
             this.IsStarted = false;
+            this.m_Speaker = speaker;
             this.m_UnmutePhone = unmutePhone;
             this.m_MutePhone = mutePhone;
             this.m_Settings = settings;
@@ -37,6 +38,8 @@ namespace bleissem.babyphone
         }
 
         public bool IsStarted { get; private set; }
+
+        private ISpeaker m_Speaker;
 
         private ITimer m_PhoneTimer;
 
@@ -96,6 +99,7 @@ namespace bleissem.babyphone
             if (!this.CanStart) return false;
             this.IsStarted = true;
             m_MutePhone.Mute();
+            if (this.m_Settings.UseSpeakerEnabled) { m_Speaker.TurnOn(); }
             m_PhoneTimer.Start();
             return true;
         }
@@ -103,6 +107,7 @@ namespace bleissem.babyphone
         public void Stop()
         {
             if (null == m_PhoneTimer) return;
+            if (this.m_Settings.UseSpeakerEnabled) { this.m_Speaker.TurnOff(); }
             this.m_UnmutePhone.UnMute();
             this.m_PhoneTimer.Stop();
             this.IsStarted = false;
