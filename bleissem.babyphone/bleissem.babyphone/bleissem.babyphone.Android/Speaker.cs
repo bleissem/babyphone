@@ -54,7 +54,7 @@ namespace bleissem.babyphone.Droid
             m_HasBeenTurnedOff = false;
 
             m_PreviousSpeakerOnOff = m_AudioManager.SpeakerphoneOn;
-            m_AudioManager.Mode = Mode.InCall;
+            m_AudioManager.Mode = Mode.InCommunication;
             m_AudioManager.SpeakerphoneOn = true;
         }
     }

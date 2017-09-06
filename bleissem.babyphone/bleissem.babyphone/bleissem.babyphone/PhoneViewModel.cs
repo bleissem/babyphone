@@ -99,7 +99,7 @@ namespace bleissem.babyphone
             if (!this.CanStart) return false;
             this.IsStarted = true;
             m_MutePhone.Mute();
-            if (this.m_Settings.UseSpeakerEnabled) { m_Speaker.TurnOn(); }
+            if (this.m_Settings.UseSpeakerEnabled) { this.m_Speaker.TurnOn(); }
             m_PhoneTimer.Start();
             return true;
         }
