@@ -26,6 +26,8 @@ namespace bleissem.babyphone.Droid
                 Stream.Music,
                 Stream.Notification
             };
+
+            m_HasBeenMuted = false;
         }
 
         ~MuteUnmutePhoneBase()
@@ -35,6 +37,7 @@ namespace bleissem.babyphone.Droid
 
         private AudioManager m_AudioManager { get; set; }
         private IEnumerable<Stream> m_Streams;
+        private bool m_HasBeenMuted;
 
         private void Dispose(bool disposing)
         {
@@ -49,6 +52,7 @@ namespace bleissem.babyphone.Droid
         public void Mute()
         {
             if (null == m_AudioManager) return;
+            m_HasBeenMuted = true;
 
             foreach (Stream stream in this.m_Streams)
             {
@@ -65,7 +69,8 @@ namespace bleissem.babyphone.Droid
        
         public void UnMute()
         {
-            if (null == m_AudioManager) return;
+            if ((!m_HasBeenMuted) || (null == m_AudioManager)) return;
+            m_HasBeenMuted = false;
 
             foreach (Stream stream in this.m_Streams)
             {
