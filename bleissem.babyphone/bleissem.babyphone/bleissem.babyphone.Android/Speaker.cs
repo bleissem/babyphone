@@ -44,13 +44,14 @@ namespace bleissem.babyphone.Droid
         public void TurnOff()
         {
             if (null == m_AudioManager) return;
-
+            m_HasBeenTurnedOff = true;
             m_AudioManager.SpeakerphoneOn = m_PreviousSpeakerOnOff;
         }
 
         public void TurnOn()
         {
             if ((!m_HasBeenTurnedOff) || (null == m_AudioManager)) return;
+            m_HasBeenTurnedOff = false;
 
             m_PreviousSpeakerOnOff = m_AudioManager.SpeakerphoneOn;
             m_AudioManager.Mode = Mode.InCall;
