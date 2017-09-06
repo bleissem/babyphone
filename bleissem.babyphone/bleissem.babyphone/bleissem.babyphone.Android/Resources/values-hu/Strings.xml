@@ -23,4 +23,7 @@
     <string name="SkypeIsNotInstalledOK">OK</string>  
     <string name="StatusTextNothing"></string>
     <string name="StatusTextSleeping">a gyermekőrző egy percen keresztül alszik</string>
+	  <string name="BackLabel">vissza</string>
+	  <string name="OKLabel">OK</string>
+    <string name="PhoneAdditionalSettingsSpeakerLabel">használni hangszóró</string>
 </resources>

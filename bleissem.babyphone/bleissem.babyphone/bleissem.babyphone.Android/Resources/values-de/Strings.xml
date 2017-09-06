@@ -23,4 +23,7 @@
     <string name="SkypeIsNotInstalledOK">OK</string>  
     <string name="StatusTextNothing"></string>
     <string name="StatusTextSleeping">babyphone schläft für eine Minute</string>
+	  <string name="BackLabel">Zurück</string>
+  	<string name="OKLabel">OK</string>
+    <string name="PhoneAdditionalSettingsSpeakerLabel">Speaker verwenden</string>
 </resources>

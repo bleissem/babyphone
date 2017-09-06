@@ -68,8 +68,8 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f06000d
 			public const int AmpTextView = 2131099661;
 			
-			// aapt resource value: 0x7f060018
-			public const int CheckBoxEnableSkypeVideo = 2131099672;
+			// aapt resource value: 0x7f06001a
+			public const int CheckBoxEnableSkypeVideo = 2131099674;
 			
 			// aapt resource value: 0x7f060008
 			public const int ChooseContactButton = 2131099656;
@@ -86,23 +86,23 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f060002
 			public const int ChooseSkypeLabelTextView = 2131099650;
 			
+			// aapt resource value: 0x7f060018
+			public const int ChooseSkypeOutButton = 2131099672;
+			
 			// aapt resource value: 0x7f060016
-			public const int ChooseSkypeOutButton = 2131099670;
+			public const int ChooseSkypeUserButton = 2131099670;
 			
-			// aapt resource value: 0x7f060014
-			public const int ChooseSkypeUserButton = 2131099668;
-			
-			// aapt resource value: 0x7f060019
-			public const int ChooseSkypeUserOKButton = 2131099673;
-			
-			// aapt resource value: 0x7f060013
-			public const int ChooseSkypeUserOrPhoneLabel1 = 2131099667;
+			// aapt resource value: 0x7f06001b
+			public const int ChooseSkypeUserOKButton = 2131099675;
 			
 			// aapt resource value: 0x7f060015
-			public const int ChooseSkypeUserOrPhoneLabel2 = 2131099669;
+			public const int ChooseSkypeUserOrPhoneLabel1 = 2131099669;
 			
 			// aapt resource value: 0x7f060017
-			public const int ChooseSkypeUserText = 2131099671;
+			public const int ChooseSkypeUserOrPhoneLabel2 = 2131099671;
+			
+			// aapt resource value: 0x7f060019
+			public const int ChooseSkypeUserText = 2131099673;
 			
 			// aapt resource value: 0x7f060009
 			public const int ContactTextView = 2131099657;
@@ -123,10 +123,16 @@ namespace bleissem.babyphone.Droid
 			public const int NoiseLevelTextView = 2131099662;
 			
 			// aapt resource value: 0x7f060011
-			public const int PhoneNumberDetailTextView = 2131099665;
+			public const int PhoneAdditionalSettingsSpeakerCheckBox = 2131099665;
 			
 			// aapt resource value: 0x7f060012
-			public const int PhoneNumberList = 2131099666;
+			public const int PhoneAdditionalSettingsSpeakerOKButton = 2131099666;
+			
+			// aapt resource value: 0x7f060013
+			public const int PhoneNumberDetailTextView = 2131099667;
+			
+			// aapt resource value: 0x7f060014
+			public const int PhoneNumberList = 2131099668;
 			
 			// aapt resource value: 0x7f06000f
 			public const int ServiceButton = 2131099663;
@@ -169,16 +175,19 @@ namespace bleissem.babyphone.Droid
 			public const int Main = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int PhoneNumberDetail = 2130903044;
+			public const int PhoneNumberAdditionalSettings = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int PhoneNumberMaster = 2130903045;
+			public const int PhoneNumberDetail = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int SkypeChooseUserOrSkypePhone = 2130903046;
+			public const int PhoneNumberMaster = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int SkypeUser = 2130903047;
+			public const int SkypeChooseUserOrSkypePhone = 2130903047;
+			
+			// aapt resource value: 0x7f030008
+			public const int SkypeUser = 2130903048;
 			
 			static Layout()
 			{
@@ -195,6 +204,9 @@ namespace bleissem.babyphone.Droid
 			
 			// aapt resource value: 0x7f040001
 			public const int ApplicationName = 2130968577;
+			
+			// aapt resource value: 0x7f040018
+			public const int BackLabel = 2130968600;
 			
 			// aapt resource value: 0x7f040003
 			public const int ChooseContact = 2130968579;
@@ -232,8 +244,14 @@ namespace bleissem.babyphone.Droid
 			// aapt resource value: 0x7f040000
 			public const int Hello = 2130968576;
 			
+			// aapt resource value: 0x7f040019
+			public const int OKLabel = 2130968601;
+			
 			// aapt resource value: 0x7f040009
 			public const int Phone = 2130968585;
+			
+			// aapt resource value: 0x7f04001a
+			public const int PhoneAdditionalSettingsSpeakerLabel = 2130968602;
 			
 			// aapt resource value: 0x7f040008
 			public const int Skype = 2130968584;
