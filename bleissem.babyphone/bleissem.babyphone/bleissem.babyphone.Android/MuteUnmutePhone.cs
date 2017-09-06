@@ -13,9 +13,9 @@ using Android.Media;
 
 namespace bleissem.babyphone.Droid
 {
-    public class MuteUnmutePhoneBase : IDisposable, IUnMutePhone, IMutePhone
+    public class MuteUnmutePhone : IDisposable, IUnMutePhone, IMutePhone
     {
-        public MuteUnmutePhoneBase(AudioManager audioManager)
+        public MuteUnmutePhone(AudioManager audioManager)
         {
             m_AudioManager = audioManager;
             this.m_Streams = new List<Stream>()
@@ -30,7 +30,7 @@ namespace bleissem.babyphone.Droid
             m_HasBeenMuted = false;
         }
 
-        ~MuteUnmutePhoneBase()
+        ~MuteUnmutePhone()
         {
             this.Dispose(false);
         }

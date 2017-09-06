@@ -234,7 +234,7 @@ namespace bleissem.babyphone.Droid
             Speaker speaker = new Speaker(audioManager);
             SimpleIoc.Default.Register<ISpeaker>(() => speaker, true);
 
-            MuteUnmutePhoneBase mum = new MuteUnmutePhoneBase(audioManager);
+            MuteUnmutePhone mum = new MuteUnmutePhone(audioManager);
 
             SimpleIoc.Default.Register<IUnMutePhone>(()=>mum, true);
             SimpleIoc.Default.Register<IMutePhone>(()=>mum, true);

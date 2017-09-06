@@ -8,7 +8,6 @@ namespace bleissem.babyphone
 {
     public interface ISpeaker: IDisposable
     {
-        void TurnOn();
-        void TurnOff();
+        void Turn(bool on, SettingsTable.CallTypeEnum calltype);
     }
 }

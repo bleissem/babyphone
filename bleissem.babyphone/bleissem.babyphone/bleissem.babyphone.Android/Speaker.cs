@@ -18,8 +18,6 @@ namespace bleissem.babyphone.Droid
         public Speaker(AudioManager audioManager)
         {
             m_AudioManager = audioManager;
-            m_PreviousSpeakerOnOff = false;
-            m_HasBeenTurnedOff = false;
         }
 
         ~Speaker()
@@ -28,8 +26,6 @@ namespace bleissem.babyphone.Droid
         }
 
         private AudioManager m_AudioManager;
-        private bool m_PreviousSpeakerOnOff;
-        private bool m_HasBeenTurnedOff;
 
         private void Dispose(bool dispose)
         {
@@ -41,21 +37,20 @@ namespace bleissem.babyphone.Droid
             Dispose(true);
         }
 
-        public void TurnOff()
+        public void Turn(bool on, SettingsTable.CallTypeEnum calltype)
         {
             if (null == m_AudioManager) return;
-            m_HasBeenTurnedOff = true;
-            m_AudioManager.SpeakerphoneOn = m_PreviousSpeakerOnOff;
+
+            if (calltype == SettingsTable.CallTypeEnum.Phone)
+            {
+                m_AudioManager.Mode = Mode.InCall;
+            }
+            else
+            {
+                m_AudioManager.Mode = Mode.InCommunication;
+            }
+            m_AudioManager.SpeakerphoneOn = on;
         }
 
-        public void TurnOn()
-        {
-            if ((!m_HasBeenTurnedOff) || (null == m_AudioManager)) return;
-            m_HasBeenTurnedOff = false;
-
-            m_PreviousSpeakerOnOff = m_AudioManager.SpeakerphoneOn;
-            m_AudioManager.Mode = Mode.InCommunication;
-            m_AudioManager.SpeakerphoneOn = true;
-        }
     }
 }

@@ -113,7 +113,7 @@
     <Compile Include="Contact.cs" />
     <Compile Include="ContactsAdapter.cs" />
     <Compile Include="ContactsMasterActivitiy.cs" />
-    <Compile Include="MuteUnmutePhoneBase.cs" />
+    <Compile Include="MuteUnmutePhone.cs" />
     <Compile Include="PhoneCallTimer.cs" />
     <Compile Include="PhoneManager.cs" />
     <Compile Include="PhoneNumberAdditionalSettingsActivity.cs" />

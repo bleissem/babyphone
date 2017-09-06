@@ -71,6 +71,7 @@ namespace bleissem.babyphone
             if ( (null != m_AudioRecorderViewModel) && (m_AudioRecorderViewModel.IsStarted) && (m_AudioRecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
             {
                 m_AudioRecorderViewModel.Stop();
+                this.m_Speaker.Turn(this.m_Settings.UseSpeakerEnabled, this.m_Settings.CallType);
                 this.m_CallNumber.Dial();
             }
             else
@@ -98,8 +99,7 @@ namespace bleissem.babyphone
         {
             if (!this.CanStart) return false;
             this.IsStarted = true;
-            m_MutePhone.Mute();
-            if (this.m_Settings.UseSpeakerEnabled) { this.m_Speaker.TurnOn(); }
+            m_MutePhone.Mute();            
             m_PhoneTimer.Start();
             return true;
         }
@@ -107,7 +107,6 @@ namespace bleissem.babyphone
         public void Stop()
         {
             if (null == m_PhoneTimer) return;
-            if (this.m_Settings.UseSpeakerEnabled) { this.m_Speaker.TurnOff(); }
             this.m_UnmutePhone.UnMute();
             this.m_PhoneTimer.Stop();
             this.IsStarted = false;
