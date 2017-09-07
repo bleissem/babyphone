@@ -52,7 +52,8 @@ namespace bleissem.babyphone.Droid
         {
             var number = m_PhoneNumbersAdapter[e.Position];
 
-            IntentFactory.StartActivityWithNoHistory<PhoneNumberAdditionalSettingsActivity>(this, (intent) =>            
+            // IntentFactory.StartActivityWithNoHistory<PhoneNumberAdditionalSettingsActivity>(this, (intent) =>    //TODO: use this in future versions 
+            IntentFactory.StartActivityThatAlreadyExist<MainActivity>(this, (intent) =>
             {
                 intent.PutExtra(IntentFactory.SetIdToCall, number.Number);
                 intent.PutExtra(IntentFactory.SetCallType, Convert.ToInt32(m_CallType));
