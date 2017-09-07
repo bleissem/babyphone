@@ -71,7 +71,7 @@ namespace bleissem.babyphone
             if ( (null != m_AudioRecorderViewModel) && (m_AudioRecorderViewModel.IsStarted) && (m_AudioRecorderViewModel.GetAmplitude() >= m_Settings.NoiseLevel) && (m_CallNumber.CanDial()) )
             {
                 m_AudioRecorderViewModel.Stop();
-                this.m_Speaker.Turn(this.m_Settings.UseSpeakerEnabled, this.m_Settings.CallType);
+                // this.m_Speaker.Turn(this.m_Settings.UseSpeakerEnabled, this.m_Settings.CallType); //TODO: activate me in future
                 this.m_CallNumber.Dial();
             }
             else
