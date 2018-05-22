@@ -24,6 +24,7 @@ namespace bleissem.babyphone.Droid
 
         private Button m_ChooseSkypeUserOKButton;
         private CheckBox m_IsSkypeEnabledCheckBox;
+        private Settings _Settings;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -33,18 +34,23 @@ namespace bleissem.babyphone.Droid
             m_ChooseSkypeUserOKButton = this.FindViewById<Button>(Resource.Id.ChooseSkypeUserOKButton);
             m_ChooseSkypeUserOKButton.Click += chooseSkypeUserOKButton_Click;
 
-            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
+            _Settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
 
             m_IsSkypeEnabledCheckBox = this.FindViewById<CheckBox>(Resource.Id.CheckBoxEnableSkypeVideo);
             m_IsSkypeEnabledCheckBox.Click += m_IsSkypeEnabledCheckBox_Click;
-            m_IsSkypeEnabledCheckBox.Checked = settings.IsSkypeVideoEnabled;
+            m_IsSkypeEnabledCheckBox.Checked = _Settings.IsSkypeVideoEnabled;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            this.CleanUp();
         }
 
 
         private void m_IsSkypeEnabledCheckBox_Click(object sender, EventArgs e)
         {
-            Settings settings = SimpleIoc.Default.GetInstance<bleissem.babyphone.Settings>();
-            settings.IsSkypeVideoEnabled = m_IsSkypeEnabledCheckBox.Checked;
+            _Settings.IsSkypeVideoEnabled = m_IsSkypeEnabledCheckBox.Checked;
         }
 
         void chooseSkypeUserOKButton_Click(object sender, EventArgs e)
@@ -73,6 +79,11 @@ namespace bleissem.babyphone.Droid
             {
                 m_IsSkypeEnabledCheckBox.Click -= m_IsSkypeEnabledCheckBox_Click;
                 m_IsSkypeEnabledCheckBox = null;
+            }
+
+            if (null != _Settings)
+            {
+                _Settings = null;
             }
         }
 
