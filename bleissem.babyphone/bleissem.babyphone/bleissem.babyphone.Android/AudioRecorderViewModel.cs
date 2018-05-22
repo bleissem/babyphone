@@ -98,11 +98,13 @@ namespace bleissem.babyphone.Droid
                 short[] buffer = new short[m_MinSize];
                 m_AudioRecord.Read(buffer, 0, m_MinSize);
                 int max = 0;
+                int ints = 0;
                 foreach (short s in buffer)
                 {
-                    if (Math.Abs(s) > max)
+                    ints = Math.Abs(Convert.ToInt32(s));
+                    if (ints > max)
                     {
-                        max = Math.Abs(s);
+                        max = ints;
                     }
                 }
 
