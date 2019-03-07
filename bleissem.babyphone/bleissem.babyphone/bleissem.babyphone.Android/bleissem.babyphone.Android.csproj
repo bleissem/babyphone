@@ -69,17 +69,11 @@
     <DebugSymbols>False</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MvvmLightLibs.5.4.1.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MvvmLightLibs.5.4.1.1\lib\monoandroid1\GalaSoft.MvvmLight.Extras.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=0ffbc31322e9d308, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmLightLibsStd10.5.4.1.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MvvmLightLibs.5.4.1.1\lib\monoandroid1\GalaSoft.MvvmLight.Platform.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\MvvmLightLibsStd10.5.4.1.1\lib\monoandroid1\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
