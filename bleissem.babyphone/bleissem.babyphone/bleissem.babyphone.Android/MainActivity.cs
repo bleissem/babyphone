@@ -8,7 +8,6 @@ using Android.Widget;
 using Android.OS;
 
 using GalaSoft.MvvmLight.Ioc;
-using SQLite.Net.Platform.XamarinAndroid;
 using Android.Util;
 using Android.Content;
 using Android.Telephony;
@@ -224,9 +223,8 @@ namespace bleissem.babyphone.Droid
 
 			SimpleIoc.Default.Register<ICreateTimer>(() => new MyTimerCreator(), true);
 
-			var platform = new SQLitePlatformAndroid();
 			var dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Babyphone.Settings.db3");
-			Settings settings = new Settings(dbPath, platform);
+			Settings settings = new Settings(dbPath);
 			SimpleIoc.Default.Register<bleissem.babyphone.Settings>(() => settings, true);
 
             AudioManager audioManager = (AudioManager)this.GetSystemService(Context.AudioService);

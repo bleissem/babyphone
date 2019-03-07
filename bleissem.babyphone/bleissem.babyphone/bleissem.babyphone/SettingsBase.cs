@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Interop;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +9,18 @@ namespace bleissem.babyphone
 {
     public abstract class DBSettingBase<TTable> where TTable : class, new()
     {
-        public DBSettingBase(string dbPath, ISQLitePlatform platform)
+        public DBSettingBase(string dbPath)
         {
             m_DBPath = dbPath;
-            m_Platform = platform;
             Load();
         }
 
         protected string m_DBPath;
-        protected ISQLitePlatform m_Platform;
 
         protected void Load()
         {
 
-            using (var db = new SQLite.Net.SQLiteConnection(m_Platform, m_DBPath))
+            using (var db = new SQLiteConnection(m_DBPath))
             {
 
                 db.CreateTable<TTable>();
@@ -43,7 +41,7 @@ namespace bleissem.babyphone
 
         protected void Save()
         {
-            using (SQLite.Net.SQLiteConnection db = new SQLite.Net.SQLiteConnection(m_Platform, m_DBPath))
+            using (SQLiteConnection db = new SQLiteConnection(m_DBPath))
             {
                 db.CreateTable<TTable>();
                 if (0 == db.Table<TTable>().Count())

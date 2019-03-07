@@ -1,5 +1,4 @@
-﻿using SQLite.Net.Interop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +9,7 @@ namespace bleissem.babyphone
     public class Settings: DBSettingBase<SettingsTable>
     {
 
-        public Settings(string dbPath, ISQLitePlatform platform):base(dbPath, platform)
+        public Settings(string dbPath):base(dbPath)
         {
 
         }
