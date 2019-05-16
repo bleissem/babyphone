@@ -14,6 +14,9 @@ using Android.Telephony;
 using Android.Graphics;
 using System.Reflection;
 using Android.Media;
+using Android.Support.V4.Content;
+using Android;
+using System.Collections.Generic;
 
 namespace bleissem.babyphone.Droid
 {
@@ -31,12 +34,41 @@ namespace bleissem.babyphone.Droid
 			SetContentView(Resource.Layout.Main);
             this.Title = "babyphone - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+            List<string> permissions = new List<string>()
+            {
+                Manifest.Permission.CallPhone,
+                Manifest.Permission.ReadPhoneState,
+                Manifest.Permission.RecordAudio,
+                Manifest.Permission.ReorderTasks,
+                Manifest.Permission.ReadContacts,
+                Manifest.Permission.ModifyAudioSettings
+            };
+
+            foreach(string permission in permissions)
+            {
+                if (!RequestPermissions(permission))
+                {
+                    return;
+                }
+            }
+
             this.SetStatusUI(false);
 			this.InitializeIoC();
 			this.InitializeUI();            
 
 			this.SetStartStopUI();
 		}
+
+        private bool RequestPermissions(string permission)
+        {
+            bool result = ContextCompat.CheckSelfPermission(this, permission) == (int)Permission.Granted;
+            if (!result)
+            {
+                Toast.MakeText(this, $"Permission: {permission} needed.", ToastLength.Long);
+            }
+
+            return result;
+        }
 
 		protected override void OnStart()
 		{
