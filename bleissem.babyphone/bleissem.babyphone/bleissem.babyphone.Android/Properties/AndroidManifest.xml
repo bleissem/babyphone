@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="preferExternal" package="com.bleissem.babyphone" android:versionName="1.2.9" android:versionCode="28">
-	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="27" />
+	<uses-sdk android:targetSdkVersion="28" android:minSdkVersion="23" />
 	<application android:label="babyphone" android:icon="@drawable/Icon"></application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
