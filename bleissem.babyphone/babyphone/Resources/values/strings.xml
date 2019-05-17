@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ApplicationName">Babyphone.Android</string>
+    <string name="ChooseLabel">please choose</string>
+    <string name="ChooseContact">the communication</string>
+    <string name="YouAreUsingLabel">you are using</string>
+    <string name="ChooseNoiseLevel">noise level</string>
+    <string name="StartService">start</string>
+    <string name="StopService">stop</string>
+    <string name="Skype">Skype</string>
+    <string name="Phone">Phone</string>
+    <string name="SkypeOut">SkypeOut</string>
+    <string name="ChoosePhoneLabel">if you want to dial a number with your phone choose:</string>
+    <string name="ChooseSkypeLabel">if you want to skype with a skype user choose:</string>
+    <string name="ChooseSkypeUserOrPhoneLabel1">please enter the skype user you want to call to</string>
+    <string name="ChooseSkypeUserOrPhoneLabel2">Or please select the telefon number you want to call to</string>
+    <string name="ChooseSkypeUserOKButton">OK</string>
+    <string name="ChooseSkypeUserButton">Skype user audio/video chat</string>
+    <string name="ChooseSkypeOutButton">SkypeOut call</string>
+    <string name="ChooseSkypeVideo">enable video</string>
+    <string name="SkypeIsNotInstalledTitle">Skype is not installed</string>
+    <string name="SkypeIsNotInstalledText">Please install Skype.</string>
+    <string name="SkypeIsNotInstalledOK">OK</string>
+    <string name="StatusTextNothing"></string>
+    <string name="StatusTextSleeping">babyphone sleeps for a minute</string>
+	  <string name="BackLabel">back</string>
+	  <string name="OKLabel">OK</string>
+    <string name="PhoneAdditionalSettingsSpeakerLabel">use speaker</string>
+
+</resources>
