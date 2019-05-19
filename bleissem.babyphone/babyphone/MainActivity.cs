@@ -39,10 +39,7 @@ namespace babyphone
 
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fab.Click += FabOnClick;
-
-            /*
-
-            SetContentView(Resource.Layout.Main);
+            
             this.Title = "babyphone - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             List<string> permissions = new List<string>()
@@ -68,7 +65,6 @@ namespace babyphone
             this.InitializeUI();
 
             this.SetStartStopUI();
-            */
         }
 
         private bool RequestPermissions(string permission)
