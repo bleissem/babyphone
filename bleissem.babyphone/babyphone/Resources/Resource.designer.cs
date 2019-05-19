@@ -2438,8 +2438,8 @@ namespace babyphone
 			// aapt resource value: 0x7f090032
 			public const int ALT = 2131296306;
 			
-			// aapt resource value: 0x7f0900a8
-			public const int AmpTextView = 2131296424;
+			// aapt resource value: 0x7f09009a
+			public const int AmpTextView = 2131296410;
 			
 			// aapt resource value: 0x7f090033
 			public const int CTRL = 2131296307;
@@ -2447,8 +2447,8 @@ namespace babyphone
 			// aapt resource value: 0x7f0900c8
 			public const int CheckBoxEnableSkypeVideo = 2131296456;
 			
-			// aapt resource value: 0x7f0900a3
-			public const int ChooseContactButton = 2131296419;
+			// aapt resource value: 0x7f090095
+			public const int ChooseContactButton = 2131296405;
 			
 			// aapt resource value: 0x7f09008e
 			public const int ChoosePhoneButton = 2131296398;
@@ -2480,8 +2480,8 @@ namespace babyphone
 			// aapt resource value: 0x7f0900c7
 			public const int ChooseSkypeUserText = 2131296455;
 			
-			// aapt resource value: 0x7f0900a4
-			public const int ContactTextView = 2131296420;
+			// aapt resource value: 0x7f090096
+			public const int ContactTextView = 2131296406;
 			
 			// aapt resource value: 0x7f090091
 			public const int ContactsDetailTextView = 2131296401;
@@ -2495,14 +2495,14 @@ namespace babyphone
 			// aapt resource value: 0x7f090035
 			public const int META = 2131296309;
 			
-			// aapt resource value: 0x7f0900a1
-			public const int MainView = 2131296417;
+			// aapt resource value: 0x7f090093
+			public const int MainView = 2131296403;
 			
-			// aapt resource value: 0x7f0900a7
-			public const int NoiseLevelButton = 2131296423;
+			// aapt resource value: 0x7f090099
+			public const int NoiseLevelButton = 2131296409;
 			
-			// aapt resource value: 0x7f0900a9
-			public const int NoiseLevelTextView = 2131296425;
+			// aapt resource value: 0x7f09009b
+			public const int NoiseLevelTextView = 2131296411;
 			
 			// aapt resource value: 0x7f0900bf
 			public const int PhoneAdditionalSettingsSpeakerCheckBox = 2131296447;
@@ -2522,17 +2522,17 @@ namespace babyphone
 			// aapt resource value: 0x7f090037
 			public const int SYM = 2131296311;
 			
-			// aapt resource value: 0x7f0900aa
-			public const int ServiceButton = 2131296426;
+			// aapt resource value: 0x7f09009c
+			public const int ServiceButton = 2131296412;
 			
-			// aapt resource value: 0x7f0900ab
-			public const int StatusTextView = 2131296427;
+			// aapt resource value: 0x7f09009d
+			public const int StatusTextView = 2131296413;
 			
-			// aapt resource value: 0x7f0900a5
-			public const int YouAreUsingLabeltextView = 2131296421;
+			// aapt resource value: 0x7f090097
+			public const int YouAreUsingLabeltextView = 2131296407;
 			
-			// aapt resource value: 0x7f0900a6
-			public const int YouAreUsingTextView = 2131296422;
+			// aapt resource value: 0x7f090098
+			public const int YouAreUsingTextView = 2131296408;
 			
 			// aapt resource value: 0x7f0900af
 			public const int action0 = 2131296431;
@@ -2651,14 +2651,14 @@ namespace babyphone
 			// aapt resource value: 0x7f090039
 			public const int collapseActionView = 2131296313;
 			
-			// aapt resource value: 0x7f090095
-			public const int container = 2131296405;
+			// aapt resource value: 0x7f0900a0
+			public const int container = 2131296416;
 			
 			// aapt resource value: 0x7f090066
 			public const int contentPanel = 2131296358;
 			
-			// aapt resource value: 0x7f090096
-			public const int coordinator = 2131296406;
+			// aapt resource value: 0x7f0900a1
+			public const int coordinator = 2131296417;
 			
 			// aapt resource value: 0x7f09006d
 			public const int custom = 2131296365;
@@ -2672,20 +2672,20 @@ namespace babyphone
 			// aapt resource value: 0x7f090060
 			public const int default_activity_button = 2131296352;
 			
-			// aapt resource value: 0x7f090098
-			public const int design_bottom_sheet = 2131296408;
+			// aapt resource value: 0x7f0900a3
+			public const int design_bottom_sheet = 2131296419;
 			
-			// aapt resource value: 0x7f09009f
-			public const int design_menu_item_action_area = 2131296415;
+			// aapt resource value: 0x7f0900aa
+			public const int design_menu_item_action_area = 2131296426;
 			
-			// aapt resource value: 0x7f09009e
-			public const int design_menu_item_action_area_stub = 2131296414;
+			// aapt resource value: 0x7f0900a9
+			public const int design_menu_item_action_area_stub = 2131296425;
 			
-			// aapt resource value: 0x7f09009d
-			public const int design_menu_item_text = 2131296413;
+			// aapt resource value: 0x7f0900a8
+			public const int design_menu_item_text = 2131296424;
 			
-			// aapt resource value: 0x7f09009c
-			public const int design_navigation_view = 2131296412;
+			// aapt resource value: 0x7f0900a7
+			public const int design_navigation_view = 2131296423;
 			
 			// aapt resource value: 0x7f090020
 			public const int disableHome = 2131296288;
@@ -2762,8 +2762,8 @@ namespace babyphone
 			// aapt resource value: 0x7f090000
 			public const int item_touch_helper_previous_elevation = 2131296256;
 			
-			// aapt resource value: 0x7f090094
-			public const int largeLabel = 2131296404;
+			// aapt resource value: 0x7f09009f
+			public const int largeLabel = 2131296415;
 			
 			// aapt resource value: 0x7f090049
 			public const int left = 2131296329;
@@ -2798,8 +2798,8 @@ namespace babyphone
 			// aapt resource value: 0x7f090028
 			public const int multiply = 2131296296;
 			
-			// aapt resource value: 0x7f09009b
-			public const int navigation_header_container = 2131296411;
+			// aapt resource value: 0x7f0900a6
+			public const int navigation_header_container = 2131296422;
 			
 			// aapt resource value: 0x7f09003b
 			public const int never = 2131296315;
@@ -2921,14 +2921,14 @@ namespace babyphone
 			// aapt resource value: 0x7f090025
 			public const int showTitle = 2131296293;
 			
-			// aapt resource value: 0x7f090093
-			public const int smallLabel = 2131296403;
+			// aapt resource value: 0x7f09009e
+			public const int smallLabel = 2131296414;
 			
-			// aapt resource value: 0x7f09009a
-			public const int snackbar_action = 2131296410;
+			// aapt resource value: 0x7f0900a5
+			public const int snackbar_action = 2131296421;
 			
-			// aapt resource value: 0x7f090099
-			public const int snackbar_text = 2131296409;
+			// aapt resource value: 0x7f0900a4
+			public const int snackbar_text = 2131296420;
 			
 			// aapt resource value: 0x7f090043
 			public const int snap = 2131296323;
@@ -2978,11 +2978,11 @@ namespace babyphone
 			// aapt resource value: 0x7f090069
 			public const int textSpacerNoTitle = 2131296361;
 			
-			// aapt resource value: 0x7f0900a2
-			public const int textView2 = 2131296418;
+			// aapt resource value: 0x7f090094
+			public const int textView2 = 2131296404;
 			
-			// aapt resource value: 0x7f0900a0
-			public const int text_input_password_toggle = 2131296416;
+			// aapt resource value: 0x7f0900ab
+			public const int text_input_password_toggle = 2131296427;
 			
 			// aapt resource value: 0x7f090014
 			public const int textinput_counter = 2131296276;
@@ -3011,8 +3011,8 @@ namespace babyphone
 			// aapt resource value: 0x7f09006e
 			public const int topPanel = 2131296366;
 			
-			// aapt resource value: 0x7f090097
-			public const int touch_outside = 2131296407;
+			// aapt resource value: 0x7f0900a2
+			public const int touch_outside = 2131296418;
 			
 			// aapt resource value: 0x7f09000f
 			public const int transition_current_scene = 2131296271;
