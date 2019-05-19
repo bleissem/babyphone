@@ -20,8 +20,8 @@ using GalaSoft.MvvmLight.Ioc;
 
 namespace babyphone
 {
-    [Activity(Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState = true, LaunchMode = LaunchMode.SingleInstance)]
-    //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true, LaunchMode = LaunchMode.SingleInstance)]
+    [Activity(Label = "@string/ApplicationName", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true, AlwaysRetainTaskState = true, LaunchMode = LaunchMode.SingleInstance)]
+    //    [Activity(Icon = "@drawable/icon", MainLauncher = true, AlwaysRetainTaskState = true, LaunchMode = LaunchMode.SingleInstance)]
     public class MainActivity : AppCompatActivity
     {
         private bool DoFinish = false;
@@ -32,21 +32,14 @@ namespace babyphone
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            try
-            {
-                SetContentView(Resource.Layout.activity_main);
+            SetContentView(Resource.Layout.activity_main);
 
-                Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-                SetSupportActionBar(toolbar);
+            Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
 
-                FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-                fab.Click += FabOnClick;
+            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
+            fab.Click += FabOnClick;
 
-            }
-            catch(Exception ex)
-            {
-                int i = 0;
-            }
             /*
 
             SetContentView(Resource.Layout.Main);
