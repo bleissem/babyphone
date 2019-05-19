@@ -32,13 +32,22 @@ namespace babyphone
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            // SetContentView(Resource.Layout.activity_main);
+            try
+            {
+                SetContentView(Resource.Layout.activity_main);
 
-            //Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            //SetSupportActionBar(toolbar);
+                Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+                SetSupportActionBar(toolbar);
 
-            //FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            //fab.Click += FabOnClick;
+                FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
+                fab.Click += FabOnClick;
+
+            }
+            catch(Exception ex)
+            {
+                int i = 0;
+            }
+            /*
 
             SetContentView(Resource.Layout.Main);
             this.Title = "babyphone - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -66,6 +75,7 @@ namespace babyphone
             this.InitializeUI();
 
             this.SetStartStopUI();
+            */
         }
 
         private bool RequestPermissions(string permission)
