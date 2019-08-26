@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Android.Content;
+using Android.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +14,7 @@ namespace bleissem.babyphone.Droid
 
         public AudioRecorderViewModel()
         {
-            m_MinSize = Android.Media.AudioRecord.GetMinBufferSize(SampleRate, Channelin, MediaEncoding);
+            m_MinSize = Android.Media.AudioRecord.GetMinBufferSize(m_SampleRate, Channelin, MediaEncoding);
         }
 
         #endregion
@@ -25,7 +27,7 @@ namespace bleissem.babyphone.Droid
 
         private volatile Android.Media.AudioRecord m_AudioRecord;
         private int m_MinSize;
-        private const int SampleRate = 8000;
+        private int m_SampleRate = 8000;
         private const Android.Media.ChannelIn Channelin = Android.Media.ChannelIn.Mono;
         private const Android.Media.Encoding MediaEncoding = Android.Media.Encoding.Pcm16bit;
 
@@ -61,7 +63,26 @@ namespace bleissem.babyphone.Droid
             
             try
             {
-                m_AudioRecord = new Android.Media.AudioRecord(this.MediaAudioSource, SampleRate, Channelin, MediaEncoding, m_MinSize);
+                if (Android.OS.Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.JellyBean)
+                {
+                    try
+                    {
+                        var audioService = (AudioManager)Android.App.Application.Context.GetSystemService(Context.AudioService);
+                        var propertyOutputSampleRate = audioService.GetProperty(AudioManager.PropertyOutputSampleRate);
+
+                        if (!string.IsNullOrEmpty(propertyOutputSampleRate) && int.TryParse(propertyOutputSampleRate, out int sampleRate))
+                        {
+                            this.m_SampleRate = sampleRate;
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                Android.OS.Process.SetThreadPriority(Android.OS.ThreadPriority.UrgentAudio);
+
+                m_AudioRecord = new Android.Media.AudioRecord(this.MediaAudioSource, m_SampleRate, Channelin, MediaEncoding, m_MinSize);
                 m_AudioRecord.StartRecording();
             }
             catch

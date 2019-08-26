@@ -27,6 +27,7 @@ namespace babyphone
         private bool DoFinish = false;
         private ExecuteGenericAction<bool> m_SetStatusUI;
         private ExecuteGenericAction<double> m_UpdateAmplitude;
+        private RequestDroidPermissions _RequestPermissions;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,7 +43,8 @@ namespace babyphone
             
             this.Title = "babyphone - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            List<string> permissions = new List<string>()
+            _RequestPermissions = new RequestDroidPermissions(this);
+            _RequestPermissions.CheckPermission(new List<string>()
             {
                 Manifest.Permission.CallPhone,
                 Manifest.Permission.ReadPhoneState,
@@ -50,32 +52,13 @@ namespace babyphone
                 Manifest.Permission.ReorderTasks,
                 Manifest.Permission.ReadContacts,
                 Manifest.Permission.ModifyAudioSettings
-            };
-
-            foreach (string permission in permissions)
-            {
-                if (!RequestPermissions(permission))
-                {
-                    return;
-                }
-            }
-
+            });
+            
             this.SetStatusUI(false);
             this.InitializeIoC();
             this.InitializeUI();
 
             this.SetStartStopUI();
-        }
-
-        private bool RequestPermissions(string permission)
-        {
-            bool result = ContextCompat.CheckSelfPermission(this, permission) == (int)Permission.Granted;
-            if (!result)
-            {
-                Toast.MakeText(this, $"Permission: {permission} needed.", ToastLength.Long);
-            }
-
-            return result;
         }
 
         private void AssignCallSettings(string number, SettingsTable.CallTypeEnum callType)
@@ -642,6 +625,8 @@ namespace babyphone
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
         }
 	}
 }
