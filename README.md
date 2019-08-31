@@ -22,12 +22,11 @@ https://play.google.com/store/apps/details?id=com.bleissem.babyphone
   </tr>
   <tr>
     <td>
+      <img src="https://dev.azure.com/bleissem/babyphone_opensource/_apis/build/status/babyphone_opensource_CI%20dev"></img>
     </td>
-    <td><img src="https://dev.azure.com/bleissem/babyphone_opensource/_apis/build/status/babyphone_opensource_CI%20master?branchName=master"></img></td>
-  </tr>
-  <tr>
-  <td><img src="https://ci.appveyor.com/api/projects/status/qm1hcgdw1c0yemn0/branch/dev?svg=true"</img></td>
-  <td><img src="https://ci.appveyor.com/api/projects/status/i8pvqdsk3925aimv/branch/master?svg=true"</img></td>  
+    <td>
+      <img src="https://dev.azure.com/bleissem/babyphone_opensource/_apis/build/status/babyphone_opensource_CI%20master?branchName=master"</img>
+    </td>
   </tr>
 </tbody>
 </table>
