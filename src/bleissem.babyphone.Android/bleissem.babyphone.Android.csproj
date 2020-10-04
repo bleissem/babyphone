@@ -61,11 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.5.3.2</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.7.0.1239" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.5.3.2" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Call.cs" />
+    <Compile Include="CallContext.cs" />
+    <Compile Include="ICallContext.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="SplashActivity.cs" />
@@ -107,6 +113,10 @@
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\bleissem.babyphone.core\bleissem.babyphone.Core.csproj">
+      <Project>{acf03352-db5d-428d-acf0-0825c8797543}</Project>
+      <Name>bleissem.babyphone.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\bleissem.babyphone\bleissem.babyphone.csproj">
       <Project>{A682884C-CB44-4A89-B752-27BB634E0ABE}</Project>
       <Name>bleissem.babyphone</Name>

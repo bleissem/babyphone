@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using bleissem.babyphone.Core;
 using Prism;
 using Prism.Ioc;
 
@@ -16,6 +17,7 @@ namespace bleissem.babyphone.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
@@ -33,8 +35,9 @@ namespace bleissem.babyphone.Droid
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Register any platform specific implementations
+            containerRegistry.RegisterSingleton<ICall, Call>();
+            containerRegistry.RegisterSingleton<ICallContext, CallContext>();
+            containerRegistry.RegisterSingleton<ICallContext, CallContext>();
         }
     }
 }
-
