@@ -64,14 +64,13 @@
     <PackageReference Include="Xamarin.Essentials">
       <Version>1.5.3.2</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1239" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.5.3.2" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioRecordService.cs" />
     <Compile Include="Call.cs" />
-    <Compile Include="CallContext.cs" />
-    <Compile Include="ICallContext.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="SplashActivity.cs" />

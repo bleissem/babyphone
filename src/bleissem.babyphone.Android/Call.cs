@@ -34,7 +34,7 @@ namespace bleissem.babyphone.Droid
         public void Number()
         {
             string number = _numberContext.Number;
-            var mainActivity = _callContext.MainActivity;
+            var mainActivity = global::Android.App.Application.Context;// _callContext.MainActivity;
             Intent phoneIntent = new Intent(Intent.ActionCall);
 
             phoneIntent.SetPackage(PhonePackage);
