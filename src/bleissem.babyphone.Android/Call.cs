@@ -15,9 +15,8 @@ namespace bleissem.babyphone.Droid
 {
     public class Call : ICall
     {
-        public Call(ICallContext callContext, INumberContext numberContext)
+        public Call(INumberContext numberContext)
         {
-            _callContext = callContext;
             _numberContext = numberContext;
         }
 
@@ -26,7 +25,6 @@ namespace bleissem.babyphone.Droid
             Dispose(false);
         }
 
-        private ICallContext _callContext;
         private INumberContext _numberContext;
 
         private const string PhonePackage = "com.android.server.telecom";
@@ -34,7 +32,7 @@ namespace bleissem.babyphone.Droid
         public void Number()
         {
             string number = _numberContext.Number;
-            var mainActivity = global::Android.App.Application.Context;// _callContext.MainActivity;
+            var mainActivity = global::Android.App.Application.Context;
             Intent phoneIntent = new Intent(Intent.ActionCall);
 
             phoneIntent.SetPackage(PhonePackage);
@@ -55,8 +53,6 @@ namespace bleissem.babyphone.Droid
 
         protected virtual void Dispose(bool disposing)
         {
-            _callContext?.Dispose();
-            _callContext = null;
             _numberContext?.Dispose();
             _numberContext = null;
         }

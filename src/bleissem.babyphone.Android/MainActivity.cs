@@ -36,7 +36,6 @@ namespace bleissem.babyphone.Droid
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ICall, Call>();
-            containerRegistry.RegisterSingleton<ICallContext, CallContext>();
             containerRegistry.RegisterSingleton<INumberContext, NumberContext>();
         }
     }
