@@ -35,3 +35,4 @@ using Android.App;
 [assembly: UsesPermission(Android.Manifest.Permission.CallPhone)]
 [assembly: UsesPermission(Android.Manifest.Permission.ReadPhoneState)]
 [assembly: UsesPermission(Android.Manifest.Permission.ReadPhoneNumbers)]
+[assembly: UsesPermission(Android.Manifest.Permission.ForegroundService)]

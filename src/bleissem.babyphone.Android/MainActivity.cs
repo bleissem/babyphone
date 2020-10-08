@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using bleissem.babyphone.Core;
@@ -28,6 +29,35 @@ namespace bleissem.babyphone.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            StartMyRequestService();
+        }
+
+        public void StartMyRequestService()
+        {
+            StartForegroundServiceCompat<AudioRecordService>(this);
+        }
+
+        public static void StartForegroundServiceCompat<T>(Context context, Bundle args = null) where T : Service
+        {
+            var intent = new Intent(context, typeof(T));
+            if (args != null)
+            {
+                intent.PutExtras(args);
+            }
+
+            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+            {
+                context.StartForegroundService(intent);
+            }
+            else
+            {
+                context.StartService(intent);
+            }
         }
     }
 
