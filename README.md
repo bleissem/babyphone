@@ -1,4 +1,7 @@
 # babyphone
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/354aced55b0146e6a6e4766415a89e84)](https://app.codacy.com/manual/bleissem/babyphone?utm_source=github.com&utm_medium=referral&utm_content=bleissem/babyphone&utm_campaign=Badge_Grade_Settings)
+
 <br>
 Ein freie und quelloffene Babyphone App von bleissem.com
 <br>
