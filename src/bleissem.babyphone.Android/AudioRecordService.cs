@@ -62,20 +62,19 @@ namespace bleissem.babyphone.Droid
         public override void OnDestroy()
         {
             _handler.RemoveCallbacks(_runnable);
-
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             notificationManager.Cancel(NOTIFICATION_SERVICE_ID);
-
             isStarted = false;
+            _handler.Dispose();
+            _handler = null;
             base.OnDestroy();
         }
 
         private void CreateNotificationChannel()
         {
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationImportance.Max);
-            notificationChannel.EnableLights(true);
-            notificationChannel.EnableVibration(true);
-            notificationChannel.SetVibrationPattern(new long[] { 100, 200, 300, 400, 500, 400, 300, 200, 400 });
+            notificationChannel.EnableLights(false);
+            notificationChannel.EnableVibration(false);
 
             NotificationManager notificationManager = (NotificationManager)this.GetSystemService(Context.NotificationService);
             notificationManager.CreateNotificationChannel(notificationChannel);
@@ -84,9 +83,8 @@ namespace bleissem.babyphone.Droid
         private void DispatchNotificationThatServiceIsRunning()
         {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                   .SetDefaults((int)NotificationDefaults.All)
+                   .SetDefaults((int)NotificationDefaults.Lights)
                    .SetSmallIcon(Resource.Drawable.Icon)
-                   .SetVibrate(new long[] { 100, 200, 300, 400, 500, 400, 300, 200, 400 })
                    .SetSound(null)
                    .SetChannelId(NOTIFICATION_CHANNEL_ID)
                    .SetPriority(NotificationCompat.PriorityDefault)
