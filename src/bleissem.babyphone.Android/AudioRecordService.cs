@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.App;
+using Java.Util.Concurrent;
 
 namespace bleissem.babyphone.Droid
 {
@@ -19,7 +20,7 @@ namespace bleissem.babyphone.Droid
         private Handler _handler;
         private Action _runnable;
         private bool isStarted;
-        private int DELAY_BETWEEN_LOG_MESSAGES = 5000;
+        private int DELAY_BETWEEN_LOG_MESSAGES = 1000;
         private int NOTIFICATION_SERVICE_ID = 1001;
         private int NOTIFICATION_AlARM_ID = 1002;
         private string NOTIFICATION_CHANNEL_ID = "1003";
@@ -30,13 +31,16 @@ namespace bleissem.babyphone.Droid
             base.OnCreate();
 
             _handler = new Handler();
-
+            uint i = 0;
             _runnable = new Action(() =>
             {
                 if (isStarted)
                 {
-                    DispatchNotificationThatAlarmIsGenerated("I'm running");
-                    _handler.PostDelayed(_runnable, DELAY_BETWEEN_LOG_MESSAGES);
+                    // _handler.PostDelayed(_runnable, DELAY_BETWEEN_LOG_MESSAGES);
+                    while (true)
+                    {
+                        ShowMessage($"I'm running {i++}");
+                    }
                 }
             });
         }
@@ -46,7 +50,7 @@ namespace bleissem.babyphone.Droid
             if (!isStarted)
             {
                 CreateNotificationChannel();
-                DispatchNotificationThatServiceIsRunning();
+                ShowServiceStarted();
 
                 _handler.PostDelayed(_runnable, DELAY_BETWEEN_LOG_MESSAGES);
                 isStarted = true;
@@ -75,38 +79,42 @@ namespace bleissem.babyphone.Droid
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationImportance.Max);
             notificationChannel.EnableLights(false);
             notificationChannel.EnableVibration(false);
+            notificationChannel.SetShowBadge(false);
 
             NotificationManager notificationManager = (NotificationManager)this.GetSystemService(Context.NotificationService);
             notificationManager.CreateNotificationChannel(notificationChannel);
         }
 
-        private void DispatchNotificationThatServiceIsRunning()
+        private NotificationCompat.Builder CreateNotificationBuilder(string message)
         {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            return new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                    .SetDefaults((int)NotificationDefaults.Lights)
                    .SetSmallIcon(Resource.Drawable.Icon)
                    .SetSound(null)
                    .SetChannelId(NOTIFICATION_CHANNEL_ID)
                    .SetPriority(NotificationCompat.PriorityDefault)
                    .SetAutoCancel(false)
-                   .SetContentTitle("Mobile")
-                   .SetContentText("My service started")
+                   .SetContentTitle("Babyphone")
+                   .SetContentText(message)
+                   .SetVisibility((int)NotificationVisibility.Secret)
                    .SetOngoing(true);
+        }
+
+        private void ShowServiceStarted()
+        {
+            var builder = CreateNotificationBuilder("babyphone service started");
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.From(this);
             StartForeground(NOTIFICATION_SERVICE_ID, builder.Build());
         }
 
-        private void DispatchNotificationThatAlarmIsGenerated(string message)
+        private void ShowMessage(string message)
         {
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.UpdateCurrent);
 
-            Notification.Builder notificationBuilder = new Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .SetSmallIcon(Resource.Drawable.Icon)
-                .SetContentTitle("Alarm")
-                .SetContentText(message)
+            var notificationBuilder = CreateNotificationBuilder(message)
                 .SetAutoCancel(true)
                 .SetContentIntent(pendingIntent);
 
