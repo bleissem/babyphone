@@ -10,17 +10,25 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.App;
+using bleissem.babyphone.Core;
+using DryIoc;
 using Java.Util.Concurrent;
+using Prism.DryIoc;
 
 namespace bleissem.babyphone.Droid
 {
     [Service]
     public class AudioRecordService : Service
     {
+        public AudioRecordService()
+        {
+            ICall call = App.Current.Container.GetContainer().Resolve<ICall>();
+        }
+
         private Handler _handler;
         private Action _runnable;
         private bool isStarted;
-        private int DELAY_BETWEEN_LOG_MESSAGES = 1000;
+        private int DELAY_BETWEEN_LOG_MESSAGES = 500;
         private int NOTIFICATION_SERVICE_ID = 1001;
         private int NOTIFICATION_AlARM_ID = 1002;
         private string NOTIFICATION_CHANNEL_ID = "1003";
@@ -34,13 +42,11 @@ namespace bleissem.babyphone.Droid
             uint i = 0;
             _runnable = new Action(() =>
             {
-                if (isStarted)
+                while (isStarted)
                 {
                     // _handler.PostDelayed(_runnable, DELAY_BETWEEN_LOG_MESSAGES);
-                    while (true)
-                    {
-                        ShowMessage($"I'm running {i++}");
-                    }
+
+                    ShowMessage($"I'm running {i++}");
                 }
             });
         }
