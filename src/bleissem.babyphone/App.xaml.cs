@@ -5,6 +5,8 @@ using bleissem.babyphone.Views;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
+using System.Threading;
+using System.Globalization;
 
 namespace bleissem.babyphone
 {
@@ -13,6 +15,7 @@ namespace bleissem.babyphone
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InstalledUICulture;
         }
 
         protected override async void OnInitialized()

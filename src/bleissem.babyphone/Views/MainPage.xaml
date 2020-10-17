@@ -2,10 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="bleissem.babyphone.Views.MainPage"
-             Title="{Binding Title}">
+             xmlns:resource="clr-namespace:bleissem.babyphone.Resources"
+             Title="{x:Static resource:AppResources.ApplicationName}">
 
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
+        <Label Text="{x:Static resource:AppResources.ChooseLabel}" />
     </StackLayout>
-
 </ContentPage>
