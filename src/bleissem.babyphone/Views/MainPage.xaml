@@ -7,5 +7,6 @@
 
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         <Label Text="{x:Static resource:AppResources.ChooseLabel}" />
+        <Button Text="{x:Static resource:AppResources.ChooseContact}"></Button>
     </StackLayout>
 </ContentPage>

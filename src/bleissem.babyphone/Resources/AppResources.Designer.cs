@@ -70,6 +70,15 @@ namespace bleissem.babyphone.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to the communication.
+        /// </summary>
+        internal static string ChooseContact {
+            get {
+                return ResourceManager.GetString("ChooseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to please choose.
         /// </summary>
         internal static string ChooseLabel {

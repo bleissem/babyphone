@@ -120,6 +120,9 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Babyphone.Android</value>
   </data>
+  <data name="ChooseContact" xml:space="preserve">
+    <value>a hívás módja</value>
+  </data>
   <data name="ChooseLabel" xml:space="preserve">
     <value>Kérem válasszon:</value>
   </data>
