@@ -126,4 +126,10 @@
   <data name="ChooseLabel" xml:space="preserve">
     <value>Kérem válasszon:</value>
   </data>
+  <data name="ChooseNoiseLevel" xml:space="preserve">
+    <value>zörejszint</value>
+  </data>
+  <data name="YouAreUsingLabel" xml:space="preserve">
+    <value>Ön ezt választotta:</value>
+  </data>
 </root>

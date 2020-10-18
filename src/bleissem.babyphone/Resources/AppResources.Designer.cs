@@ -86,5 +86,23 @@ namespace bleissem.babyphone.Resources {
                 return ResourceManager.GetString("ChooseLabel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to noise level.
+        /// </summary>
+        internal static string ChooseNoiseLevel {
+            get {
+                return ResourceManager.GetString("ChooseNoiseLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to you are using.
+        /// </summary>
+        internal static string YouAreUsingLabel {
+            get {
+                return ResourceManager.GetString("YouAreUsingLabel", resourceCulture);
+            }
+        }
     }
 }

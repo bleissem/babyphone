@@ -8,5 +8,9 @@
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         <Label Text="{x:Static resource:AppResources.ChooseLabel}" />
         <Button Text="{x:Static resource:AppResources.ChooseContact}"></Button>
+        <Label Text="{Binding SelectedContact}"></Label>
+        <Label Text="{x:Static resource:AppResources.YouAreUsingLabel}"></Label>
+        <Label Text="{Binding SelectedYouAreUsing}"></Label>
+        <Button Text="{x:Static resource:AppResources.ChooseNoiseLevel}"></Button>
     </StackLayout>
 </ContentPage>

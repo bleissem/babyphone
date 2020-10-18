@@ -126,4 +126,10 @@
   <data name="ChooseLabel" xml:space="preserve">
     <value>Bitte wählen Sie:</value>
   </data>
+  <data name="ChooseNoiseLevel" xml:space="preserve">
+    <value>Geräuschpegel</value>
+  </data>
+  <data name="YouAreUsingLabel" xml:space="preserve">
+    <value>Sie verwenden:</value>
+  </data>
 </root>
