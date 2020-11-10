@@ -120,7 +120,16 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Babyphone.Android</value>
   </data>
+  <data name="ChooseContact" xml:space="preserve">
+    <value>the communication</value>
+  </data>
   <data name="ChooseLabel" xml:space="preserve">
     <value>please choose</value>
+  </data>
+  <data name="ChooseNoiseLevel" xml:space="preserve">
+    <value>noise level</value>
+  </data>
+  <data name="YouAreUsingLabel" xml:space="preserve">
+    <value>you are using</value>
   </data>
 </root>
