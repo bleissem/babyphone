@@ -7,6 +7,7 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using System.Threading;
 using System.Globalization;
+using Prism.Events;
 
 namespace bleissem.babyphone
 {
@@ -27,10 +28,11 @@ namespace bleissem.babyphone
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-
+            
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<MainPage>();
         }
     }
 }

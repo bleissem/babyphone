@@ -11,18 +11,22 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Core.App;
 using bleissem.babyphone.Core;
+using bleissem.babyphone.Core.Events;
+using bleissem.babyphone.Core.Messages;
 using DryIoc;
 using Java.Util.Concurrent;
 using Prism.DryIoc;
+using Prism.Events;
 
 namespace bleissem.babyphone.Droid
 {
     [Service]
     public class AudioRecordService : Service
     {
+        private readonly IEventAggregator _eventAggregator;
         public AudioRecordService()
         {
-            ICall call = App.Current.Container.GetContainer().Resolve<ICall>();
+            _eventAggregator = App.Current.Container.GetContainer().Resolve<IEventAggregator>();
         }
 
         private Handler _handler;
@@ -39,14 +43,16 @@ namespace bleissem.babyphone.Droid
             base.OnCreate();
 
             _handler = new Handler();
-            uint i = 0;
+            Random r = new Random();
             _runnable = new Action(() =>
             {
                 while (isStarted)
                 {
-                    // _handler.PostDelayed(_runnable, DELAY_BETWEEN_LOG_MESSAGES);
 
-                    ShowMessage($"I'm running {i++}");
+                    _eventAggregator.GetEvent<AudioRecordEvent>().Publish(new AudioRecordMessage()
+                    {
+                        Level = r.Next()
+                    });
                 }
             });
         }
@@ -82,7 +88,7 @@ namespace bleissem.babyphone.Droid
 
         private void CreateNotificationChannel()
         {
-            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationImportance.Max);
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationImportance.None);
             notificationChannel.EnableLights(false);
             notificationChannel.EnableVibration(false);
             notificationChannel.SetShowBadge(false);
@@ -95,8 +101,9 @@ namespace bleissem.babyphone.Droid
         {
             return new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                    .SetDefaults((int)NotificationDefaults.Lights)
+                   .SetPriority((int)NotificationImportance.Low)
                    .SetSmallIcon(Resource.Drawable.Icon)
-                   .SetSound(null)
+                   .SetSound(null, 0)
                    .SetChannelId(NOTIFICATION_CHANNEL_ID)
                    .SetPriority(NotificationCompat.PriorityDefault)
                    .SetAutoCancel(false)
@@ -112,20 +119,6 @@ namespace bleissem.babyphone.Droid
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.From(this);
             StartForeground(NOTIFICATION_SERVICE_ID, builder.Build());
-        }
-
-        private void ShowMessage(string message)
-        {
-            var intent = new Intent(this, typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.ClearTop);
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.UpdateCurrent);
-
-            var notificationBuilder = CreateNotificationBuilder(message)
-                .SetAutoCancel(true)
-                .SetContentIntent(pendingIntent);
-
-            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
-            notificationManager.Notify(NOTIFICATION_AlARM_ID, notificationBuilder.Build());
-        }
+        }        
     }
 }
